@@ -1,0 +1,87 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bone: #f4efe7;
+  --ivory: #faf8f3;
+  --ink: #1c1a17;
+  --greige: #a79e90;
+  --umber: #6b655c;
+  --brass: #b08d57;
+}
+
+html {
+  scroll-behavior: auto;
+}
+
+body {
+  @apply bg-bone font-sans text-ink antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: var(--brass);
+  color: var(--ivory);
+}
+
+:focus-visible {
+  outline: 2px solid var(--brass);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* Fraunces : légère rondeur, pas de wonk — chaleur sans excentricité */
+.font-display {
+  font-variation-settings: "SOFT" 40, "WONK" 0;
+}
+
+/* ── Verre dépoli — signature UI ─────────────────────────── */
+.glass {
+  background: rgba(255, 255, 255, 0.55);
+  -webkit-backdrop-filter: blur(20px) saturate(1.5);
+  backdrop-filter: blur(20px) saturate(1.5);
+  border: 1px solid rgba(255, 255, 255, 0.65);
+  box-shadow: 0 24px 64px -24px rgba(28, 26, 23, 0.28);
+}
+
+.glass-dark {
+  background: rgba(28, 26, 23, 0.35);
+  -webkit-backdrop-filter: blur(20px) saturate(1.3);
+  backdrop-filter: blur(20px) saturate(1.3);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+}
+
+/* ── Lien souligné animé ─────────────────────────────────── */
+.link-underline {
+  position: relative;
+}
+.link-underline::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -3px;
+  height: 1px;
+  width: 100%;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.link-underline:hover::after,
+.link-underline:focus-visible::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+/* ── Marquee ─────────────────────────────────────────────── */
+.marquee-mask {
+  mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+  -webkit-mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-marquee {
+    animation: none !important;
+  }
+}
