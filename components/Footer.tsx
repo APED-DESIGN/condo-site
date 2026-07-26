@@ -5,17 +5,17 @@ import { ArrowUp } from "lucide-react";
 import { scrollToTop } from "@/lib/scroll";
 
 const NAV = [
-  { label: "Studio", href: "/#studio" },
-  { label: "Réalisations", href: "/#realisations" },
-  { label: "Services", href: "/#services" },
-  { label: "Processus", href: "/#processus" },
+  { label: "Unités", href: "/#unites" },
+  { label: "Inclusions", href: "/#inclusions" },
+  { label: "Louer", href: "/#louer" },
+  { label: "L'ensemble", href: "/#immeuble" },
   { label: "Contact", href: "/#contact" },
 ];
 
 const SOCIALS = [
   { label: "Instagram", href: "https://instagram.com" },
-  { label: "LinkedIn", href: "https://linkedin.com" },
-  { label: "Pinterest", href: "https://pinterest.com" },
+  { label: "Facebook", href: "https://facebook.com" },
+  { label: "Marketplace", href: "https://facebook.com/marketplace" },
 ];
 
 export default function Footer() {
@@ -25,17 +25,17 @@ export default function Footer() {
         <div className="grid gap-12 lg:grid-cols-[1.4fr_1fr_1fr_auto]">
           <div>
             <p className="font-display text-2xl">
-              Norden<span className="text-brass">.</span>
+              Boréal<span className="text-brass">.</span>
             </p>
             <p className="mt-4 max-w-xs text-sm leading-relaxed text-white/50">
-              Studio de design intérieur établi à Québec. Des espaces calmes,
-              précis et durables — pensés pour la lumière du Nord.
+              Condos locatifs haut de gamme à Trois-Rivières. Visitez en ligne,
+              choisissez sans pression, emménagez l&apos;esprit tranquille.
             </p>
             <a
-              href="mailto:bonjour@studionorden.ca"
+              href="mailto:location@residencesboreal.ca"
               className="link-underline mt-6 inline-block text-sm text-brass"
             >
-              bonjour@studionorden.ca
+              location@residencesboreal.ca
             </a>
           </div>
 
@@ -96,12 +96,12 @@ export default function Footer() {
           aria-hidden
           className="pointer-events-none mt-14 select-none whitespace-nowrap font-display text-[19vw] leading-[0.75] text-bone/[0.07] lg:text-[16vw]"
         >
-          NORDEN
+          BORÉAL
         </p>
 
         <div className="mt-10 flex flex-col gap-2 border-t border-white/10 pt-6 text-xs text-white/35 sm:flex-row sm:items-center sm:justify-between">
-          <p>© 2026 STUDIO NORDEN — Tous droits réservés</p>
-          <p>Site démo — conçu et développé avec soin à Québec</p>
+          <p>© 2026 RÉSIDENCES BORÉAL — Tous droits réservés</p>
+          <p>Site démo — conçu et développé avec soin à Trois-Rivières</p>
         </div>
       </div>
     </footer>

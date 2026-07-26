@@ -4,29 +4,29 @@ import Image from "next/image";
 import { motion, useReducedMotion } from "framer-motion";
 import Counter from "@/components/ui/Counter";
 import Marquee from "@/components/ui/Marquee";
-import { BLUR_DATA_URL, unsplash } from "@/lib/images";
+import { BLUR_DATA_URL } from "@/lib/images";
 
-const LOGOS = [
-  "Atelier Rive",
-  "Hôtel Saint-Laurent",
-  "Galerie Nord",
-  "Mobilier Kin",
-  "Café Ode",
-  "Immobilier Verso",
+const NEARBY = [
+  "UQTR",
+  "Cégep de Trois-Rivières",
+  "Les Promenades",
+  "District 55",
+  "Piste cyclable",
+  "Centre-ville",
 ];
 
-/** Carte vitrée de confiance : stats animées + marquee de clients. */
+/** Carte vitrée de confiance : stats animées + marquee du quartier. */
 export default function Trust() {
   const reduced = useReducedMotion();
 
   return (
     <section
       className="relative overflow-hidden py-24 sm:py-32"
-      aria-label="Ils nous font confiance"
+      aria-label="L'ensemble en chiffres"
     >
       {/* Photo d'arrière-plan — le verre a besoin de matière derrière lui */}
       <Image
-        src={unsplash("photo-1616486338812-3dadae4b4ace", 2200)}
+        src="/photos/salle-a-manger.jpg"
         alt=""
         fill
         sizes="100vw"
@@ -48,31 +48,31 @@ export default function Trust() {
           <div className="grid gap-10 sm:grid-cols-3">
             <div>
               <p className="font-display text-5xl tracking-tight sm:text-6xl">
-                <Counter value={120} suffix="+" />
+                <Counter value={48} />
               </p>
               <p className="mt-2 text-[11px] uppercase tracking-[0.25em] text-umber">
-                Projets livrés
+                Unités locatives
               </p>
             </div>
             <div>
               <p className="font-display text-5xl tracking-tight sm:text-6xl">
-                <Counter value={10} />
+                <Counter value={24} suffix=" h" />
               </p>
               <p className="mt-2 text-[11px] uppercase tracking-[0.25em] text-umber">
-                Années de pratique
+                Réponse entretien
               </p>
             </div>
             <div>
               <p className="font-display text-5xl tracking-tight sm:text-6xl">
-                <Counter value={98} suffix="%" />
+                <Counter value={97} suffix="%" />
               </p>
               <p className="mt-2 text-[11px] uppercase tracking-[0.25em] text-umber">
-                Clients satisfaits
+                Taux d&apos;occupation
               </p>
               <div className="mt-3 h-1 overflow-hidden rounded-full bg-ink/10">
                 <motion.div
                   initial={{ width: 0 }}
-                  whileInView={{ width: "98%" }}
+                  whileInView={{ width: "97%" }}
                   viewport={{ once: true, margin: "-15% 0px" }}
                   transition={
                     reduced
@@ -87,14 +87,14 @@ export default function Trust() {
 
           <div className="mt-12 border-t border-ink/10 pt-8">
             <p className="text-center text-[11px] uppercase tracking-[0.3em] text-umber">
-              Ils nous font confiance
+              À quelques minutes
             </p>
             <Marquee
               duration={28}
               className="mt-6"
-              srLabel={LOGOS.join(", ")}
+              srLabel={NEARBY.join(", ")}
             >
-              {LOGOS.map((name) => (
+              {NEARBY.map((name) => (
                 <span
                   key={name}
                   className="font-display whitespace-nowrap px-8 text-xl italic text-ink/55 sm:text-2xl"

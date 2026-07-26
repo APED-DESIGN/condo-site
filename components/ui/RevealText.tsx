@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { motion, useReducedMotion, type Variants } from "framer-motion";
 
 type Props = {
@@ -31,8 +32,12 @@ export default function RevealText({
   start,
 }: Props) {
   const reduced = useReducedMotion();
+  /* Le rendu réduit n'est appliqué qu'après l'hydratation : le premier rendu
+     client doit rester identique au HTML serveur (sinon avertissement React). */
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
 
-  if (reduced) {
+  if (reduced && mounted) {
     return <span className={className}>{text}</span>;
   }
 
@@ -59,21 +64,23 @@ export default function RevealText({
       {words.map((word, wi) => {
         const units = by === "char" ? word.split("") : [word];
         return (
-          <span key={wi} className="inline-block whitespace-nowrap" aria-hidden>
-            <span className="inline-block overflow-hidden pb-[0.1em] align-top">
-              {units.map((unit, ui) => {
-                const i = delay + index++ * stagger;
-                return (
-                  <motion.span
-                    key={ui}
-                    className="inline-block will-change-transform"
-                    variants={child}
-                    custom={i}
-                  >
-                    {unit}
-                  </motion.span>
-                );
-              })}
+          <span key={wi} aria-hidden>
+            <span className="inline-block whitespace-nowrap">
+              <span className="inline-block overflow-hidden pb-[0.1em] align-top">
+                {units.map((unit, ui) => {
+                  const i = delay + index++ * stagger;
+                  return (
+                    <motion.span
+                      key={ui}
+                      className="inline-block will-change-transform"
+                      variants={child}
+                      custom={i}
+                    >
+                      {unit}
+                    </motion.span>
+                  );
+                })}
+              </span>
             </span>
             {wi < words.length - 1 ? " " : ""}
           </span>

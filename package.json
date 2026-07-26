@@ -1,5 +1,5 @@
 {
-  "name": "studio-norden",
+  "name": "residences-boreal",
   "version": "1.0.0",
   "private": true,
   "scripts": {
@@ -9,6 +9,13 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@photo-sphere-viewer/autorotate-plugin": "^5.14.3",
+    "@photo-sphere-viewer/compass-plugin": "^5.14.3",
+    "@photo-sphere-viewer/core": "^5.14.3",
+    "@photo-sphere-viewer/gallery-plugin": "^5.14.3",
+    "@photo-sphere-viewer/gyroscope-plugin": "^5.14.3",
+    "@photo-sphere-viewer/markers-plugin": "^5.14.3",
+    "@photo-sphere-viewer/virtual-tour-plugin": "^5.14.3",
     "framer-motion": "^11.11.17",
     "gsap": "^3.12.5",
     "lenis": "^1.1.17",
@@ -22,7 +29,11 @@
     "@types/react": "^18.3.12",
     "@types/react-dom": "^18.3.1",
     "autoprefixer": "^10.4.20",
+    "eslint": "^8.57.1",
+    "eslint-config-next": "^14.2.35",
+    "playwright": "^1.61.1",
     "postcss": "^8.4.49",
+    "sharp": "^0.35.3",
     "tailwindcss": "^3.4.15",
     "typescript": "^5.6.3"
   }

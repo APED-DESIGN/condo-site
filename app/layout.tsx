@@ -24,25 +24,25 @@ const satoshi = localFont({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://studio-norden.example.com"),
+  metadataBase: new URL("https://residences-boreal.example.com"),
   title: {
-    default: "STUDIO NORDEN — Design intérieur à Québec",
-    template: "%s — STUDIO NORDEN",
+    default: "RÉSIDENCES BORÉAL — Condos à louer à Trois-Rivières",
+    template: "%s — RÉSIDENCES BORÉAL",
   },
   description:
-    "Studio de design intérieur haut de gamme à Québec. Résidentiel et commercial, du concept à l'installation : des espaces calmes, précis et durables.",
+    "Condos locatifs haut de gamme à Trois-Rivières. Visitez chaque unité en ligne, pièce par pièce, avant de réserver votre visite en personne. Du 3½ au cottage 5½.",
   openGraph: {
-    title: "STUDIO NORDEN — Design intérieur à Québec",
+    title: "RÉSIDENCES BORÉAL — Condos à louer à Trois-Rivières",
     description:
-      "Studio de design intérieur haut de gamme à Québec. Des espaces calmes, précis et durables.",
+      "Visitez votre prochain chez-vous sans vous déplacer : visite immersive pièce par pièce, vraies photos, vrais prix.",
     locale: "fr_CA",
     type: "website",
     images: [
       {
-        url: "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=1200&q=80",
+        url: "/og.jpg",
         width: 1200,
         height: 630,
-        alt: "Intérieur signé STUDIO NORDEN",
+        alt: "Aire ouverte d'un cottage des Résidences Boréal",
       },
     ],
   },

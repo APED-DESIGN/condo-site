@@ -9,10 +9,10 @@ import Button from "./ui/Button";
 import { scrollToId, scrollToTop } from "@/lib/scroll";
 
 const LINKS = [
-  { label: "Studio", id: "studio" },
-  { label: "Réalisations", id: "realisations" },
-  { label: "Services", id: "services" },
-  { label: "Processus", id: "processus" },
+  { label: "Unités", id: "unites" },
+  { label: "Inclusions", id: "inclusions" },
+  { label: "Louer", id: "louer" },
+  { label: "L'ensemble", id: "immeuble" },
   { label: "Contact", id: "contact" },
 ];
 
@@ -71,9 +71,11 @@ export default function Navbar() {
             }}
             className="font-display text-xl tracking-tight"
           >
-            <span className="sr-only">Studio Norden — retour à l&apos;accueil</span>
+            <span className="sr-only">
+              Résidences Boréal — retour à l&apos;accueil
+            </span>
             <span aria-hidden>
-              Norden<span className="text-brass">.</span>
+              Boréal<span className="text-brass">.</span>
             </span>
           </Link>
 
@@ -96,7 +98,7 @@ export default function Navbar() {
               onClick={go("contact")}
               className="hidden !px-5 !py-2.5 sm:inline-flex"
             >
-              Démarrer un projet
+              Réserver une visite
             </Button>
             <button
               type="button"
@@ -124,7 +126,7 @@ export default function Navbar() {
           >
             <div className="flex items-center justify-between">
               <span className="font-display text-xl">
-                Norden<span className="text-brass">.</span>
+                Boréal<span className="text-brass">.</span>
               </span>
               <button
                 type="button"
@@ -160,7 +162,7 @@ export default function Navbar() {
 
             <div className="mt-auto">
               <Button href="/#contact" onClick={go("contact")} arrow className="w-full">
-                Démarrer un projet
+                Réserver une visite
               </Button>
             </div>
           </motion.div>

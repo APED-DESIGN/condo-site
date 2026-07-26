@@ -6,21 +6,21 @@ import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 const ITEMS = [
   {
     quote:
-      "Norden a compris notre façon de vivre avant même que nous sachions l'expliquer. La maison est belle, mais surtout : elle est à nous.",
-    name: "Marie-Ève L.",
-    role: "Résidence Outremont",
+      "On a visité notre condo en ligne un mardi soir, en pyjama. Le samedi, on signait le bail. Tout était exactement comme dans la visite — aucune mauvaise surprise.",
+    name: "Laurence T.",
+    role: "Locataire — Le 55",
   },
   {
     quote:
-      "Un chantier suivi au millimètre, un budget respecté, zéro mauvaise surprise. Le résultat dépasse les rendus qu'on nous avait présentés.",
-    name: "Jean-Philippe D.",
-    role: "Loft Griffintown",
+      "Premier appart à Trois-Rivières pour mes études à l'UQTR. Mes parents ont pu faire la visite immersive depuis Gaspé avant de m'aider avec le bail. Ça les a rassurés solide.",
+    name: "William G.",
+    role: "Locataire — Unité 201",
   },
   {
     quote:
-      "Le chalet est devenu l'endroit où toute la famille veut se retrouver. On nous demande chaque semaine qui l'a conçu.",
-    name: "Catherine & Marc B.",
-    role: "Chalet Charlevoix",
+      "Une poignée de porte brisée un dimanche : réparée le lundi midi. En huit ans de location, je n'avais jamais vu une gestion aussi vite sur ses patins.",
+    name: "Karine & Steve M.",
+    role: "Locataires — Unité 401",
   },
 ];
 
@@ -40,7 +40,7 @@ export default function Testimonials() {
     <section className="bg-bone py-24 sm:py-32" aria-label="Témoignages">
       <div className="mx-auto max-w-3xl px-6 text-center">
         <p className="text-[11px] uppercase tracking-[0.3em] text-umber">
-          Ils en parlent
+          Nos locataires en parlent
         </p>
 
         <div className="relative mt-10 min-h-[16rem] sm:min-h-[14rem]">

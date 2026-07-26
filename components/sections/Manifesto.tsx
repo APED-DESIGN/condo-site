@@ -4,14 +4,14 @@ import { motion } from "framer-motion";
 import Marquee from "@/components/ui/Marquee";
 import RevealText from "@/components/ui/RevealText";
 
-const WORDS = ["Concevoir", "Aménager", "Sublimer"];
+const WORDS = ["Visiter", "Choisir", "Emménager"];
 
 export default function Manifesto() {
   return (
     <section className="overflow-hidden bg-bone py-24 sm:py-32" aria-label="Manifeste">
       <Marquee
         duration={36}
-        srLabel="Concevoir, aménager, sublimer."
+        srLabel="Visiter, choisir, emménager."
         className="border-y border-ink/10 py-6"
       >
         {WORDS.map((w, i) => (
@@ -30,7 +30,7 @@ export default function Manifesto() {
         <h2 className="font-display text-[clamp(1.5rem,3vw,2.2rem)] leading-snug tracking-tight">
           <RevealText
             by="word"
-            text="Norden est un studio de design intérieur établi à Québec. Nous concevons des lieux calmes, précis et durables — des espaces pensés pour la lumière du Nord et pour celles et ceux qui les habitent."
+            text="Boréal est un ensemble de condos locatifs établi à Trois-Rivières. Des unités lumineuses, bien construites et bien tenues — et une visite immersive qui vous fait entrer dans chaque pièce avant de signer quoi que ce soit."
           />
         </h2>
         <motion.p
@@ -40,9 +40,10 @@ export default function Manifesto() {
           transition={{ duration: 0.8, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
           className="mt-8 max-w-xl leading-relaxed text-umber"
         >
-          Chaque projet commence par une écoute attentive et se termine par un
-          espace qui vous appartient vraiment. Entre les deux : une méthode
-          rigoureuse, un œil exigeant et un profond respect des matières.
+          Choisir un logement, c&apos;est un grand geste. On vous donne les
+          moyens de le faire sans pression : de vraies photos, de vrais prix,
+          une visite en ligne complète — puis, si le cœur y est, la visite en
+          personne et le bail.
         </motion.p>
       </div>
     </section>

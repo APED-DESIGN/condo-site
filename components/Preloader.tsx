@@ -16,7 +16,7 @@ export default function Preloader() {
 
   useEffect(() => {
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const visited = sessionStorage.getItem("norden-visited");
+    const visited = sessionStorage.getItem("boreal-visited");
 
     if (visited || reduced) {
       setVisible(false);
@@ -32,7 +32,7 @@ export default function Preloader() {
       ease: "power2.inOut",
       onUpdate: () => setCount(Math.round(state.v)),
       onComplete: () => {
-        sessionStorage.setItem("norden-visited", "1");
+        sessionStorage.setItem("boreal-visited", "1");
         document.documentElement.style.overflow = "";
         setVisible(false);
         setReady(true);
@@ -56,12 +56,12 @@ export default function Preloader() {
           transition={{ duration: 0.9, ease: [0.76, 0, 0.24, 1] }}
         >
           <p className="text-[11px] uppercase tracking-[0.3em] text-bone/40">
-            Québec — Design intérieur
+            Trois-Rivières — Condos locatifs
           </p>
 
           <div className="flex items-end justify-between gap-6">
             <p className="font-display text-2xl text-bone sm:text-4xl">
-              Norden<span className="text-brass">.</span>
+              Boréal<span className="text-brass">.</span>
             </p>
             <p className="font-display text-7xl leading-none text-bone tabular-nums sm:text-9xl">
               {count}
