@@ -12,7 +12,7 @@ import {
 import { ArrowLeft, Check, Orbit } from "lucide-react";
 import RevealText from "@/components/ui/RevealText";
 import Button from "@/components/ui/Button";
-import TourModal from "@/components/tour/TourModal";
+import VisualiseurMaison from "@/components/maison3d/VisualiseurMaison";
 import { BLUR_DATA_URL } from "@/lib/images";
 import { tours360 } from "@/data/tours/maison-01";
 import { STATUS_LABEL, formatBathrooms, type Unit } from "@/lib/units";
@@ -66,11 +66,17 @@ const STATUS_STYLE: Record<Unit["status"], string> = {
 export default function MaisonClient({ unit }: { unit: Unit }) {
   const tour360 = unit.tour360 ? tours360[unit.tour360] : undefined;
   const [tour360Open, setTour360Open] = useState(false);
+  /* Le bouton ouvre sur la cartographie ; le lien profond garde son sens
+     d'origine et ouvre directement la visite à pied. */
+  const [modeInitial, setModeInitial] = useState<"carto" | "visite">("carto");
 
   /* Lien profond : /maison?visite=1 lance la visite 360° à l'arrivée. */
   useEffect(() => {
     if (new URLSearchParams(window.location.search).get("visite") !== "1") return;
-    if (tour360) setTour360Open(true);
+    if (tour360) {
+      setModeInitial("visite");
+      setTour360Open(true);
+    }
   }, [tour360]);
 
   const meta = [
@@ -254,12 +260,13 @@ export default function MaisonClient({ unit }: { unit: Unit }) {
         ) : null}
       </div>
 
-      {/* Visite virtuelle 360° (vrais panoramas) */}
+      {/* Visualiseur : cartographie, plan et visite à pied dans un seul espace */}
       {tour360 && (
-        <TourModal
+        <VisualiseurMaison
           tour={tour360}
-          open={tour360Open}
-          onClose={() => setTour360Open(false)}
+          ouvert={tour360Open}
+          modeInitial={modeInitial}
+          onFermer={() => setTour360Open(false)}
         />
       )}
     </article>

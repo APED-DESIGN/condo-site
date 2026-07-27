@@ -1,6 +1,6 @@
 /**
  * Suite E2E de la visite virtuelle 360° (Playwright/Chromium).
- * Vérifie : ouverture, VRAI clic sur chacune des flèches (38 directions),
+ * Vérifie : ouverture, VRAI clic sur chacune des flèches (36 directions),
  * mini-plan, galerie, clavier, remontage, réseau (aucun original 8K,
  * poids total), mobile/tablette/desktop, reduced-motion, console propre.
  *
@@ -96,7 +96,22 @@ async function clickArrow(page, vw, vh, targetName) {
   return false;
 }
 
+/**
+ * Amène la page dans la visite à pied.
+ *
+ * Depuis l'ajout du visualiseur, la visite est le mode 3 d'une coquille à trois
+ * modes : ouverte par le bouton de la page on arrive sur la cartographie, et
+ * il faut basculer. Le lien profond ?visite=1, lui, y entre directement.
+ */
 async function openTour(page) {
+  await page.waitForSelector('[data-testid="visualiseur"]', { timeout: 30000 });
+  const mode = await page
+    .locator('[data-testid="visualiseur"]')
+    .getAttribute("data-mode");
+  if (mode !== "visite") {
+    await page.locator('[data-testid="mode-visite"]').click();
+    await page.waitForTimeout(1200);
+  }
   await page.waitForFunction(() => window.__tour360?.viewer, null, { timeout: 30000 });
   await page.waitForTimeout(2500);
 }
@@ -105,7 +120,7 @@ async function main() {
   const browser = await chromium.launch();
 
   /* ── Desktop : parcours exhaustif ─────────────────────────── */
-  console.log("— Desktop 1440×900 : les 38 flèches, une par une —");
+  console.log("— Desktop 1440×900 : les 36 flèches, une par une —");
   const network = { bytes: 0, count: 0 };
   const ctx = await browser.newContext({ viewport: { width: 1440, height: 900 } });
   const page = await ctx.newPage();
@@ -174,19 +189,28 @@ async function main() {
   const yawAfter = await page.evaluate(() => window.__tour360.viewer.getPosition().yaw);
   if (Math.abs(yawAfter - yawBefore) < 0.01) fail("clavier : ArrowRight ne pivote pas");
   else ok("clavier : flèches pivotent la vue");
-  await page.keyboard.press("Escape");
-  await page.waitForTimeout(700);
+  /* Échap remonte d'un mode à la fois (visite → plan → carto) puis ferme :
+     c'est la sémantique du visualiseur, pas une fermeture immédiate. */
+  for (let i = 0; i < 4 && (await page.locator('div[role="dialog"]').count()); i++) {
+    await page.keyboard.press("Escape");
+    await page.waitForTimeout(600);
+  }
   if (await page.locator('div[role="dialog"]').count()) fail("Échap ne ferme pas");
-  else ok("Échap ferme la visite");
+  else ok("Échap remonte les modes puis ferme le visualiseur");
 
   /* Remontage : rouvrir après fermeture, puis navigation client + retour */
   await page.getByRole("button", { name: /Visite virtuelle 360°/i }).first().click();
   await openTour(page);
   if ((await roomName(page)) !== "Façade avant") fail("réouverture : viewer cassé");
   else ok("réouverture après fermeture : aucun crash");
-  await page.keyboard.press("Escape");
-  await page.waitForTimeout(400);
-  await page.locator('a[href="/#unites"]').first().click();
+  /* Fermeture directe par le bouton : Échap ne ferait que remonter d'un mode
+     et la modale resterait devant le lien. */
+  await page.locator('[data-testid="fermer-visualiseur"]').click();
+  await page.waitForTimeout(600);
+  /* `/#unites` n'existe plus depuis le commit 74b2d67 (« Clarifier le site ») :
+     le test pointait un lien mort. On navigue vers l'autre approche, qui est
+     bien une navigation client depuis /maison. */
+  await page.locator('a[href="/appartement"]').first().click();
   await page.waitForTimeout(1200);
   await page.goBack({ waitUntil: "networkidle" });
   await page.getByRole("button", { name: /Visite virtuelle 360°/i }).first().click();
