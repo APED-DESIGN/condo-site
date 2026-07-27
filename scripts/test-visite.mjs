@@ -455,7 +455,11 @@ console.log(info(`réseau : ${(finalStats.bytesLoaded / 1048576).toFixed(1)} Mo 
 const cap = finalStats.maxBitmaps;
 const moPic = (peak * meta.pixels * 4) / 1048576;
 check(peak <= cap, `le nombre d'images décodées reste sous le plafond après ${TRIPS} allers-retours`, `pic ${peak} · plafond ${cap}`);
-check(moPic < 300, "empreinte des images décodées sous 300 Mo", `${moPic.toFixed(0)} Mo au pic (${variant.width}×${variant.height} RGBA)`);
+/* 380 Mo et non 300 : les images de mouvement sont passées de 1600 à 2048 px,
+   soit 9,4 Mo par ImageBitmap au lieu de 5,8. La fenêtre a été resserrée pour
+   compenser, mais l'empreinte monte quand même — c'est le prix assumé de la
+   netteté sur les plans en mouvement. */
+check(moPic < 380, "empreinte des images décodées sous 380 Mo", `${moPic.toFixed(0)} Mo au pic (${variant.width}×${variant.height} RGBA)`);
 if (cdp) check(growthMo < 12, "pas de croissance du tas JS", `${growthMo >= 0 ? "+" : ""}${growthMo.toFixed(1)} Mo`);
 check(finalStats.failed === 0, "aucune image en échec de chargement", `${finalStats.failed} échec(s)`);
 console.log(info(`${aborted} requêtes annulées par l'éviction de fenêtre (attendu)`));

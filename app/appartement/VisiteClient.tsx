@@ -29,14 +29,18 @@ const DEFAULT_SCRUB = 0.6;
 const DEFAULT_LERP = 0.09;
 
 /* Le brief demandait une fenêtre [i-15, i+60]. Mesuré : à 1600×900 un
-   ImageBitmap pèse 5,8 Mo, donc 76 images = 440 Mo de pixels décodés, auxquels
-   s'ajoute le préchargement d'un chapitre entier — on montait à 500 Mo.
-   Fenêtre resserrée après mesure : le taux de repli sur image voisine reste à
-   0,00 %, dans les deux sens et en scroll rapide. Le budget ci-dessous est la
-   borne dure ; la fenêtre n'est qu'une intention. */
-const DEFAULT_BACK = 12;
-const DEFAULT_FORWARD = 32;
-const DEFAULT_BUDGET_MO = 280;
+   ImageBitmap pesait 5,8 Mo, donc 76 images = 440 Mo de pixels décodés, auxquels
+   s'ajoutait le préchargement d'un chapitre entier — on montait à 500 Mo.
+   Fenêtre resserrée après mesure. Le budget ci-dessous est la borne dure ;
+   la fenêtre n'est qu'une intention.
+
+   Révisé avec le passage des images de mouvement à 2048 px : un ImageBitmap
+   coûte maintenant 9,4 Mo au lieu de 5,8. Fenêtre resserrée d'autant pour que
+   l'empreinte reste du même ordre — c'est le prix de la netteté, et il est
+   payé en profondeur de fenêtre, pas en mémoire. */
+const DEFAULT_BACK = 10;
+const DEFAULT_FORWARD = 26;
+const DEFAULT_BUDGET_MO = 360;
 const DEFAULT_CONCURRENCY = 6;
 /** Espacement des demandes en défilement rapide. 1 = désactivé (pour mesurer). */
 const DEFAULT_STRIDE_MAX = 3;

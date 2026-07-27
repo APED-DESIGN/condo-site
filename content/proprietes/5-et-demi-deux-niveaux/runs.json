@@ -39,7 +39,8 @@
       "maxshift": -1,
       "maxangle": -1,
       "optzoom": 1,
-      "interpol": "bilinear"
+      "_interpol": "bicubic et non bilinear : la stabilisation rééchantillonne CHAQUE image, c'est le seul endroit de la chaîne où l'interpolateur se paie deux fois. Le bilinéaire y adoucissait tout le film.",
+      "interpol": "bicubic"
     },
 
     "deflicker": {

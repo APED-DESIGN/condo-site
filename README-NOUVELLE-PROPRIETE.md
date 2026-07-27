@@ -164,8 +164,32 @@ Le script produit deux qualités :
 
 | Usage | Résolution | Qualité |
 |---|---|---|
-| Images de mouvement | 1600 px (828 px mobile) | WebP q68 / q62 |
-| Images d'arrêt | 2200 px | WebP q88 |
+| Images de mouvement | 2048 px (1080 px mobile) | WebP q76 / q70 |
+| Images d'arrêt | 2560 px | WebP q92 |
+
+### Pourquoi ces chiffres
+
+- **2048 px en mouvement, pas 1600.** Ces images s'affichent **plein écran**. Sur un écran Retina
+  en 1440 px CSS, le canvas fait 2880 px de large : à 1600 px on agrandissait de 1,8×, et ça se
+  voyait. 2048 ramène l'agrandissement à 1,4×.
+- **2560 px aux arrêts** = exactement `repair.travailWidth`. L'image d'arrêt sort alors de la vidéo
+  de travail **sans aucun redimensionnement** — un rééchantillonnage de moins, gratuit.
+- **q76 et non plus haut.** Vérifié à l'image sur cette source : q72 et q80 sont indiscernables
+  (67 Ko contre 92 Ko). Le piqué manque, les bits supplémentaires ne codent que du bruit de
+  compression. Sur une source plus propre, remonter.
+- **`stab.interpol: "bicubic"`.** La stabilisation rééchantillonne **chaque image** : c'est le seul
+  endroit de la chaîne où l'interpolateur se paie deux fois. Passer de bilinéaire à bicubique, avec
+  un intermédiaire en crf 12 au lieu de 15, a fait monter la netteté médiane mesurée de **183 à
+  196**.
+
+### Ce que le réglage ne peut pas rattraper
+
+La source de démonstration est filmée à **63,9 Mb/s en 4K à 60 im/s**, soit environ 1,1 Mo par
+image — quatre à six fois moins qu'une caméra qui résout vraiment le 4K. Le piqué effectif plafonne
+bien avant 3840 px : monter la sortie au-delà de 2560 n'agrandirait que du flou. Deux réglages de
+tournage feraient plus que toute la chaîne réunie : **filmer à 30 im/s** (même débit, deux fois plus
+de données par image) et **verrouiller l'exposition** (le pompage force l'encodeur à redépenser son
+débit à chaque image).
 
 **Les images d'arrêt sont choisies par netteté mesurée**, pas au timecode : variance du laplacien
 sur ±0,8 s, la plus nette gagne. Le score est écrit dans le manifest, et un arrêt sous le seuil est

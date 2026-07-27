@@ -1,7 +1,7 @@
 {
   "slug": "5-et-demi-deux-niveaux",
   "generatedFrom": "public/video/VID_20260725_130541_00_036.mp4",
-  "generatedOn": "2026-07-26",
+  "generatedOn": "2026-07-27",
   "fps": 10,
   "frameCount": 803,
   "indexOffset": 1,
@@ -62,9 +62,9 @@
   "accueil": {
     "frame": 0,
     "file": "/frames/5-et-demi-deux-niveaux/arrets/_accueil.webp",
-    "width": 2200,
-    "height": 1238,
-    "bytes": 204534,
+    "width": 2560,
+    "height": 1440,
+    "bytes": 430222,
     "nettete": null
   },
   "rythmeGlobal": 1,
@@ -72,290 +72,290 @@
     "mesure": "variance du laplacien, niveaux de gris 640×360",
     "fenetre": 0.8,
     "grille": "images de la séquence uniquement — une image hors grille casserait le scrub",
-    "mediane": 183.1,
-    "seuil": 71.7,
+    "mediane": 196,
+    "seuil": 77.7,
     "sousLeSeuil": [
       "pied-escalier"
     ]
   },
   "variants": {
     "desktop": {
-      "width": 1600,
-      "height": 900,
+      "width": 2048,
+      "height": 1152,
       "path": "/frames/5-et-demi-deux-niveaux/desktop",
       "frameCount": 803,
-      "bytes": 33959968,
-      "avgBytes": 42291,
-      "maxBytes": 277922
+      "bytes": 66168966,
+      "avgBytes": 82402,
+      "maxBytes": 557578
     },
     "mobile": {
-      "width": 828,
-      "height": 466,
+      "width": 1080,
+      "height": 608,
       "path": "/frames/5-et-demi-deux-niveaux/mobile",
       "frameCount": 803,
-      "bytes": 10563968,
-      "avgBytes": 13156,
-      "maxBytes": 56874
+      "bytes": 18914076,
+      "avgBytes": 23554,
+      "maxBytes": 133260
     }
   },
   "arrets": {
     "_accueil": {
       "frame": 0,
       "file": "/frames/5-et-demi-deux-niveaux/arrets/_accueil.webp",
-      "width": 2200,
-      "height": 1238,
-      "bytes": 204534,
+      "width": 2560,
+      "height": 1440,
+      "bytes": 430222,
       "nettete": null
     },
     "entree": {
       "frame": 2,
       "file": "/frames/5-et-demi-deux-niveaux/arrets/entree.webp",
-      "width": 2200,
-      "height": 1238,
-      "bytes": 177584,
+      "width": 2560,
+      "height": 1440,
+      "bytes": 359558,
       "nettete": {
         "demande": 6,
         "retenue": 2,
-        "score": 485.2,
-        "scoreDemande": 474.2,
+        "score": 525.9,
+        "scoreDemande": 509.9,
         "candidates": 14,
         "fenetre": 0.8,
         "fenetreBridee": true,
-        "seuil": 71.7,
+        "seuil": 77.7,
         "sousLeSeuil": false
       }
     },
     "salon": {
       "frame": 55,
       "file": "/frames/5-et-demi-deux-niveaux/arrets/salon.webp",
-      "width": 2200,
-      "height": 1238,
-      "bytes": 151870,
+      "width": 2560,
+      "height": 1440,
+      "bytes": 292640,
       "nettete": {
         "demande": 60,
         "retenue": 55,
-        "score": 320.2,
-        "scoreDemande": 295.3,
+        "score": 343.7,
+        "scoreDemande": 317,
         "candidates": 16,
         "fenetre": 0.8,
         "fenetreBridee": true,
-        "seuil": 71.7,
+        "seuil": 77.7,
         "sousLeSeuil": false
       }
     },
     "cuisine": {
       "frame": 93,
       "file": "/frames/5-et-demi-deux-niveaux/arrets/cuisine.webp",
-      "width": 2200,
-      "height": 1238,
-      "bytes": 174112,
+      "width": 2560,
+      "height": 1440,
+      "bytes": 339324,
       "nettete": {
         "demande": 90,
         "retenue": 93,
-        "score": 421.1,
-        "scoreDemande": 240.2,
+        "score": 452.5,
+        "scoreDemande": 257.2,
         "candidates": 16,
         "fenetre": 0.8,
         "fenetreBridee": true,
-        "seuil": 71.7,
+        "seuil": 77.7,
         "sousLeSeuil": false
       }
     },
     "salle-a-manger": {
       "frame": 168,
       "file": "/frames/5-et-demi-deux-niveaux/arrets/salle-a-manger.webp",
-      "width": 2200,
-      "height": 1238,
-      "bytes": 170252,
+      "width": 2560,
+      "height": 1440,
+      "bytes": 323950,
       "nettete": {
         "demande": 160,
         "retenue": 168,
-        "score": 610.4,
-        "scoreDemande": 556.2,
+        "score": 662.9,
+        "scoreDemande": 602.9,
         "candidates": 16,
         "fenetre": 0.8,
         "fenetreBridee": true,
-        "seuil": 71.7,
+        "seuil": 77.7,
         "sousLeSeuil": false
       }
     },
     "terrasse": {
       "frame": 220,
       "file": "/frames/5-et-demi-deux-niveaux/arrets/terrasse.webp",
-      "width": 2200,
-      "height": 1238,
-      "bytes": 890478,
+      "width": 2560,
+      "height": 1440,
+      "bytes": 1464636,
       "nettete": {
         "demande": 223,
         "retenue": 220,
-        "score": 1861.3,
-        "scoreDemande": 1706.1,
+        "score": 2096.1,
+        "scoreDemande": 1913.9,
         "candidates": 7,
         "fenetre": 0.3,
         "fenetreBridee": false,
-        "seuil": 71.7,
+        "seuil": 77.7,
         "sousLeSeuil": false
       }
     },
     "salle-eau": {
       "frame": 258,
       "file": "/frames/5-et-demi-deux-niveaux/arrets/salle-eau.webp",
-      "width": 2200,
-      "height": 1238,
-      "bytes": 159592,
+      "width": 2560,
+      "height": 1440,
+      "bytes": 355468,
       "nettete": {
         "demande": 260,
         "retenue": 258,
-        "score": 168.8,
-        "scoreDemande": 142.6,
+        "score": 183.1,
+        "scoreDemande": 155,
         "candidates": 17,
         "fenetre": 0.8,
         "fenetreBridee": false,
-        "seuil": 71.7,
+        "seuil": 77.7,
         "sousLeSeuil": false
       }
     },
     "pied-escalier": {
       "frame": 369,
       "file": "/frames/5-et-demi-deux-niveaux/arrets/pied-escalier.webp",
-      "width": 2200,
-      "height": 1238,
-      "bytes": 96502,
+      "width": 2560,
+      "height": 1440,
+      "bytes": 208966,
       "nettete": {
         "demande": 372,
         "retenue": 369,
-        "score": 38.8,
-        "scoreDemande": 32,
+        "score": 42.1,
+        "scoreDemande": 34.7,
         "candidates": 7,
         "fenetre": 0.3,
         "fenetreBridee": false,
-        "seuil": 71.7,
+        "seuil": 77.7,
         "sousLeSeuil": true
       }
     },
     "chambre-2": {
       "frame": 485,
       "file": "/frames/5-et-demi-deux-niveaux/arrets/chambre-2.webp",
-      "width": 2200,
-      "height": 1238,
-      "bytes": 185760,
+      "width": 2560,
+      "height": 1440,
+      "bytes": 389948,
       "nettete": {
         "demande": 478,
         "retenue": 485,
-        "score": 220.2,
-        "scoreDemande": 119.6,
+        "score": 240.6,
+        "scoreDemande": 129.5,
         "candidates": 16,
         "fenetre": 0.8,
         "fenetreBridee": true,
-        "seuil": 71.7,
+        "seuil": 77.7,
         "sousLeSeuil": false
       }
     },
     "mezzanine": {
       "frame": 557,
       "file": "/frames/5-et-demi-deux-niveaux/arrets/mezzanine.webp",
-      "width": 2200,
-      "height": 1238,
-      "bytes": 141774,
+      "width": 2560,
+      "height": 1440,
+      "bytes": 294350,
       "nettete": {
         "demande": 555,
         "retenue": 557,
-        "score": 95.6,
-        "scoreDemande": 83,
+        "score": 102.9,
+        "scoreDemande": 88.9,
         "candidates": 17,
         "fenetre": 0.8,
         "fenetreBridee": false,
-        "seuil": 71.7,
+        "seuil": 77.7,
         "sousLeSeuil": false
       }
     },
     "salle-de-bain": {
       "frame": 602,
       "file": "/frames/5-et-demi-deux-niveaux/arrets/salle-de-bain.webp",
-      "width": 2200,
-      "height": 1238,
-      "bytes": 149422,
+      "width": 2560,
+      "height": 1440,
+      "bytes": 294772,
       "nettete": {
         "demande": 606,
         "retenue": 602,
-        "score": 255.4,
-        "scoreDemande": 216.3,
+        "score": 273.7,
+        "scoreDemande": 232.2,
         "candidates": 16,
         "fenetre": 0.8,
         "fenetreBridee": true,
-        "seuil": 71.7,
+        "seuil": 77.7,
         "sousLeSeuil": false
       }
     },
     "laveuse-secheuse": {
       "frame": 622,
       "file": "/frames/5-et-demi-deux-niveaux/arrets/laveuse-secheuse.webp",
-      "width": 2200,
-      "height": 1238,
-      "bytes": 143962,
+      "width": 2560,
+      "height": 1440,
+      "bytes": 285888,
       "nettete": {
         "demande": 630,
         "retenue": 622,
-        "score": 199.6,
-        "scoreDemande": 120.1,
+        "score": 216.5,
+        "scoreDemande": 130.5,
         "candidates": 17,
         "fenetre": 0.8,
         "fenetreBridee": false,
-        "seuil": 71.7,
+        "seuil": 77.7,
         "sousLeSeuil": false
       }
     },
     "garde-robe-miroir": {
       "frame": 710,
       "file": "/frames/5-et-demi-deux-niveaux/arrets/garde-robe-miroir.webp",
-      "width": 2200,
-      "height": 1238,
-      "bytes": 175888,
+      "width": 2560,
+      "height": 1440,
+      "bytes": 339840,
       "nettete": {
         "demande": 710,
         "retenue": 710,
-        "score": 347.9,
-        "scoreDemande": 347.9,
+        "score": 376.6,
+        "scoreDemande": 376.6,
         "candidates": 14,
         "fenetre": 0.8,
         "fenetreBridee": true,
-        "seuil": 71.7,
+        "seuil": 77.7,
         "sousLeSeuil": false
       }
     },
     "chambre-principale": {
       "frame": 733,
       "file": "/frames/5-et-demi-deux-niveaux/arrets/chambre-principale.webp",
-      "width": 2200,
-      "height": 1238,
-      "bytes": 171964,
+      "width": 2560,
+      "height": 1440,
+      "bytes": 327144,
       "nettete": {
         "demande": 725,
         "retenue": 733,
-        "score": 513.4,
-        "scoreDemande": 249.4,
+        "score": 553.8,
+        "scoreDemande": 269.2,
         "candidates": 16,
         "fenetre": 0.8,
         "fenetreBridee": true,
-        "seuil": 71.7,
+        "seuil": 77.7,
         "sousLeSeuil": false
       }
     },
     "coin-bureau": {
       "frame": 761,
       "file": "/frames/5-et-demi-deux-niveaux/arrets/coin-bureau.webp",
-      "width": 2200,
-      "height": 1238,
-      "bytes": 164114,
+      "width": 2560,
+      "height": 1440,
+      "bytes": 360276,
       "nettete": {
         "demande": 755,
         "retenue": 761,
-        "score": 339.5,
-        "scoreDemande": 250.9,
+        "score": 364.9,
+        "scoreDemande": 267.1,
         "candidates": 16,
         "fenetre": 0.8,
         "fenetreBridee": true,
-        "seuil": 71.7,
+        "seuil": 77.7,
         "sousLeSeuil": false
       }
     }
@@ -398,12 +398,12 @@
       "nettete": {
         "demande": 6,
         "retenue": 2,
-        "score": 485.2,
-        "scoreDemande": 474.2,
+        "score": 525.9,
+        "scoreDemande": 509.9,
         "candidates": 14,
         "fenetre": 0.8,
         "fenetreBridee": true,
-        "seuil": 71.7,
+        "seuil": 77.7,
         "sousLeSeuil": false
       }
     },
@@ -460,12 +460,12 @@
       "nettete": {
         "demande": 60,
         "retenue": 55,
-        "score": 320.2,
-        "scoreDemande": 295.3,
+        "score": 343.7,
+        "scoreDemande": 317,
         "candidates": 16,
         "fenetre": 0.8,
         "fenetreBridee": true,
-        "seuil": 71.7,
+        "seuil": 77.7,
         "sousLeSeuil": false
       }
     },
@@ -522,12 +522,12 @@
       "nettete": {
         "demande": 90,
         "retenue": 93,
-        "score": 421.1,
-        "scoreDemande": 240.2,
+        "score": 452.5,
+        "scoreDemande": 257.2,
         "candidates": 16,
         "fenetre": 0.8,
         "fenetreBridee": true,
-        "seuil": 71.7,
+        "seuil": 77.7,
         "sousLeSeuil": false
       }
     },
@@ -583,12 +583,12 @@
       "nettete": {
         "demande": 160,
         "retenue": 168,
-        "score": 610.4,
-        "scoreDemande": 556.2,
+        "score": 662.9,
+        "scoreDemande": 602.9,
         "candidates": 16,
         "fenetre": 0.8,
         "fenetreBridee": true,
-        "seuil": 71.7,
+        "seuil": 77.7,
         "sousLeSeuil": false
       }
     },
@@ -645,12 +645,12 @@
       "nettete": {
         "demande": 223,
         "retenue": 220,
-        "score": 1861.3,
-        "scoreDemande": 1706.1,
+        "score": 2096.1,
+        "scoreDemande": 1913.9,
         "candidates": 7,
         "fenetre": 0.3,
         "fenetreBridee": false,
-        "seuil": 71.7,
+        "seuil": 77.7,
         "sousLeSeuil": false
       }
     },
@@ -691,12 +691,12 @@
       "nettete": {
         "demande": 260,
         "retenue": 258,
-        "score": 168.8,
-        "scoreDemande": 142.6,
+        "score": 183.1,
+        "scoreDemande": 155,
         "candidates": 17,
         "fenetre": 0.8,
         "fenetreBridee": false,
-        "seuil": 71.7,
+        "seuil": 77.7,
         "sousLeSeuil": false
       }
     },
@@ -754,12 +754,12 @@
       "nettete": {
         "demande": 372,
         "retenue": 369,
-        "score": 38.8,
-        "scoreDemande": 32,
+        "score": 42.1,
+        "scoreDemande": 34.7,
         "candidates": 7,
         "fenetre": 0.3,
         "fenetreBridee": false,
-        "seuil": 71.7,
+        "seuil": 77.7,
         "sousLeSeuil": true
       }
     },
@@ -834,12 +834,12 @@
       "nettete": {
         "demande": 478,
         "retenue": 485,
-        "score": 220.2,
-        "scoreDemande": 119.6,
+        "score": 240.6,
+        "scoreDemande": 129.5,
         "candidates": 16,
         "fenetre": 0.8,
         "fenetreBridee": true,
-        "seuil": 71.7,
+        "seuil": 77.7,
         "sousLeSeuil": false
       }
     },
@@ -880,12 +880,12 @@
       "nettete": {
         "demande": 555,
         "retenue": 557,
-        "score": 95.6,
-        "scoreDemande": 83,
+        "score": 102.9,
+        "scoreDemande": 88.9,
         "candidates": 17,
         "fenetre": 0.8,
         "fenetreBridee": false,
-        "seuil": 71.7,
+        "seuil": 77.7,
         "sousLeSeuil": false
       }
     },
@@ -941,12 +941,12 @@
       "nettete": {
         "demande": 606,
         "retenue": 602,
-        "score": 255.4,
-        "scoreDemande": 216.3,
+        "score": 273.7,
+        "scoreDemande": 232.2,
         "candidates": 16,
         "fenetre": 0.8,
         "fenetreBridee": true,
-        "seuil": 71.7,
+        "seuil": 77.7,
         "sousLeSeuil": false
       }
     },
@@ -976,7 +976,7 @@
           "et sécheuse"
         ],
         "faits": [
-          "Laveuse et sécheuse installées à l'étage, côte à côte sous trois armoires hautes.",
+          "Laveuse et sécheuse installées à l'étage, côte à côte sous des armoires hautes.",
           "Le linge ne descend pas au sous-sol : la buanderie est là où on se change."
         ],
         "cote": "gauche",
@@ -987,12 +987,12 @@
       "nettete": {
         "demande": 630,
         "retenue": 622,
-        "score": 199.6,
-        "scoreDemande": 120.1,
+        "score": 216.5,
+        "scoreDemande": 130.5,
         "candidates": 17,
         "fenetre": 0.8,
         "fenetreBridee": false,
-        "seuil": 71.7,
+        "seuil": 77.7,
         "sousLeSeuil": false
       }
     },
@@ -1047,12 +1047,12 @@
       "nettete": {
         "demande": 710,
         "retenue": 710,
-        "score": 347.9,
-        "scoreDemande": 347.9,
+        "score": 376.6,
+        "scoreDemande": 376.6,
         "candidates": 14,
         "fenetre": 0.8,
         "fenetreBridee": true,
-        "seuil": 71.7,
+        "seuil": 77.7,
         "sousLeSeuil": false
       }
     },
@@ -1109,12 +1109,12 @@
       "nettete": {
         "demande": 725,
         "retenue": 733,
-        "score": 513.4,
-        "scoreDemande": 249.4,
+        "score": 553.8,
+        "scoreDemande": 269.2,
         "candidates": 16,
         "fenetre": 0.8,
         "fenetreBridee": true,
-        "seuil": 71.7,
+        "seuil": 77.7,
         "sousLeSeuil": false
       }
     },
@@ -1170,12 +1170,12 @@
       "nettete": {
         "demande": 755,
         "retenue": 761,
-        "score": 339.5,
-        "scoreDemande": 250.9,
+        "score": 364.9,
+        "scoreDemande": 267.1,
         "candidates": 16,
         "fenetre": 0.8,
         "fenetreBridee": true,
-        "seuil": 71.7,
+        "seuil": 77.7,
         "sousLeSeuil": false
       }
     },
@@ -1197,6 +1197,6 @@
   "totalScrollVh": 3111,
   "preloadFrames": 3,
   "warnings": [
-    "Arrêt « pied-escalier » : la meilleure image de sa fenêtre marque 38.8, sous le seuil 71.7. Regarde-la : soit elle est filée et il faut un autre angle dans la même pièce, soit la pièce est simplement unie — la mesure compte le détail, elle ne sait pas faire la différence."
+    "Arrêt « pied-escalier » : la meilleure image de sa fenêtre marque 42.1, sous le seuil 77.7. Regarde-la : soit elle est filée et il faut un autre angle dans la même pièce, soit la pièce est simplement unie — la mesure compte le détail, elle ne sait pas faire la différence."
   ]
 }

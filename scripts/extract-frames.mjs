@@ -77,19 +77,35 @@ process.chdir(ROOT);
 
 /* ── options ───────────────────────────────────────────────────────────────── */
 
+/*
+ * Résolution des images de MOUVEMENT.
+ *
+ * 1600 px au premier jet, sur l'idée que « personne ne les fixe ». Mesuré, c'est
+ * faux : elles s'affichent PLEIN ÉCRAN. Sur un écran Retina en 1440 px CSS, le
+ * canvas fait 2880 px de large — on agrandissait donc 1600 px de 1,8×, et ça se
+ * voit. 2048 px ramène l'agrandissement à 1,4× et reste sous la résolution utile
+ * de la source (le piqué réel de l'action-cam plafonne bien avant 3840).
+ */
 const VARIANTS = {
-  desktop: { width: 1600, quality: 68, budgetKo: 45 },
-  mobile: { width: 828, quality: 62, budgetKo: 15 },
+  /* q76 et non q80 : comparé à l'image, q72 et q80 sont indiscernables sur
+     cette source — 67 Ko contre 92 Ko pour le même rendu. Le piqué manque, les
+     bits supplémentaires ne codent que du bruit de compression. q76 garde une
+     marge pour une source plus propre au re-tournage. */
+  desktop: { width: 2048, quality: 76, budgetKo: 85 },
+  mobile: { width: 1080, quality: 70, budgetKo: 30 },
 };
 
 /**
  * Images d'arrêt : c'est l'image qu'on regarde longtemps, elle paie sa place.
- * Le budget est large parce qu'elles ne se chargent pas comme la séquence :
- * une seule à la fois, à la demande, pendant que l'utilisateur lit le panneau.
- * Une vue d'extérieur pleine de feuillage, de gazon et de haies monte à 870 Ko
- * en 2200 px q88 — c'est son prix, et l'image est légitime.
+ *
+ * Calée sur `repair.travailWidth` : à 2560 px l'image d'arrêt sort de la vidéo
+ * de travail SANS AUCUN redimensionnement. C'est un rééchantillonnage de moins
+ * dans la chaîne, gratuit.
+ *
+ * Le budget est large parce qu'elles ne se chargent pas comme la séquence : une
+ * seule à la fois, à la demande, pendant que l'utilisateur lit le panneau.
  */
-const ARRET = { width: 2200, quality: 88, budgetKo: 900 };
+const ARRET = { width: 2560, quality: 92, budgetKo: 1500 };
 
 /** Résolution d'analyse de netteté. Assez fine pour distinguer une image filée. */
 const SCORE = { width: 640, height: 360 };
@@ -271,11 +287,19 @@ const stat = fs.statSync(src);
 const hash = (o) => crypto.createHash("sha1").update(JSON.stringify(o)).digest("hex").slice(0, 10);
 
 /*
- * Deux clés distinctes, et ce n'est pas de la coquetterie : l'analyse du bougé
- * ne dépend que de la géométrie. Retoucher une zone de vie privée ou l'étalonnage
- * ne doit pas obliger à refaire douze minutes de vidstabdetect.
+ * Trois clés distinctes, et ce n'est pas de la coquetterie : chaque étape
+ * coûteuse ne doit être refaite que si CE dont elle dépend a changé.
+ *
+ * L'analyse du bougé ne dépend que de la géométrie et des paramètres de
+ * DÉTECTION. Elle a été relancée une fois pour rien parce que la clé
+ * embarquait aussi `smoothing`, `optzoom` et `interpol`, qui n'appartiennent
+ * qu'à la passe de transformation — douze minutes jetées pour un changement
+ * d'interpolateur. La clé ne retient plus que ce que vidstabdetect lit.
  */
-const geometryKey = hash({ defish: repair.includes("defish") ? R.defish : null, travailWidth, stab: R.stab, size: stat.size, mtime: stat.mtimeMs });
+const detect = R.stab
+  ? { shakiness: R.stab.shakiness, accuracy: R.stab.accuracy, stepsize: R.stab.stepsize, mincontrast: R.stab.mincontrast }
+  : null;
+const geometryKey = hash({ defish: repair.includes("defish") ? R.defish : null, travailWidth, detect, size: stat.size, mtime: stat.mtimeMs });
 const repairKey = hash({ repair, R, travailWidth, fps, size: stat.size, mtime: stat.mtimeMs });
 const priveKey = hash({ repairKey, traitements });
 
@@ -400,7 +424,10 @@ function repairPass2Args() {
     "-i", src,
     "-vf", chain.join(","),
     "-an", "-r", String(fps),
-    "-c:v", "libx264", "-preset", "medium", "-crf", "15", "-pix_fmt", "yuv420p",
+    /* crf 12 et non 15 : cette vidéo n'est pas livrée, elle est REDIMENSIONNÉE
+       ensuite. Toute perte introduite ici se retrouve amplifiée dans les images
+       finales. Le fichier grossit — il est en cache, hors dépôt. */
+    "-c:v", "libx264", "-preset", "slow", "-crf", "12", "-pix_fmt", "yuv420p",
     repairedPath,
   ];
 }
@@ -413,7 +440,7 @@ function privacyArgs(W, H) {
     "-i", repairedPath,
     "-filter_complex", parts.join(";"),
     "-map", "[vout]", "-an", "-r", String(fps),
-    "-c:v", "libx264", "-preset", "medium", "-crf", "15", "-pix_fmt", "yuv420p",
+    "-c:v", "libx264", "-preset", "slow", "-crf", "12", "-pix_fmt", "yuv420p",
     privePath,
   ];
 }
