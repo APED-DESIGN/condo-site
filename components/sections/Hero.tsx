@@ -35,9 +35,13 @@ export default function Hero() {
         suppressHydrationWarning
         className="absolute inset-0 scale-[1.08]"
       >
+        {/* Image d'ambiance, volontairement neutre : l'accueil n'annonce aucune
+            propriété, il fait choisir entre deux approches. Une photo de la
+            maison ou de l'appartement y aurait fait croire qu'on présente ce
+            bien-là. Servie en local — pas de dépendance à un hébergeur tiers. */}
         <Image
-          src="/photos/cuisine-evier.jpg"
-          alt="Cuisine à îlot ouverte sur la salle à manger et la cour"
+          src="/photos/accueil-hero.jpg"
+          alt=""
           fill
           priority
           sizes="100vw"
@@ -45,8 +49,10 @@ export default function Hero() {
           placeholder="blur"
           blurDataURL={BLUR_DATA_URL}
         />
+        {/* Le bas est plus appuyé que dans la version d'origine : cette image a
+            un plancher clair, et l'indice « défiler » s'y perdait. */}
         <div
-          className="absolute inset-0 bg-gradient-to-t from-ink/50 via-ink/10 to-ink/25"
+          className="absolute inset-0 bg-gradient-to-t from-ink/70 via-ink/10 to-ink/25"
           aria-hidden
         />
       </motion.div>
