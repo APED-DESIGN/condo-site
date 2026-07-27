@@ -1,0 +1,120 @@
+<!-- PLAN PROVISOIRE -->
+<!--
+  Maquette filaire des deux niveaux. Les proportions sont FAUSSES et assumées :
+  ce fichier n'existe que pour développer et tester l'animation, la bascule
+  N1 → N2 et les zones cliquables. Il sera redessiné aux proportions réelles
+  après les mesures au ruban.
+
+  CONTRAT AVEC LE CODE — à respecter dans la version définitive :
+    · toute la géométrie vit ici, aucune coordonnée dans le JS ;
+    · un niveau              = <g data-niveau="1|2">
+    · une pièce cliquable    = <g class="piece" data-piece="<id de fiche.json>">
+    · la position caméra     = <circle class="ancre" data-chapitre="<id de chapters.json>">
+      (les ancres sont invisibles : le JS lit leurs cx/cy et y déplace #camera)
+  Remplacer ce fichier suffit. Aucun composant à réécrire.
+-->
+<svg viewBox="0 0 420 320" xmlns="http://www.w3.org/2000/svg" role="img"
+     aria-label="Plan des deux niveaux (provisoire)">
+  <title>Plan des deux niveaux — provisoire</title>
+
+  <style>
+    .piece path { fill: transparent; stroke: currentColor; stroke-width: 1.6; opacity: .4;
+                  vector-effect: non-scaling-stroke; }
+    .piece text { fill: currentColor; font-size: 13px; opacity: .5; letter-spacing: .04em; }
+    .piece[data-actif="true"] path { opacity: 1; stroke-width: 2.6; }
+    .piece[data-actif="true"] text { opacity: 1; }
+    .piece { transition: opacity 260ms ease; cursor: pointer; }
+    [data-niveau] { transition: opacity 420ms ease; }
+    [data-niveau][data-visible="false"] { opacity: .1; }
+    .ancre { fill: none; pointer-events: none; }
+    #camera { fill: currentColor; transition: cx 320ms ease, cy 320ms ease; }
+  </style>
+
+  <!-- Projection axonométrique grossière.
+       x' = 0,62·(x−y) + 105     y' = 0,44·(x+y) + 91
+       Facteurs choisis pour que les DEUX niveaux tiennent dans le viewBox
+       420×320 : u = x−y ∈ [−125, 460], v = x+y ∈ [−150, 435]. -->
+  <g transform="matrix(0.62 0.44 -0.62 0.44 105 91)">
+
+    <!-- ══ NIVEAU 1 ══ -->
+    <g data-niveau="1" data-visible="true">
+      <g class="piece" data-piece="salon">
+        <path d="M0 0 H80 V70 H0 Z" />
+        <text x="10" y="38">Salon</text>
+      </g>
+      <g class="piece" data-piece="cuisine">
+        <path d="M80 0 H160 V70 H80 Z" />
+        <text x="90" y="38">Cuisine</text>
+      </g>
+      <g class="piece" data-piece="salle-a-manger">
+        <path d="M160 0 H240 V70 H160 Z" />
+        <text x="170" y="38">Salle à manger</text>
+      </g>
+      <g class="piece" data-piece="terrasse">
+        <path d="M240 0 H310 V70 H240 Z" stroke-dasharray="4 3" />
+        <text x="250" y="38">Terrasse</text>
+      </g>
+      <g class="piece" data-piece="salle-eau">
+        <path d="M0 70 H70 V125 H0 Z" />
+        <text x="10" y="100">Salle d'eau</text>
+      </g>
+      <g class="piece" data-piece="escalier">
+        <path d="M70 70 H140 V125 H70 Z" />
+        <path d="M70 82 H140 M70 94 H140 M70 106 H140" stroke-width=".6" />
+        <text x="80" y="118">Escalier</text>
+      </g>
+      <g class="piece" data-piece="entree">
+        <path d="M140 70 H230 V125 H140 Z" />
+        <text x="150" y="100">Entrée</text>
+      </g>
+      <path d="M230 70 H310 V125 H230 Z" fill="none" stroke="currentColor" stroke-width=".5" opacity=".12" />
+    </g>
+
+    <!-- ══ NIVEAU 2 ══ (décalé en hauteur pour la lecture axonométrique) -->
+    <g data-niveau="2" data-visible="false" transform="translate(0 -150)">
+      <g class="piece" data-piece="palier">
+        <path d="M70 70 H140 V125 H70 Z" />
+        <text x="80" y="100">Palier</text>
+      </g>
+      <g class="piece" data-piece="chambre-2">
+        <path d="M0 0 H110 V70 H0 Z" />
+        <text x="10" y="38">Chambre 2</text>
+      </g>
+      <g class="piece" data-piece="salle-de-bain">
+        <path d="M110 0 H200 V70 H110 Z" />
+        <text x="120" y="38">Salle de bain</text>
+      </g>
+      <g class="piece" data-piece="chambre-principale">
+        <path d="M200 0 H310 V125 H200 Z" />
+        <text x="210" y="66">Chambre principale</text>
+      </g>
+      <path d="M0 70 H70 V125 H0 Z" fill="none" stroke="currentColor" stroke-width=".5" opacity=".12" />
+      <path d="M140 70 H200 V125 H140 Z" fill="none" stroke="currentColor" stroke-width=".5" opacity=".12" />
+    </g>
+
+    <!-- ══ ANCRES CAMÉRA ══ un point par chapitre, invisibles.
+         Les identifiants doivent correspondre à ceux de chapters.json. Un
+         chapitre sans ancre laisse simplement la caméra où elle est. -->
+    <g id="ancres">
+      <circle class="ancre" data-chapitre="entree"                       cx="185" cy="98"  r="1" />
+      <circle class="ancre" data-chapitre="vers-salon"                   cx="120" cy="60"  r="1" />
+      <circle class="ancre" data-chapitre="salon"                        cx="40"  cy="35"  r="1" />
+      <circle class="ancre" data-chapitre="cuisine"                      cx="120" cy="35"  r="1" />
+      <circle class="ancre" data-chapitre="salle-a-manger"               cx="200" cy="35"  r="1" />
+      <circle class="ancre" data-chapitre="terrasse"                     cx="272" cy="35"  r="1" />
+      <circle class="ancre" data-chapitre="salle-eau"                    cx="35"  cy="98"  r="1" />
+      <circle class="ancre" data-chapitre="pied-escalier"                cx="105" cy="118" r="1" />
+      <circle class="ancre" data-chapitre="escalier"                     cx="105" cy="20"  r="1" />
+      <circle class="ancre" data-chapitre="vers-chambre-2"               cx="105" cy="-53" r="1" />
+      <circle class="ancre" data-chapitre="chambre-2"                    cx="55"  cy="-115" r="1" />
+      <circle class="ancre" data-chapitre="mezzanine"                    cx="105" cy="-53" r="1" />
+      <circle class="ancre" data-chapitre="salle-de-bain"                cx="155" cy="-115" r="1" />
+      <circle class="ancre" data-chapitre="laveuse-secheuse"             cx="180" cy="-118" r="1" />
+      <circle class="ancre" data-chapitre="garde-robe-miroir"            cx="245" cy="-115" r="1" />
+      <circle class="ancre" data-chapitre="chambre-principale"           cx="255" cy="-95" r="1" />
+      <circle class="ancre" data-chapitre="coin-bureau"                  cx="285" cy="-70" r="1" />
+    </g>
+
+    <circle id="camera" cx="185" cy="98" r="7" />
+  </g>
+</svg>

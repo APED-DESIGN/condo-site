@@ -1,0 +1,346 @@
+{
+  "slug": "5-et-demi-deux-niveaux",
+
+  "_": "AUCUNE COUPE. Les chapitres pavent la source de 0 à 80,28 s sans trou : la fin d'un chapitre est le début du suivant. scripts/extract-frames.mjs refuse d'extraire s'il trouve un trou.",
+
+  "_ancrage": "Chaque chapitre s'ancre sur un TIMECODE DE LA SOURCE, jamais sur un index d'image. Changer le fps ne demande aucune retouche ici.",
+
+  "_rythme": {
+    "principe": "Ce n'est pas le ciseau qui monte, c'est la distance de scroll par seconde de vidéo. On garde tout, on module la vitesse.",
+    "transition": "11–18 vh/s — couloir, redite, encombrement : on passe vite sans rien perdre",
+    "deplacement": "24–32 vh/s — déplacement normal dans une pièce",
+    "revelation": "60–80 vh/s avec ease decelerate — anticipation avant une découverte",
+    "arret": "scrollVh fixe : 95–130 pièce majeure, 70–80 pièce secondaire, 50–60 utilitaire"
+  },
+
+  "rythmeGlobal": 1.0,
+  "_rythmeGlobal": "Multiplie toutes les distances. Premier paramètre à régler à la molette et au trackpad : monter si la visite se sent pressée, descendre si elle se sent longue.",
+
+  "_prix": "Le prix n'apparaît pas avant `cuisine`. Aucun chapitre antérieur ne l'affiche.",
+  "_cote": "Le panneau alterne droite / gauche d'un arrêt à l'autre pour donner un rythme visuel à la page.",
+  "_chiffres": "Les panneaux ne contiennent AUCUN chiffre en dur. Les superficies viennent de fiche.json et s'affichent « — » tant qu'elles sont en TODO.",
+
+  "chapters": [
+    { "id": "seuil", "type": "move", "from": { "t": 0.0 }, "to": { "t": 0.6 }, "vhParSeconde": 34 },
+
+    {
+      "id": "entree",
+      "type": "hold",
+      "at": { "t": 0.6 },
+      "scrollVh": 80,
+      "panel": {
+        "piece": "entree",
+        "surTitre": "L'arrivée",
+        "titre": ["Entrée", "traversante"],
+        "faits": [
+          "L'entrée donne directement sur l'aire de vie : on voit la cuisine depuis la porte.",
+          "Penderie d'entrée à portes miroir, dès le seuil."
+        ],
+        "cote": "droite",
+        "afficherPrix": false
+      }
+    },
+
+    { "id": "vers-salon", "type": "move", "from": { "t": 0.6 }, "to": { "t": 5.2 }, "vhParSeconde": 26,
+      "_": "Traverse le vestibule et le salon encombré (station de musculation, 2,5→4,5 s). On ne coupe pas : on passe vite." },
+
+    { "id": "revelation-salon", "type": "move", "from": { "t": 5.2 }, "to": { "t": 6.0 }, "vhParSeconde": 70, "ease": "decelerate" },
+
+    {
+      "id": "salon",
+      "type": "hold",
+      "at": { "t": 6.0 },
+      "scrollVh": 110,
+      "panel": {
+        "piece": "salon",
+        "surTitre": "Les espaces de vie",
+        "titre": ["Salon", "sous cathédrale"],
+        "faits": [
+          "Grande fenêtre sur la façade, rideaux occultants déjà posés.",
+          "Aucune cloison vers la cuisine — on parle d'un bout à l'autre de l'aire de vie.",
+          "Plinthe électrique sous la fenêtre : le chauffage se règle pièce par pièce."
+        ],
+        "cote": "gauche",
+        "afficherPrix": false
+      },
+      "_honnetete": "« Cathédrale » repose sur la pente du plafond visible à l'image, pas sur une mesure. La hauteur sous plafond est en TODO dans fiche.json : si le relevé la contredit, changer ce titre et la ligne d'accueil."
+    },
+
+    { "id": "vers-cuisine", "type": "move", "from": { "t": 6.0 }, "to": { "t": 8.2 }, "vhParSeconde": 30 },
+    { "id": "revelation-cuisine", "type": "move", "from": { "t": 8.2 }, "to": { "t": 9.0 }, "vhParSeconde": 70, "ease": "decelerate" },
+
+    {
+      "id": "cuisine",
+      "type": "hold",
+      "at": { "t": 9.0 },
+      "scrollVh": 120,
+      "panel": {
+        "piece": "cuisine",
+        "surTitre": "Les espaces de vie",
+        "titre": ["Cuisine", "ouverte"],
+        "faits": [
+          "Îlot avec évier : on cuisine face à la pièce, pas face au mur.",
+          "Cuisinière, hotte et réfrigérateur pleine hauteur déjà installés.",
+          "Deux tabourets tiennent à l'îlot — le déjeuner ne demande pas de sortir la table."
+        ],
+        "cote": "droite",
+        "afficherPrix": true
+      }
+    },
+
+    { "id": "vers-salle-a-manger", "type": "move", "from": { "t": 9.0 }, "to": { "t": 15.2 }, "vhParSeconde": 16,
+      "_": "Comptoir en amorce et effets personnels sur l'îlot (10→14,5 s). Segment le plus rapide du rez-de-chaussée." },
+
+    { "id": "approche-salle-a-manger", "type": "move", "from": { "t": 15.2 }, "to": { "t": 16.0 }, "vhParSeconde": 60, "ease": "decelerate" },
+
+    {
+      "id": "salle-a-manger",
+      "type": "hold",
+      "at": { "t": 16.0 },
+      "scrollVh": 110,
+      "panel": {
+        "piece": "salle-a-manger",
+        "surTitre": "Les espaces de vie",
+        "titre": ["Salle", "à manger"],
+        "faits": [
+          "Table six places dans l'aire ouverte : personne ne mange dans un coin fermé.",
+          "Fenêtre latérale et porte-patio — deux sources de lumière dans la même pièce."
+        ],
+        "cote": "gauche",
+        "afficherPrix": true
+      }
+    },
+
+    { "id": "vers-terrasse", "type": "move", "from": { "t": 16.0 }, "to": { "t": 21.4 }, "vhParSeconde": 30 },
+    { "id": "revelation-terrasse", "type": "move", "from": { "t": 21.4 }, "to": { "t": 22.3 }, "vhParSeconde": 75, "ease": "decelerate",
+      "_": "Intérieur → plein ciel. Le plus fort contraste de luminance de la visite." },
+
+    {
+      "id": "terrasse",
+      "type": "hold",
+      "at": { "t": 22.3 },
+      "fenetre": 0.3,
+      "_fenetre": "22,3 s et non 21,0 s : à 21,0 s le cadre est mangé par le montant de la porte et on ne voit qu'un coin de terrasse. À 22,3 s la cour entière est dans le cadre. Fenêtre resserrée parce que la mesure de netteté, ici, choisit l'image où la MOUSTIQUAIRE est la plus contrastée — c'est du détail, mais pas celui qu'on veut.",
+      "scrollVh": 95,
+      "panel": {
+        "piece": "terrasse",
+        "surTitre": "Les espaces de vie",
+        "titre": ["Terrasse", "à l'arrière"],
+        "faits": [
+          "Porte-patio coulissante pleine hauteur : la salle à manger se prolonge dehors l'été.",
+          "Terrasse de plain-pied sur cour gazonnée, haie de cèdres en fond de terrain."
+        ],
+        "cote": "droite",
+        "afficherPrix": true
+      },
+      "_honnetete": "La caméra ne sort pas sur la terrasse dans cette vidéo : c'est une vue DEPUIS la porte, à travers la moustiquaire, qui reste visible sur l'image. Ne rien écrire que l'image ne montre pas. À refaire au re-tournage, en sortant."
+    },
+
+    { "id": "vers-salle-eau", "type": "move", "from": { "t": 22.3 }, "to": { "t": 26.0 }, "vhParSeconde": 15,
+      "_": "Pivot rapide, image quasi noire à 24,4 s, puis recul hésitant. Traversé au pas de course." },
+
+    {
+      "id": "salle-eau",
+      "type": "hold",
+      "at": { "t": 26.0 },
+      "scrollVh": 60,
+      "panel": {
+        "piece": "salle-eau",
+        "surTitre": "Les espaces de vie",
+        "titre": ["Salle d'eau", "au rez"],
+        "faits": [
+          "Une salle d'eau au rez-de-chaussée : les invités ne montent pas à l'étage.",
+          "Meuble-vanité avec rangement fermé et miroir à bandeau lumineux."
+        ],
+        "cote": "gauche",
+        "afficherPrix": true
+      },
+      "_honnetete": "Cuvette, vanité, miroir. Aucune douche ni baignoire dans cette pièce — ne pas l'appeler salle de bain."
+    },
+
+    { "id": "vers-escalier", "type": "move", "from": { "t": 26.0 }, "to": { "t": 36.1 }, "vhParSeconde": 11,
+      "_": "Deuxième passage cuisine et séjour, redondant avec 7,5→13,5 s. Rien n'est jeté, tout défile vite : c'est exactement ce que le rythme variable sert à faire." },
+
+    { "id": "approche-escalier", "type": "move", "from": { "t": 36.1 }, "to": { "t": 37.2 }, "vhParSeconde": 55, "ease": "decelerate",
+      "_": "1,1 s et non 0,6 : l'approche borne la recherche de l'image la plus nette de l'arrêt suivant. Trop courte, elle ne lui laisse pas le choix." },
+
+    {
+      "id": "pied-escalier",
+      "type": "hold",
+      "at": { "t": 37.2 },
+      "fenetre": 0.3,
+      "_fenetre": "Fenêtre resserrée à ±0,3 s. À ±0,8 s la mesure de netteté partait chercher un plan du salon — plein de meubles, de fenêtres et de reflets, donc riche en détail — au lieu de l'escalier. La mesure classe le détail, pas le cadrage : c'est à nous de lui dire où chercher.",
+      "scrollVh": 70,
+      "panel": {
+        "piece": "escalier",
+        "surTitre": "Le passage",
+        "titre": ["Escalier", "droit"],
+        "faits": [
+          "L'escalier part directement de l'aire de vie, sans sas ni couloir d'accès.",
+          "Volée droite, main courante sur toute la montée, marches recouvertes."
+        ],
+        "_honnetete": "Ne pas écrire « escalier ouvert » : la cage est fermée par un mur des deux côtés à partir de la deuxième marche. C'est le PIED de l'escalier qui donne sur l'aire de vie, pas la volée.",
+        "cote": "droite",
+        "afficherPrix": true
+      }
+    },
+
+    { "id": "escalier", "type": "move", "from": { "t": 37.2 }, "to": { "t": 41.0 }, "vhParSeconde": 26, "ease": "decelerate",
+      "bascule": { "de": 1, "vers": 2 },
+      "_": "Le moment charnière : le plan axonométrique bascule N1 → N2. C'est aussi le pire cas pour le scrub — un rebond de caméra par marche, corrigé par la stabilisation." },
+
+    { "id": "vers-chambre-2", "type": "move", "from": { "t": 41.0 }, "to": { "t": 47.0 }, "vhParSeconde": 14,
+      "_": "Aucun arrêt ici, et c'est délibéré : l'ombre portée du caméraman court de 40,6 à 43,2 s sur un mur blanc uni, et l'étagère à linge de la chambre 2 de 43,5 à 46,8 s. Un arrêt sur le palier tombait en plein dedans — supprimé, son argument (thermopompe) est passé sur `mezzanine`. Voir analyse/traitements.md." },
+
+    { "id": "approche-chambre-2", "type": "move", "from": { "t": 47.0 }, "to": { "t": 47.8 }, "vhParSeconde": 60, "ease": "decelerate" },
+
+    {
+      "id": "chambre-2",
+      "type": "hold",
+      "at": { "t": 47.8 },
+      "scrollVh": 110,
+      "panel": {
+        "piece": "chambre-2",
+        "surTitre": "L'étage",
+        "titre": ["Deuxième", "chambre"],
+        "faits": [
+          "Un lit, une commode et une garde-robe fermée tiennent ensemble dans la pièce.",
+          "Fenêtre avec store enrouleur et plinthe électrique dédiée sous l'appui."
+        ],
+        "cote": "droite",
+        "afficherPrix": true
+      }
+    },
+
+    { "id": "vers-mezzanine", "type": "move", "from": { "t": 47.8 }, "to": { "t": 55.5 }, "vhParSeconde": 13 },
+
+    {
+      "id": "mezzanine",
+      "type": "hold",
+      "at": { "t": 55.5 },
+      "scrollVh": 60,
+      "panel": {
+        "piece": "palier",
+        "surTitre": "L'étage",
+        "titre": ["Couloir", "sur mezzanine"],
+        "faits": [
+          "Le couloir longe un garde-corps plein : l'étage reste ouvert sur le volume du rez.",
+          "Thermopompe murale à l'étage — climatisation et chauffage d'appoint inclus."
+        ],
+        "cote": "gauche",
+        "afficherPrix": true
+      }
+    },
+
+    { "id": "vers-salle-de-bain", "type": "move", "from": { "t": 55.5 }, "to": { "t": 59.8 }, "vhParSeconde": 18 },
+    { "id": "approche-salle-de-bain", "type": "move", "from": { "t": 59.8 }, "to": { "t": 60.6 }, "vhParSeconde": 60, "ease": "decelerate" },
+
+    {
+      "id": "salle-de-bain",
+      "type": "hold",
+      "at": { "t": 60.6 },
+      "scrollVh": 110,
+      "panel": {
+        "piece": "salle-de-bain",
+        "surTitre": "L'étage",
+        "titre": ["Salle de bain", "complète"],
+        "faits": [
+          "Bain podium encastré, vanité longue à vasque unique et grande armoire à lingerie.",
+          "Fenêtre dans la salle de bain : elle s'aère à l'air libre."
+        ],
+        "cote": "droite",
+        "afficherPrix": true
+      },
+      "_honnetete": "Aucune douche séparée visible dans la vidéo. À confirmer auprès du vendeur avant publication (voir fiche.json)."
+    },
+
+    { "id": "vers-buanderie", "type": "move", "from": { "t": 60.6 }, "to": { "t": 63.0 }, "vhParSeconde": 24 },
+
+    {
+      "id": "laveuse-secheuse",
+      "type": "hold",
+      "at": { "t": 63.0 },
+      "scrollVh": 70,
+      "panel": {
+        "piece": "salle-de-bain",
+        "surTitre": "L'étage",
+        "titre": ["Laveuse", "et sécheuse"],
+        "faits": [
+          "Laveuse et sécheuse installées à l'étage, côte à côte sous des armoires hautes.",
+          "Le linge ne descend pas au sous-sol : la buanderie est là où on se change."
+        ],
+        "cote": "gauche",
+        "afficherPrix": true
+      }
+    },
+
+    { "id": "vers-chambre-principale", "type": "move", "from": { "t": 63.0 }, "to": { "t": 70.2 }, "vhParSeconde": 12,
+      "_": "Retour par la mezzanine : dominante bleue extrême et flou de proximité (66→68,3 s), corrigés au grade mais le plan reste faible. Segment le plus rapide de l'étage." },
+
+    { "id": "approche-garde-robe", "type": "move", "from": { "t": 70.2 }, "to": { "t": 71.0 }, "vhParSeconde": 60, "ease": "decelerate" },
+
+    {
+      "id": "garde-robe-miroir",
+      "type": "hold",
+      "at": { "t": 71.0 },
+      "scrollVh": 80,
+      "panel": {
+        "piece": "chambre-principale",
+        "surTitre": "La chambre principale",
+        "titre": ["Garde-robe", "pleine hauteur"],
+        "faits": [
+          "Deux portes coulissantes entièrement miroir : le rangement double aussi comme miroir de pied."
+        ],
+        "cote": "droite",
+        "afficherPrix": true
+      }
+    },
+
+    { "id": "vers-chambre-principale-2", "type": "move", "from": { "t": 71.0 }, "to": { "t": 71.7 }, "vhParSeconde": 30 },
+    { "id": "revelation-chambre-principale", "type": "move", "from": { "t": 71.7 }, "to": { "t": 72.5 }, "vhParSeconde": 80, "ease": "decelerate",
+      "_": "Dernière révélation de la visite. Décélération la plus marquée." },
+
+    {
+      "id": "chambre-principale",
+      "type": "hold",
+      "at": { "t": 72.5 },
+      "scrollVh": 130,
+      "panel": {
+        "piece": "chambre-principale",
+        "surTitre": "La chambre principale",
+        "titre": ["Chambre", "principale"],
+        "faits": [
+          "Chambre d'angle : deux murs fenêtrés, la lumière tourne avec la journée.",
+          "Le lit, deux chevets et un coin bureau tiennent sans que la pièce se referme.",
+          "Rideaux occultants déjà posés sur les deux fenêtres."
+        ],
+        "cote": "gauche",
+        "afficherPrix": true
+      }
+    },
+
+    { "id": "vers-bureau", "type": "move", "from": { "t": 72.5 }, "to": { "t": 74.7 }, "vhParSeconde": 26 },
+    { "id": "approche-bureau", "type": "move", "from": { "t": 74.7 }, "to": { "t": 75.5 }, "vhParSeconde": 60, "ease": "decelerate" },
+
+    {
+      "id": "coin-bureau",
+      "type": "hold",
+      "at": { "t": 75.5 },
+      "scrollVh": 90,
+      "panel": {
+        "piece": "chambre-principale",
+        "surTitre": "La chambre principale",
+        "titre": ["Coin", "bureau"],
+        "faits": [
+          "Un bureau tient devant la fenêtre étroite sans bloquer la circulation du lit.",
+          "Télétravail à la lumière du jour, dans une pièce qui ferme."
+        ],
+        "cote": "droite",
+        "afficherPrix": true
+      }
+    },
+
+    { "id": "sortie", "type": "move", "from": { "t": 75.5 }, "to": { "t": 80.2 }, "vhParSeconde": 12,
+      "_": "Contient la zone du garde-robe miroir (77,9→79,2 s, floutée localement) et la sortie par le corridor. La vidéo se termine sur un plan bougé : le rythme le traverse vite et la page enchaîne sur la fiche." }
+  ]
+}

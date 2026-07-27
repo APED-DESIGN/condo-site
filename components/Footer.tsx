@@ -1,41 +1,42 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowUp } from "lucide-react";
+import { usePathname } from "next/navigation";
+import { ArrowUp, Phone } from "lucide-react";
 import { scrollToTop } from "@/lib/scroll";
+import { CONTACT } from "@/lib/contact";
 
 const NAV = [
-  { label: "Unités", href: "/#unites" },
-  { label: "Inclusions", href: "/#inclusions" },
-  { label: "Louer", href: "/#louer" },
-  { label: "L'ensemble", href: "/#immeuble" },
-  { label: "Contact", href: "/#contact" },
+  { label: "Accueil", href: "/" },
+  { label: "La maison — visite 360°", href: "/maison" },
+  { label: "L'appartement — au défilement", href: "/appartement" },
 ];
 
-const SOCIALS = [
-  { label: "Instagram", href: "https://instagram.com" },
-  { label: "Facebook", href: "https://facebook.com" },
-  { label: "Marketplace", href: "https://facebook.com/marketplace" },
-];
+/** Pages de propriété : elles montrent des données d'exemple, et le disent. */
+const PAGES_PROPRIETE = ["/maison", "/appartement"];
 
 export default function Footer() {
+  const pathname = usePathname();
+  const surPropriete = PAGES_PROPRIETE.includes(pathname ?? "");
+
   return (
     <footer className="relative overflow-hidden bg-ink text-bone">
       <div className="mx-auto max-w-7xl px-6 pb-8 pt-20 sm:px-10">
-        <div className="grid gap-12 lg:grid-cols-[1.4fr_1fr_1fr_auto]">
+        <div className="grid gap-12 lg:grid-cols-[1.4fr_1fr_auto]">
           <div>
             <p className="font-display text-2xl">
-              Boréal<span className="text-brass">.</span>
+              Deux façons de faire visiter
+              <span className="text-brass">.</span>
             </p>
             <p className="mt-4 max-w-xs text-sm leading-relaxed text-white/50">
-              Condos locatifs haut de gamme à Trois-Rivières. Visitez en ligne,
-              choisissez sans pression, emménagez l&apos;esprit tranquille.
+              Une visite 360° où l&apos;acheteur se déplace librement. Une visite
+              au défilement où la caméra avance et s&apos;arrête pour expliquer.
             </p>
             <a
-              href="mailto:location@residencesboreal.ca"
+              href={`mailto:${CONTACT.courriel}`}
               className="link-underline mt-6 inline-block text-sm text-brass"
             >
-              location@residencesboreal.ca
+              {CONTACT.courriel}
             </a>
           </div>
 
@@ -45,7 +46,7 @@ export default function Footer() {
             </p>
             <ul className="mt-5 space-y-3">
               {NAV.map((l) => (
-                <li key={l.label}>
+                <li key={l.href}>
                   <Link
                     href={l.href}
                     className="link-underline text-sm text-white/75 transition-colors hover:text-bone"
@@ -55,27 +56,15 @@ export default function Footer() {
                 </li>
               ))}
             </ul>
-          </nav>
 
-          <div>
-            <p className="text-[11px] uppercase tracking-[0.28em] text-white/40">
-              Suivez-nous
-            </p>
-            <ul className="mt-5 space-y-3">
-              {SOCIALS.map((s) => (
-                <li key={s.label}>
-                  <a
-                    href={s.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="link-underline text-sm text-white/75 transition-colors hover:text-bone"
-                  >
-                    {s.label}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
+            <a
+              href={CONTACT.telephoneHref}
+              className="mt-8 inline-flex items-center gap-2.5 text-sm text-white/75 transition-colors hover:text-bone"
+            >
+              <Phone className="h-4 w-4 shrink-0 text-brass" aria-hidden />
+              <span className="tabular-nums">{CONTACT.telephone}</span>
+            </a>
+          </nav>
 
           <div>
             <button
@@ -92,16 +81,11 @@ export default function Footer() {
           </div>
         </div>
 
-        <p
-          aria-hidden
-          className="pointer-events-none mt-14 select-none whitespace-nowrap font-display text-[19vw] leading-[0.75] text-bone/[0.07] lg:text-[16vw]"
-        >
-          BORÉAL
-        </p>
-
-        <div className="mt-10 flex flex-col gap-2 border-t border-white/10 pt-6 text-xs text-white/35 sm:flex-row sm:items-center sm:justify-between">
-          <p>© 2026 RÉSIDENCES BORÉAL — Tous droits réservés</p>
-          <p>Site démo — conçu et développé avec soin à Trois-Rivières</p>
+        <div className="mt-14 flex flex-col gap-2 border-t border-white/10 pt-6 text-xs text-white/35 sm:flex-row sm:items-center sm:justify-between">
+          <p>© {new Date().getFullYear()} — Tous droits réservés</p>
+          {surPropriete ? (
+            <p>Présentation de démonstration — données fournies à titre d&apos;exemple.</p>
+          ) : null}
         </div>
       </div>
     </footer>

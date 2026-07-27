@@ -6,7 +6,10 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "extract": "node scripts/extract-frames.mjs",
+    "test:visite": "node scripts/test-visite.mjs",
+    "test:360": "node scripts/test-360.mjs"
   },
   "dependencies": {
     "@photo-sphere-viewer/autorotate-plugin": "^5.14.3",

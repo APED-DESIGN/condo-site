@@ -5,3 +5,17 @@ out/
 *.tsbuildinfo
 next-env.d.ts
 .env*
+
+# Vidéos intermédiaires de l'extraction (défishage, stabilisation, étalonnage,
+# floutages). Plusieurs centaines de Mo, entièrement reconstructibles par
+# `npm run extract`. Les images finales, elles, sont versionnées : le build les
+# lit sur disque.
+.cache/
+
+# Rushes source. 612 Mo pour un seul fichier — GitHub refuse au-delà de 100 Mo,
+# et le site n'en a pas besoin : il sert les images déjà extraites.
+# À conserver hors dépôt ; `npm run extract` en a besoin, pas `npm run build`.
+public/video/*.mp4
+public/video/*.mov
+public/video/*.MP4
+public/video/*.MOV

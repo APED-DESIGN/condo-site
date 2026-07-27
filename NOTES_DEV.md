@@ -1,8 +1,27 @@
-# NOTES_DEV — Résidences Boréal
+# NOTES_DEV — journal des décisions techniques
+
+> ## ⚠️ §1 à §8 décrivent un état du site qui n'existe plus
+>
+> Le site a été ramené à **trois pages** — `/` (le choix), `/maison` (visite 360°),
+> `/appartement` (visite au défilement) — et **débarrassé de toute marque** : il est montré à
+> plusieurs prospects, le même lien doit servir à tout le monde.
+>
+> Ce qui a disparu et qui est encore décrit plus bas :
+> - la **visite immersive guidée par photos** (`le-55`) : route, assets, `lib/tours.ts`,
+>   `TourViewer.tsx`, `TourPlan.tsx` et `scripts/test-e2e.mjs` sont supprimés ;
+> - les **routes `/unites/[slug]`** : remplacées par les adresses fixes `/maison` et `/appartement` ;
+> - les **six autres unités** de `lib/units.ts` : il ne reste que la maison ;
+> - la **marque** : nom, logotype, adresse, courriel et mentions de projet.
+>
+> **Ce qui reste valable** : §9 et suivants (la visite 360° — panoramas, graphe, mini-carte,
+> calibration), ainsi que les pièges de rendu notés en §3, qui valent toujours pour Framer Motion
+> et l'hydratation.
+>
+> ---
 
 Journal des décisions techniques. Deux livraisons :
-- **V1** — repositionnement « studio de design » → « condos locatifs » + visite immersive guidée (photos plates) sur l'unité Le 55 (§1-8).
-- **V2** — vraie **visite virtuelle 360°** (panoramas équirectangulaires Insta360) sur la maison « La Panoramique » (§9 et suivants).
+- **V1** — repositionnement + visite immersive guidée (photos plates) — **caduc, voir l'avis ci-dessus** (§1-8).
+- **V2** — vraie **visite virtuelle 360°** (panoramas équirectangulaires) sur la maison (§9 et suivants).
 
 ## 9. V2 — Visite virtuelle 360° (maison-01)
 

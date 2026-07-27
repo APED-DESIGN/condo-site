@@ -2,35 +2,41 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { CheckCircle2, Mail, MapPin, Phone } from "lucide-react";
+import { CheckCircle2, Mail, Phone } from "lucide-react";
 import Eyebrow from "@/components/ui/Eyebrow";
 import RevealText from "@/components/ui/RevealText";
 import Button from "@/components/ui/Button";
-import { STATUS_LABEL, units } from "@/lib/units";
+import { CONTACT } from "@/lib/contact";
 
 type Errors = {
   nom?: string;
   courriel?: string;
   telephone?: string;
-  unite?: string;
+  interet?: string;
 };
 
 const INPUT_CLASS =
   "w-full rounded-xl border bg-white/5 px-4 py-3.5 text-bone placeholder:text-white/30 transition-colors duration-300 focus:outline-none";
 
-const CHOICES = units.filter((u) => u.status !== "loué");
+/** Ce que le visiteur vient voir — remplace la liste d'unités, qui n'existe plus. */
+const INTERETS = [
+  { value: "maison-360", label: "La visite 360° (la maison)" },
+  { value: "appartement-defilement", label: "La visite au défilement (l'appartement)" },
+  { value: "les-deux", label: "Les deux approches" },
+];
 
-export default function Contact() {
+export default function Contact({ source = "accueil" }: { source?: string }) {
   const [values, setValues] = useState({
     nom: "",
     courriel: "",
     telephone: "",
-    unite: "",
-    date: "",
+    interet: "",
     message: "",
   });
   const [errors, setErrors] = useState<Errors>({});
   const [sent, setSent] = useState(false);
+  const [envoi, setEnvoi] = useState(false);
+  const [echec, setEchec] = useState<string | null>(null);
 
   const set = (field: keyof typeof values) => (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
@@ -39,17 +45,36 @@ export default function Contact() {
     setErrors((err) => ({ ...err, [field]: undefined }));
   };
 
-  const submit = (e: React.FormEvent) => {
+  const submit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (envoi) return;
     const next: Errors = {};
     if (!values.nom.trim()) next.nom = "Votre nom est requis.";
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(values.courriel))
       next.courriel = "Entrez une adresse courriel valide.";
     if (values.telephone.replace(/\D/g, "").length < 10)
       next.telephone = "Entrez un numéro de téléphone à 10 chiffres.";
-    if (!values.unite) next.unite = "Choisissez une unité (ou « Peu importe »).";
+    if (!values.interet) next.interet = "Dites-nous ce qui vous intéresse.";
     setErrors(next);
-    if (Object.keys(next).length === 0) setSent(true);
+    if (Object.keys(next).length) return;
+
+    setEnvoi(true);
+    setEchec(null);
+    try {
+      // `source` dit de quelle page vient la demande — accueil, maison ou appartement.
+      const r = await fetch("/api/leads", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ...values, source }),
+      });
+      const json = await r.json().catch(() => ({}));
+      if (!r.ok) throw new Error(json.erreur || `Erreur ${r.status}`);
+      setSent(true);
+    } catch (err) {
+      setEchec(err instanceof Error ? err.message : "Erreur inconnue");
+    } finally {
+      setEnvoi(false);
+    }
   };
 
   const fieldClass = (invalid: boolean) =>
@@ -73,35 +98,28 @@ export default function Contact() {
         <div className="mt-16 grid gap-14 lg:grid-cols-[1fr_1.2fr] lg:gap-20">
           <div>
             <p className="max-w-md leading-relaxed text-white/55">
-              Une unité vous fait de l&apos;œil ? Laissez-nous vos
-              coordonnées : on vous répond en moins de 24 heures pour planifier
-              une visite — en personne ou en appel vidéo — ou démarrer votre
-              demande de location.
+              Une de ces deux approches conviendrait à vos propriétés ?
+              Laissez-nous vos coordonnées : on vous répond en{" "}
+              {CONTACT.delai} pour en parler — par téléphone ou en appel vidéo.
             </p>
 
             <ul className="mt-10 space-y-5 text-sm">
               <li className="flex items-center gap-4">
-                <MapPin className="h-4 w-4 shrink-0 text-brass" aria-hidden />
-                <span className="text-white/75">
-                  5500, boulevard Boréal, Trois-Rivières (QC) G8Y 4T2
-                </span>
+                <Phone className="h-4 w-4 shrink-0 text-brass" aria-hidden />
+                <a
+                  href={CONTACT.telephoneHref}
+                  className="link-underline text-white/75 hover:text-bone"
+                >
+                  {CONTACT.telephone}
+                </a>
               </li>
               <li className="flex items-center gap-4">
                 <Mail className="h-4 w-4 shrink-0 text-brass" aria-hidden />
                 <a
-                  href="mailto:location@residencesboreal.ca"
+                  href={`mailto:${CONTACT.courriel}`}
                   className="link-underline text-white/75 hover:text-bone"
                 >
-                  location@residencesboreal.ca
-                </a>
-              </li>
-              <li className="flex items-center gap-4">
-                <Phone className="h-4 w-4 shrink-0 text-brass" aria-hidden />
-                <a
-                  href="tel:+18195550155"
-                  className="link-underline text-white/75 hover:text-bone"
-                >
-                  819 555-0155
+                  {CONTACT.courriel}
                 </a>
               </li>
             </ul>
@@ -124,10 +142,7 @@ export default function Contact() {
                 <CheckCircle2 className="h-10 w-10 text-brass" aria-hidden />
                 <p className="font-display mt-5 text-2xl">Demande reçue</p>
                 <p className="mt-3 max-w-xs text-sm leading-relaxed text-white/55">
-                  Merci ! On vous rappelle en moins de 24 heures pour la suite.
-                </p>
-                <p className="mt-6 text-[11px] uppercase tracking-[0.2em] text-white/30">
-                  Démo — aucun envoi réel
+                  Merci. On vous rappelle en {CONTACT.delai} pour la suite.
                 </p>
               </motion.div>
             ) : (
@@ -177,72 +192,54 @@ export default function Contact() {
                   </div>
                 </div>
 
-                <div className="mt-5 grid gap-5 sm:grid-cols-2">
-                  <div>
-                    <label htmlFor="telephone" className={labelClass}>
-                      Téléphone
-                    </label>
-                    <input
-                      id="telephone"
-                      name="telephone"
-                      type="tel"
-                      autoComplete="tel"
-                      placeholder="819 555-0123"
-                      value={values.telephone}
-                      onChange={set("telephone")}
-                      aria-invalid={!!errors.telephone}
-                      className={fieldClass(!!errors.telephone)}
-                    />
-                    {errors.telephone && (
-                      <p className="mt-2 text-xs text-[#d9a08b]" role="alert">
-                        {errors.telephone}
-                      </p>
-                    )}
-                  </div>
-                  <div>
-                    <label htmlFor="date" className={labelClass}>
-                      Emménagement souhaité
-                    </label>
-                    <input
-                      id="date"
-                      name="date"
-                      type="month"
-                      value={values.date}
-                      onChange={set("date")}
-                      className={`${fieldClass(false)} [color-scheme:dark]`}
-                    />
-                  </div>
+                <div className="mt-5">
+                  <label htmlFor="telephone" className={labelClass}>
+                    Téléphone
+                  </label>
+                  <input
+                    id="telephone"
+                    name="telephone"
+                    type="tel"
+                    autoComplete="tel"
+                    placeholder="819 555-0123"
+                    value={values.telephone}
+                    onChange={set("telephone")}
+                    aria-invalid={!!errors.telephone}
+                    className={fieldClass(!!errors.telephone)}
+                  />
+                  {errors.telephone && (
+                    <p className="mt-2 text-xs text-[#d9a08b]" role="alert">
+                      {errors.telephone}
+                    </p>
+                  )}
                 </div>
 
                 <div className="mt-5">
-                  <label htmlFor="unite" className={labelClass}>
-                    Unité visée
+                  <label htmlFor="interet" className={labelClass}>
+                    Ce qui vous intéresse
                   </label>
                   <select
-                    id="unite"
-                    name="unite"
-                    value={values.unite}
-                    onChange={set("unite")}
-                    aria-invalid={!!errors.unite}
-                    className={`${fieldClass(!!errors.unite)} appearance-none bg-[url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2212%22%20height%3D%228%22%3E%3Cpath%20d%3D%22M1%201l5%205%205-5%22%20stroke%3D%22%23F4EFE7%22%20stroke-width%3D%221.5%22%20fill%3D%22none%22%2F%3E%3C%2Fsvg%3E')] bg-[position:right_1rem_center] bg-no-repeat pr-10 ${
-                      values.unite ? "" : "text-white/30"
+                    id="interet"
+                    name="interet"
+                    value={values.interet}
+                    onChange={set("interet")}
+                    aria-invalid={!!errors.interet}
+                    className={`${fieldClass(!!errors.interet)} appearance-none bg-[url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2212%22%20height%3D%228%22%3E%3Cpath%20d%3D%22M1%201l5%205%205-5%22%20stroke%3D%22%23F4EFE7%22%20stroke-width%3D%221.5%22%20fill%3D%22none%22%2F%3E%3C%2Fsvg%3E')] bg-[position:right_1rem_center] bg-no-repeat pr-10 ${
+                      values.interet ? "" : "text-white/30"
                     }`}
                   >
                     <option value="" disabled className="text-ink">
-                      Choisir une unité…
+                      Choisir…
                     </option>
-                    {CHOICES.map((u) => (
-                      <option key={u.slug} value={u.slug} className="text-ink">
-                        {u.name} — {u.monthlyPrice} ({STATUS_LABEL[u.status]})
+                    {INTERETS.map((i) => (
+                      <option key={i.value} value={i.value} className="text-ink">
+                        {i.label}
                       </option>
                     ))}
-                    <option value="peu-importe" className="text-ink">
-                      Peu importe — conseillez-moi
-                    </option>
                   </select>
-                  {errors.unite && (
+                  {errors.interet && (
                     <p className="mt-2 text-xs text-[#d9a08b]" role="alert">
-                      {errors.unite}
+                      {errors.interet}
                     </p>
                   )}
                 </div>
@@ -263,8 +260,18 @@ export default function Contact() {
                 </div>
 
                 <Button type="submit" arrow className="mt-8 w-full">
-                  Envoyer ma demande
+                  {envoi ? "Envoi…" : "Envoyer ma demande"}
                 </Button>
+
+                {echec && (
+                  <p role="alert" className="mt-4 text-xs leading-relaxed text-[#d9a08b]">
+                    L&apos;envoi a échoué : {echec}. Appelez-nous, c&apos;est plus rapide —{" "}
+                    <a href={CONTACT.telephoneHref} className="link-underline">
+                      {CONTACT.telephone}
+                    </a>
+                    .
+                  </p>
+                )}
               </form>
             )}
           </motion.div>

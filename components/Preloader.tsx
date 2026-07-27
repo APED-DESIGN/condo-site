@@ -16,7 +16,7 @@ export default function Preloader() {
 
   useEffect(() => {
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const visited = sessionStorage.getItem("boreal-visited");
+    const visited = sessionStorage.getItem("deja-visite");
 
     if (visited || reduced) {
       setVisible(false);
@@ -32,7 +32,7 @@ export default function Preloader() {
       ease: "power2.inOut",
       onUpdate: () => setCount(Math.round(state.v)),
       onComplete: () => {
-        sessionStorage.setItem("boreal-visited", "1");
+        sessionStorage.setItem("deja-visite", "1");
         document.documentElement.style.overflow = "";
         setVisible(false);
         setReady(true);
@@ -56,13 +56,15 @@ export default function Preloader() {
           transition={{ duration: 0.9, ease: [0.76, 0, 0.24, 1] }}
         >
           <p className="text-[11px] uppercase tracking-[0.3em] text-bone/40">
-            Trois-Rivières — Condos locatifs
+            Deux approches de visite en ligne
           </p>
 
           <div className="flex items-end justify-between gap-6">
-            <p className="font-display text-2xl text-bone sm:text-4xl">
-              Boréal<span className="text-brass">.</span>
-            </p>
+            {/* Marque neutre : aucun nom de client ni d'agence sur ce site. */}
+            <span aria-hidden className="flex items-center gap-2">
+              <span className="block h-5 w-5 rounded-[4px] border border-bone/70 sm:h-7 sm:w-7" />
+              <span className="block h-5 w-5 rounded-full bg-brass sm:h-7 sm:w-7" />
+            </span>
             <p className="font-display text-7xl leading-none text-bone tabular-nums sm:text-9xl">
               {count}
               <span className="text-brass">%</span>

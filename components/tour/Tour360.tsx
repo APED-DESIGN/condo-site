@@ -187,5 +187,5 @@ export default function Tour360({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [tour, startNodeId]);
 
-  return <div ref={containerRef} className="psv-boreal h-full w-full" />;
+  return <div ref={containerRef} className="psv-theme h-full w-full" />;
 }

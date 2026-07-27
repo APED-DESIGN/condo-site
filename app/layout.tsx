@@ -4,6 +4,7 @@ import localFont from "next/font/local";
 import "./globals.css";
 import { AppProvider } from "@/components/providers/AppProvider";
 import SmoothScroll from "@/components/providers/SmoothScroll";
+import ChromeGate from "@/components/providers/ChromeGate";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import CustomCursor from "@/components/CustomCursor";
@@ -23,28 +24,28 @@ const satoshi = localFont({
   display: "swap",
 });
 
+/* Aucun nom de client, d'agence ou de projet : ce site est montré à plusieurs
+   prospects, le même lien doit servir à tout le monde. */
 export const metadata: Metadata = {
-  metadataBase: new URL("https://residences-boreal.example.com"),
+  /* Aucun domaine n'est codé en dur : sur Vercel il vient de l'environnement,
+     en local il retombe sur localhost. Sans cette base, Next avertit à chaque
+     build qu'il ne peut pas résoudre les images de partage. */
+  metadataBase: new URL(
+    process.env.NEXT_PUBLIC_SITE_URL ??
+      (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "http://localhost:3000")
+  ),
   title: {
-    default: "RÉSIDENCES BORÉAL — Condos à louer à Trois-Rivières",
-    template: "%s — RÉSIDENCES BORÉAL",
+    default: "Deux façons de faire visiter une propriété en ligne",
+    template: "%s",
   },
   description:
-    "Condos locatifs haut de gamme à Trois-Rivières. Visitez chaque unité en ligne, pièce par pièce, avant de réserver votre visite en personne. Du 3½ au cottage 5½.",
+    "Une visite 360° où l'acheteur se déplace librement de pièce en pièce, et une visite au défilement où la caméra avance au scroll et s'arrête pour expliquer chaque pièce.",
   openGraph: {
-    title: "RÉSIDENCES BORÉAL — Condos à louer à Trois-Rivières",
+    title: "Deux façons de faire visiter une propriété en ligne",
     description:
-      "Visitez votre prochain chez-vous sans vous déplacer : visite immersive pièce par pièce, vraies photos, vrais prix.",
+      "Visite 360° ou visite au défilement — voyez les deux approches sur de vraies propriétés.",
     locale: "fr_CA",
     type: "website",
-    images: [
-      {
-        url: "/og.jpg",
-        width: 1200,
-        height: 630,
-        alt: "Aire ouverte d'un cottage des Résidences Boréal",
-      },
-    ],
   },
 };
 
@@ -63,12 +64,16 @@ export default function RootLayout({
           >
             Aller au contenu
           </a>
-          <SmoothScroll />
+          <ChromeGate>
+            <SmoothScroll />
+          </ChromeGate>
           <Navbar />
           {children}
           <Footer />
-          <CustomCursor />
-          <Grain />
+          <ChromeGate>
+            <CustomCursor />
+            <Grain />
+          </ChromeGate>
         </AppProvider>
       </body>
     </html>

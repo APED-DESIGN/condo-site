@@ -1,28 +1,23 @@
 import Preloader from "@/components/Preloader";
 import Hero from "@/components/sections/Hero";
-import Manifesto from "@/components/sections/Manifesto";
-import Units from "@/components/sections/Units";
-import Amenities from "@/components/sections/Amenities";
-import RentalProcess from "@/components/sections/RentalProcess";
-import Building from "@/components/sections/Building";
-import Trust from "@/components/sections/Trust";
-import Testimonials from "@/components/sections/Testimonials";
+import Choix from "@/components/sections/Choix";
 import Contact from "@/components/sections/Contact";
 
+/**
+ * L'accueil a un seul rôle : faire choisir entre les deux approches.
+ *
+ * Trois blocs, pas un de plus — le titre plein écran, le choix, le contact.
+ * Tout ce qui allongeait la page allongeait aussi le temps qu'il faut pour
+ * comprendre où on est.
+ */
 export default function Home() {
   return (
     <>
       <Preloader />
       <main id="contenu">
         <Hero />
-        <Manifesto />
-        <Units />
-        <Amenities />
-        <RentalProcess />
-        <Building />
-        <Trust />
-        <Testimonials />
-        <Contact />
+        <Choix />
+        <Contact source="accueil" />
       </main>
     </>
   );

@@ -1,0 +1,1202 @@
+{
+  "slug": "5-et-demi-deux-niveaux",
+  "generatedFrom": "public/video/VID_20260725_130541_00_036.mp4",
+  "generatedOn": "2026-07-26",
+  "fps": 10,
+  "frameCount": 803,
+  "indexOffset": 1,
+  "pattern": "%04d.webp",
+  "aspect": 1.777778,
+  "coupe": false,
+  "sourceDuration": 80.2802,
+  "repair": [
+    "defish",
+    "stab",
+    "deflicker",
+    "grade"
+  ],
+  "traitements": [
+    {
+      "id": "miroir-chambre",
+      "t0": 77.75,
+      "t1": 79.15,
+      "type": "flou",
+      "raison": "Personne parfaitement identifiable dans le garde-robe à portes miroir (visage net vérifié à 78,0 / 78,3 / 78,7 s sur les images réparées). Le miroir occupe le quart gauche du cadre : un recadrage de 20 % ne suffit pas et amputerait le meilleur plan du fichier."
+    },
+    {
+      "id": "tv-reflet-1",
+      "t0": 77.1,
+      "t1": 77.42,
+      "type": "flou",
+      "raison": "Silhouette à contre-jour dans le téléviseur éteint. Non identifiable — flouté par précaution."
+    },
+    {
+      "id": "tv-reflet-2",
+      "t0": 77.42,
+      "t1": 77.68,
+      "type": "flou",
+      "raison": "Même reflet, le téléviseur a traversé le cadre pendant le panoramique (mesuré à 77,5 s : x 0,20 → 0,58)."
+    },
+    {
+      "id": "tv-reflet-3",
+      "t0": 77.68,
+      "t1": 77.98,
+      "type": "flou",
+      "raison": "Même reflet, fin de course du panoramique."
+    },
+    {
+      "id": "cadre-photo-chambre",
+      "t0": 73.05,
+      "t1": 73.55,
+      "type": "flou",
+      "raison": "Cadre photo sur l'étagère de la chambre principale, montrant une personne. Illisible en défilement, mais l'image d'arrêt fait 2200 px et s'ouvre en grand dans la galerie. Fenêtre limitée à l'arrêt : c'est l'image qu'on regarde, pas celles qui défilent."
+    },
+    {
+      "id": "cadre-photo-bureau",
+      "t0": 75.85,
+      "t1": 76.35,
+      "type": "flou",
+      "raison": "Cadre photo sur l'étagère du coin bureau, montrant deux personnes. Même raisonnement que ci-dessus."
+    }
+  ],
+  "accueil": {
+    "frame": 0,
+    "file": "/frames/5-et-demi-deux-niveaux/arrets/_accueil.webp",
+    "width": 2200,
+    "height": 1238,
+    "bytes": 204534,
+    "nettete": null
+  },
+  "rythmeGlobal": 1,
+  "nettete": {
+    "mesure": "variance du laplacien, niveaux de gris 640×360",
+    "fenetre": 0.8,
+    "grille": "images de la séquence uniquement — une image hors grille casserait le scrub",
+    "mediane": 183.1,
+    "seuil": 71.7,
+    "sousLeSeuil": [
+      "pied-escalier"
+    ]
+  },
+  "variants": {
+    "desktop": {
+      "width": 1600,
+      "height": 900,
+      "path": "/frames/5-et-demi-deux-niveaux/desktop",
+      "frameCount": 803,
+      "bytes": 33959968,
+      "avgBytes": 42291,
+      "maxBytes": 277922
+    },
+    "mobile": {
+      "width": 828,
+      "height": 466,
+      "path": "/frames/5-et-demi-deux-niveaux/mobile",
+      "frameCount": 803,
+      "bytes": 10563968,
+      "avgBytes": 13156,
+      "maxBytes": 56874
+    }
+  },
+  "arrets": {
+    "_accueil": {
+      "frame": 0,
+      "file": "/frames/5-et-demi-deux-niveaux/arrets/_accueil.webp",
+      "width": 2200,
+      "height": 1238,
+      "bytes": 204534,
+      "nettete": null
+    },
+    "entree": {
+      "frame": 2,
+      "file": "/frames/5-et-demi-deux-niveaux/arrets/entree.webp",
+      "width": 2200,
+      "height": 1238,
+      "bytes": 177584,
+      "nettete": {
+        "demande": 6,
+        "retenue": 2,
+        "score": 485.2,
+        "scoreDemande": 474.2,
+        "candidates": 14,
+        "fenetre": 0.8,
+        "fenetreBridee": true,
+        "seuil": 71.7,
+        "sousLeSeuil": false
+      }
+    },
+    "salon": {
+      "frame": 55,
+      "file": "/frames/5-et-demi-deux-niveaux/arrets/salon.webp",
+      "width": 2200,
+      "height": 1238,
+      "bytes": 151870,
+      "nettete": {
+        "demande": 60,
+        "retenue": 55,
+        "score": 320.2,
+        "scoreDemande": 295.3,
+        "candidates": 16,
+        "fenetre": 0.8,
+        "fenetreBridee": true,
+        "seuil": 71.7,
+        "sousLeSeuil": false
+      }
+    },
+    "cuisine": {
+      "frame": 93,
+      "file": "/frames/5-et-demi-deux-niveaux/arrets/cuisine.webp",
+      "width": 2200,
+      "height": 1238,
+      "bytes": 174112,
+      "nettete": {
+        "demande": 90,
+        "retenue": 93,
+        "score": 421.1,
+        "scoreDemande": 240.2,
+        "candidates": 16,
+        "fenetre": 0.8,
+        "fenetreBridee": true,
+        "seuil": 71.7,
+        "sousLeSeuil": false
+      }
+    },
+    "salle-a-manger": {
+      "frame": 168,
+      "file": "/frames/5-et-demi-deux-niveaux/arrets/salle-a-manger.webp",
+      "width": 2200,
+      "height": 1238,
+      "bytes": 170252,
+      "nettete": {
+        "demande": 160,
+        "retenue": 168,
+        "score": 610.4,
+        "scoreDemande": 556.2,
+        "candidates": 16,
+        "fenetre": 0.8,
+        "fenetreBridee": true,
+        "seuil": 71.7,
+        "sousLeSeuil": false
+      }
+    },
+    "terrasse": {
+      "frame": 220,
+      "file": "/frames/5-et-demi-deux-niveaux/arrets/terrasse.webp",
+      "width": 2200,
+      "height": 1238,
+      "bytes": 890478,
+      "nettete": {
+        "demande": 223,
+        "retenue": 220,
+        "score": 1861.3,
+        "scoreDemande": 1706.1,
+        "candidates": 7,
+        "fenetre": 0.3,
+        "fenetreBridee": false,
+        "seuil": 71.7,
+        "sousLeSeuil": false
+      }
+    },
+    "salle-eau": {
+      "frame": 258,
+      "file": "/frames/5-et-demi-deux-niveaux/arrets/salle-eau.webp",
+      "width": 2200,
+      "height": 1238,
+      "bytes": 159592,
+      "nettete": {
+        "demande": 260,
+        "retenue": 258,
+        "score": 168.8,
+        "scoreDemande": 142.6,
+        "candidates": 17,
+        "fenetre": 0.8,
+        "fenetreBridee": false,
+        "seuil": 71.7,
+        "sousLeSeuil": false
+      }
+    },
+    "pied-escalier": {
+      "frame": 369,
+      "file": "/frames/5-et-demi-deux-niveaux/arrets/pied-escalier.webp",
+      "width": 2200,
+      "height": 1238,
+      "bytes": 96502,
+      "nettete": {
+        "demande": 372,
+        "retenue": 369,
+        "score": 38.8,
+        "scoreDemande": 32,
+        "candidates": 7,
+        "fenetre": 0.3,
+        "fenetreBridee": false,
+        "seuil": 71.7,
+        "sousLeSeuil": true
+      }
+    },
+    "chambre-2": {
+      "frame": 485,
+      "file": "/frames/5-et-demi-deux-niveaux/arrets/chambre-2.webp",
+      "width": 2200,
+      "height": 1238,
+      "bytes": 185760,
+      "nettete": {
+        "demande": 478,
+        "retenue": 485,
+        "score": 220.2,
+        "scoreDemande": 119.6,
+        "candidates": 16,
+        "fenetre": 0.8,
+        "fenetreBridee": true,
+        "seuil": 71.7,
+        "sousLeSeuil": false
+      }
+    },
+    "mezzanine": {
+      "frame": 557,
+      "file": "/frames/5-et-demi-deux-niveaux/arrets/mezzanine.webp",
+      "width": 2200,
+      "height": 1238,
+      "bytes": 141774,
+      "nettete": {
+        "demande": 555,
+        "retenue": 557,
+        "score": 95.6,
+        "scoreDemande": 83,
+        "candidates": 17,
+        "fenetre": 0.8,
+        "fenetreBridee": false,
+        "seuil": 71.7,
+        "sousLeSeuil": false
+      }
+    },
+    "salle-de-bain": {
+      "frame": 602,
+      "file": "/frames/5-et-demi-deux-niveaux/arrets/salle-de-bain.webp",
+      "width": 2200,
+      "height": 1238,
+      "bytes": 149422,
+      "nettete": {
+        "demande": 606,
+        "retenue": 602,
+        "score": 255.4,
+        "scoreDemande": 216.3,
+        "candidates": 16,
+        "fenetre": 0.8,
+        "fenetreBridee": true,
+        "seuil": 71.7,
+        "sousLeSeuil": false
+      }
+    },
+    "laveuse-secheuse": {
+      "frame": 622,
+      "file": "/frames/5-et-demi-deux-niveaux/arrets/laveuse-secheuse.webp",
+      "width": 2200,
+      "height": 1238,
+      "bytes": 143962,
+      "nettete": {
+        "demande": 630,
+        "retenue": 622,
+        "score": 199.6,
+        "scoreDemande": 120.1,
+        "candidates": 17,
+        "fenetre": 0.8,
+        "fenetreBridee": false,
+        "seuil": 71.7,
+        "sousLeSeuil": false
+      }
+    },
+    "garde-robe-miroir": {
+      "frame": 710,
+      "file": "/frames/5-et-demi-deux-niveaux/arrets/garde-robe-miroir.webp",
+      "width": 2200,
+      "height": 1238,
+      "bytes": 175888,
+      "nettete": {
+        "demande": 710,
+        "retenue": 710,
+        "score": 347.9,
+        "scoreDemande": 347.9,
+        "candidates": 14,
+        "fenetre": 0.8,
+        "fenetreBridee": true,
+        "seuil": 71.7,
+        "sousLeSeuil": false
+      }
+    },
+    "chambre-principale": {
+      "frame": 733,
+      "file": "/frames/5-et-demi-deux-niveaux/arrets/chambre-principale.webp",
+      "width": 2200,
+      "height": 1238,
+      "bytes": 171964,
+      "nettete": {
+        "demande": 725,
+        "retenue": 733,
+        "score": 513.4,
+        "scoreDemande": 249.4,
+        "candidates": 16,
+        "fenetre": 0.8,
+        "fenetreBridee": true,
+        "seuil": 71.7,
+        "sousLeSeuil": false
+      }
+    },
+    "coin-bureau": {
+      "frame": 761,
+      "file": "/frames/5-et-demi-deux-niveaux/arrets/coin-bureau.webp",
+      "width": 2200,
+      "height": 1238,
+      "bytes": 164114,
+      "nettete": {
+        "demande": 755,
+        "retenue": 761,
+        "score": 339.5,
+        "scoreDemande": 250.9,
+        "candidates": 16,
+        "fenetre": 0.8,
+        "fenetreBridee": true,
+        "seuil": 71.7,
+        "sousLeSeuil": false
+      }
+    }
+  },
+  "chapters": [
+    {
+      "id": "seuil",
+      "type": "move",
+      "vhParSeconde": 34,
+      "frames": [
+        0,
+        2
+      ],
+      "tSource": [
+        0,
+        0.6
+      ],
+      "scrollVh": 20
+    },
+    {
+      "id": "entree",
+      "type": "hold",
+      "scrollVh": 80,
+      "panel": {
+        "piece": "entree",
+        "surTitre": "L'arrivée",
+        "titre": [
+          "Entrée",
+          "traversante"
+        ],
+        "faits": [
+          "L'entrée donne directement sur l'aire de vie : on voit la cuisine depuis la porte.",
+          "Penderie d'entrée à portes miroir, dès le seuil."
+        ],
+        "cote": "droite",
+        "afficherPrix": false
+      },
+      "frame": 2,
+      "tSource": 0.6,
+      "nettete": {
+        "demande": 6,
+        "retenue": 2,
+        "score": 485.2,
+        "scoreDemande": 474.2,
+        "candidates": 14,
+        "fenetre": 0.8,
+        "fenetreBridee": true,
+        "seuil": 71.7,
+        "sousLeSeuil": false
+      }
+    },
+    {
+      "id": "vers-salon",
+      "type": "move",
+      "vhParSeconde": 26,
+      "frames": [
+        2,
+        52
+      ],
+      "tSource": [
+        0.6,
+        5.2
+      ],
+      "scrollVh": 120
+    },
+    {
+      "id": "revelation-salon",
+      "type": "move",
+      "vhParSeconde": 70,
+      "ease": "decelerate",
+      "frames": [
+        52,
+        55
+      ],
+      "tSource": [
+        5.2,
+        6
+      ],
+      "scrollVh": 56
+    },
+    {
+      "id": "salon",
+      "type": "hold",
+      "scrollVh": 110,
+      "panel": {
+        "piece": "salon",
+        "surTitre": "Les espaces de vie",
+        "titre": [
+          "Salon",
+          "sous cathédrale"
+        ],
+        "faits": [
+          "Grande fenêtre sur la façade, rideaux occultants déjà posés.",
+          "Aucune cloison vers la cuisine — on parle d'un bout à l'autre de l'aire de vie.",
+          "Plinthe électrique sous la fenêtre : le chauffage se règle pièce par pièce."
+        ],
+        "cote": "gauche",
+        "afficherPrix": false
+      },
+      "frame": 55,
+      "tSource": 6,
+      "nettete": {
+        "demande": 60,
+        "retenue": 55,
+        "score": 320.2,
+        "scoreDemande": 295.3,
+        "candidates": 16,
+        "fenetre": 0.8,
+        "fenetreBridee": true,
+        "seuil": 71.7,
+        "sousLeSeuil": false
+      }
+    },
+    {
+      "id": "vers-cuisine",
+      "type": "move",
+      "vhParSeconde": 30,
+      "frames": [
+        55,
+        82
+      ],
+      "tSource": [
+        6,
+        8.2
+      ],
+      "scrollVh": 66
+    },
+    {
+      "id": "revelation-cuisine",
+      "type": "move",
+      "vhParSeconde": 70,
+      "ease": "decelerate",
+      "frames": [
+        82,
+        93
+      ],
+      "tSource": [
+        8.2,
+        9
+      ],
+      "scrollVh": 56
+    },
+    {
+      "id": "cuisine",
+      "type": "hold",
+      "scrollVh": 120,
+      "panel": {
+        "piece": "cuisine",
+        "surTitre": "Les espaces de vie",
+        "titre": [
+          "Cuisine",
+          "ouverte"
+        ],
+        "faits": [
+          "Îlot avec évier : on cuisine face à la pièce, pas face au mur.",
+          "Cuisinière, hotte et réfrigérateur pleine hauteur déjà installés.",
+          "Deux tabourets tiennent à l'îlot — le déjeuner ne demande pas de sortir la table."
+        ],
+        "cote": "droite",
+        "afficherPrix": true
+      },
+      "frame": 93,
+      "tSource": 9,
+      "nettete": {
+        "demande": 90,
+        "retenue": 93,
+        "score": 421.1,
+        "scoreDemande": 240.2,
+        "candidates": 16,
+        "fenetre": 0.8,
+        "fenetreBridee": true,
+        "seuil": 71.7,
+        "sousLeSeuil": false
+      }
+    },
+    {
+      "id": "vers-salle-a-manger",
+      "type": "move",
+      "vhParSeconde": 16,
+      "frames": [
+        93,
+        152
+      ],
+      "tSource": [
+        9,
+        15.2
+      ],
+      "scrollVh": 99
+    },
+    {
+      "id": "approche-salle-a-manger",
+      "type": "move",
+      "vhParSeconde": 60,
+      "ease": "decelerate",
+      "frames": [
+        152,
+        168
+      ],
+      "tSource": [
+        15.2,
+        16
+      ],
+      "scrollVh": 48
+    },
+    {
+      "id": "salle-a-manger",
+      "type": "hold",
+      "scrollVh": 110,
+      "panel": {
+        "piece": "salle-a-manger",
+        "surTitre": "Les espaces de vie",
+        "titre": [
+          "Salle",
+          "à manger"
+        ],
+        "faits": [
+          "Table six places dans l'aire ouverte : personne ne mange dans un coin fermé.",
+          "Fenêtre latérale et porte-patio — deux sources de lumière dans la même pièce."
+        ],
+        "cote": "gauche",
+        "afficherPrix": true
+      },
+      "frame": 168,
+      "tSource": 16,
+      "nettete": {
+        "demande": 160,
+        "retenue": 168,
+        "score": 610.4,
+        "scoreDemande": 556.2,
+        "candidates": 16,
+        "fenetre": 0.8,
+        "fenetreBridee": true,
+        "seuil": 71.7,
+        "sousLeSeuil": false
+      }
+    },
+    {
+      "id": "vers-terrasse",
+      "type": "move",
+      "vhParSeconde": 30,
+      "frames": [
+        168,
+        214
+      ],
+      "tSource": [
+        16,
+        21.4
+      ],
+      "scrollVh": 162
+    },
+    {
+      "id": "revelation-terrasse",
+      "type": "move",
+      "vhParSeconde": 75,
+      "ease": "decelerate",
+      "frames": [
+        214,
+        220
+      ],
+      "tSource": [
+        21.4,
+        22.3
+      ],
+      "scrollVh": 68
+    },
+    {
+      "id": "terrasse",
+      "type": "hold",
+      "fenetre": 0.3,
+      "scrollVh": 95,
+      "panel": {
+        "piece": "terrasse",
+        "surTitre": "Les espaces de vie",
+        "titre": [
+          "Terrasse",
+          "à l'arrière"
+        ],
+        "faits": [
+          "Porte-patio coulissante pleine hauteur : la salle à manger se prolonge dehors l'été.",
+          "Terrasse de plain-pied sur cour gazonnée, haie de cèdres en fond de terrain."
+        ],
+        "cote": "droite",
+        "afficherPrix": true
+      },
+      "frame": 220,
+      "tSource": 22.3,
+      "nettete": {
+        "demande": 223,
+        "retenue": 220,
+        "score": 1861.3,
+        "scoreDemande": 1706.1,
+        "candidates": 7,
+        "fenetre": 0.3,
+        "fenetreBridee": false,
+        "seuil": 71.7,
+        "sousLeSeuil": false
+      }
+    },
+    {
+      "id": "vers-salle-eau",
+      "type": "move",
+      "vhParSeconde": 15,
+      "frames": [
+        220,
+        258
+      ],
+      "tSource": [
+        22.3,
+        26
+      ],
+      "scrollVh": 55
+    },
+    {
+      "id": "salle-eau",
+      "type": "hold",
+      "scrollVh": 60,
+      "panel": {
+        "piece": "salle-eau",
+        "surTitre": "Les espaces de vie",
+        "titre": [
+          "Salle d'eau",
+          "au rez"
+        ],
+        "faits": [
+          "Une salle d'eau au rez-de-chaussée : les invités ne montent pas à l'étage.",
+          "Meuble-vanité avec rangement fermé et miroir à bandeau lumineux."
+        ],
+        "cote": "gauche",
+        "afficherPrix": true
+      },
+      "frame": 258,
+      "tSource": 26,
+      "nettete": {
+        "demande": 260,
+        "retenue": 258,
+        "score": 168.8,
+        "scoreDemande": 142.6,
+        "candidates": 17,
+        "fenetre": 0.8,
+        "fenetreBridee": false,
+        "seuil": 71.7,
+        "sousLeSeuil": false
+      }
+    },
+    {
+      "id": "vers-escalier",
+      "type": "move",
+      "vhParSeconde": 11,
+      "frames": [
+        258,
+        361
+      ],
+      "tSource": [
+        26,
+        36.1
+      ],
+      "scrollVh": 111
+    },
+    {
+      "id": "approche-escalier",
+      "type": "move",
+      "vhParSeconde": 55,
+      "ease": "decelerate",
+      "frames": [
+        361,
+        369
+      ],
+      "tSource": [
+        36.1,
+        37.2
+      ],
+      "scrollVh": 61
+    },
+    {
+      "id": "pied-escalier",
+      "type": "hold",
+      "fenetre": 0.3,
+      "scrollVh": 70,
+      "panel": {
+        "piece": "escalier",
+        "surTitre": "Le passage",
+        "titre": [
+          "Escalier",
+          "droit"
+        ],
+        "faits": [
+          "L'escalier part directement de l'aire de vie, sans sas ni couloir d'accès.",
+          "Volée droite, main courante sur toute la montée, marches recouvertes."
+        ],
+        "_honnetete": "Ne pas écrire « escalier ouvert » : la cage est fermée par un mur des deux côtés à partir de la deuxième marche. C'est le PIED de l'escalier qui donne sur l'aire de vie, pas la volée.",
+        "cote": "droite",
+        "afficherPrix": true
+      },
+      "frame": 369,
+      "tSource": 37.2,
+      "nettete": {
+        "demande": 372,
+        "retenue": 369,
+        "score": 38.8,
+        "scoreDemande": 32,
+        "candidates": 7,
+        "fenetre": 0.3,
+        "fenetreBridee": false,
+        "seuil": 71.7,
+        "sousLeSeuil": true
+      }
+    },
+    {
+      "id": "escalier",
+      "type": "move",
+      "vhParSeconde": 26,
+      "ease": "decelerate",
+      "bascule": {
+        "de": 1,
+        "vers": 2
+      },
+      "frames": [
+        369,
+        410
+      ],
+      "tSource": [
+        37.2,
+        41
+      ],
+      "scrollVh": 99
+    },
+    {
+      "id": "vers-chambre-2",
+      "type": "move",
+      "vhParSeconde": 14,
+      "frames": [
+        410,
+        470
+      ],
+      "tSource": [
+        41,
+        47
+      ],
+      "scrollVh": 84
+    },
+    {
+      "id": "approche-chambre-2",
+      "type": "move",
+      "vhParSeconde": 60,
+      "ease": "decelerate",
+      "frames": [
+        470,
+        485
+      ],
+      "tSource": [
+        47,
+        47.8
+      ],
+      "scrollVh": 48
+    },
+    {
+      "id": "chambre-2",
+      "type": "hold",
+      "scrollVh": 110,
+      "panel": {
+        "piece": "chambre-2",
+        "surTitre": "L'étage",
+        "titre": [
+          "Deuxième",
+          "chambre"
+        ],
+        "faits": [
+          "Un lit, une commode et une garde-robe fermée tiennent ensemble dans la pièce.",
+          "Fenêtre avec store enrouleur et plinthe électrique dédiée sous l'appui."
+        ],
+        "cote": "droite",
+        "afficherPrix": true
+      },
+      "frame": 485,
+      "tSource": 47.8,
+      "nettete": {
+        "demande": 478,
+        "retenue": 485,
+        "score": 220.2,
+        "scoreDemande": 119.6,
+        "candidates": 16,
+        "fenetre": 0.8,
+        "fenetreBridee": true,
+        "seuil": 71.7,
+        "sousLeSeuil": false
+      }
+    },
+    {
+      "id": "vers-mezzanine",
+      "type": "move",
+      "vhParSeconde": 13,
+      "frames": [
+        485,
+        557
+      ],
+      "tSource": [
+        47.8,
+        55.5
+      ],
+      "scrollVh": 100
+    },
+    {
+      "id": "mezzanine",
+      "type": "hold",
+      "scrollVh": 60,
+      "panel": {
+        "piece": "palier",
+        "surTitre": "L'étage",
+        "titre": [
+          "Couloir",
+          "sur mezzanine"
+        ],
+        "faits": [
+          "Le couloir longe un garde-corps plein : l'étage reste ouvert sur le volume du rez.",
+          "Thermopompe murale à l'étage — climatisation et chauffage d'appoint inclus."
+        ],
+        "cote": "gauche",
+        "afficherPrix": true
+      },
+      "frame": 557,
+      "tSource": 55.5,
+      "nettete": {
+        "demande": 555,
+        "retenue": 557,
+        "score": 95.6,
+        "scoreDemande": 83,
+        "candidates": 17,
+        "fenetre": 0.8,
+        "fenetreBridee": false,
+        "seuil": 71.7,
+        "sousLeSeuil": false
+      }
+    },
+    {
+      "id": "vers-salle-de-bain",
+      "type": "move",
+      "vhParSeconde": 18,
+      "frames": [
+        557,
+        598
+      ],
+      "tSource": [
+        55.5,
+        59.8
+      ],
+      "scrollVh": 77
+    },
+    {
+      "id": "approche-salle-de-bain",
+      "type": "move",
+      "vhParSeconde": 60,
+      "ease": "decelerate",
+      "frames": [
+        598,
+        602
+      ],
+      "tSource": [
+        59.8,
+        60.6
+      ],
+      "scrollVh": 48
+    },
+    {
+      "id": "salle-de-bain",
+      "type": "hold",
+      "scrollVh": 110,
+      "panel": {
+        "piece": "salle-de-bain",
+        "surTitre": "L'étage",
+        "titre": [
+          "Salle de bain",
+          "complète"
+        ],
+        "faits": [
+          "Bain podium encastré, vanité longue à vasque unique et grande armoire à lingerie.",
+          "Fenêtre dans la salle de bain : elle s'aère à l'air libre."
+        ],
+        "cote": "droite",
+        "afficherPrix": true
+      },
+      "frame": 602,
+      "tSource": 60.6,
+      "nettete": {
+        "demande": 606,
+        "retenue": 602,
+        "score": 255.4,
+        "scoreDemande": 216.3,
+        "candidates": 16,
+        "fenetre": 0.8,
+        "fenetreBridee": true,
+        "seuil": 71.7,
+        "sousLeSeuil": false
+      }
+    },
+    {
+      "id": "vers-buanderie",
+      "type": "move",
+      "vhParSeconde": 24,
+      "frames": [
+        602,
+        622
+      ],
+      "tSource": [
+        60.6,
+        63
+      ],
+      "scrollVh": 58
+    },
+    {
+      "id": "laveuse-secheuse",
+      "type": "hold",
+      "scrollVh": 70,
+      "panel": {
+        "piece": "salle-de-bain",
+        "surTitre": "L'étage",
+        "titre": [
+          "Laveuse",
+          "et sécheuse"
+        ],
+        "faits": [
+          "Laveuse et sécheuse installées à l'étage, côte à côte sous trois armoires hautes.",
+          "Le linge ne descend pas au sous-sol : la buanderie est là où on se change."
+        ],
+        "cote": "gauche",
+        "afficherPrix": true
+      },
+      "frame": 622,
+      "tSource": 63,
+      "nettete": {
+        "demande": 630,
+        "retenue": 622,
+        "score": 199.6,
+        "scoreDemande": 120.1,
+        "candidates": 17,
+        "fenetre": 0.8,
+        "fenetreBridee": false,
+        "seuil": 71.7,
+        "sousLeSeuil": false
+      }
+    },
+    {
+      "id": "vers-chambre-principale",
+      "type": "move",
+      "vhParSeconde": 12,
+      "frames": [
+        622,
+        702
+      ],
+      "tSource": [
+        63,
+        70.2
+      ],
+      "scrollVh": 86
+    },
+    {
+      "id": "approche-garde-robe",
+      "type": "move",
+      "vhParSeconde": 60,
+      "ease": "decelerate",
+      "frames": [
+        702,
+        710
+      ],
+      "tSource": [
+        70.2,
+        71
+      ],
+      "scrollVh": 48
+    },
+    {
+      "id": "garde-robe-miroir",
+      "type": "hold",
+      "scrollVh": 80,
+      "panel": {
+        "piece": "chambre-principale",
+        "surTitre": "La chambre principale",
+        "titre": [
+          "Garde-robe",
+          "pleine hauteur"
+        ],
+        "faits": [
+          "Deux portes coulissantes entièrement miroir : le rangement double aussi comme miroir de pied."
+        ],
+        "cote": "droite",
+        "afficherPrix": true
+      },
+      "frame": 710,
+      "tSource": 71,
+      "nettete": {
+        "demande": 710,
+        "retenue": 710,
+        "score": 347.9,
+        "scoreDemande": 347.9,
+        "candidates": 14,
+        "fenetre": 0.8,
+        "fenetreBridee": true,
+        "seuil": 71.7,
+        "sousLeSeuil": false
+      }
+    },
+    {
+      "id": "vers-chambre-principale-2",
+      "type": "move",
+      "vhParSeconde": 30,
+      "frames": [
+        710,
+        717
+      ],
+      "tSource": [
+        71,
+        71.7
+      ],
+      "scrollVh": 21
+    },
+    {
+      "id": "revelation-chambre-principale",
+      "type": "move",
+      "vhParSeconde": 80,
+      "ease": "decelerate",
+      "frames": [
+        717,
+        733
+      ],
+      "tSource": [
+        71.7,
+        72.5
+      ],
+      "scrollVh": 64
+    },
+    {
+      "id": "chambre-principale",
+      "type": "hold",
+      "scrollVh": 130,
+      "panel": {
+        "piece": "chambre-principale",
+        "surTitre": "La chambre principale",
+        "titre": [
+          "Chambre",
+          "principale"
+        ],
+        "faits": [
+          "Chambre d'angle : deux murs fenêtrés, la lumière tourne avec la journée.",
+          "Le lit, deux chevets et un coin bureau tiennent sans que la pièce se referme.",
+          "Rideaux occultants déjà posés sur les deux fenêtres."
+        ],
+        "cote": "gauche",
+        "afficherPrix": true
+      },
+      "frame": 733,
+      "tSource": 72.5,
+      "nettete": {
+        "demande": 725,
+        "retenue": 733,
+        "score": 513.4,
+        "scoreDemande": 249.4,
+        "candidates": 16,
+        "fenetre": 0.8,
+        "fenetreBridee": true,
+        "seuil": 71.7,
+        "sousLeSeuil": false
+      }
+    },
+    {
+      "id": "vers-bureau",
+      "type": "move",
+      "vhParSeconde": 26,
+      "frames": [
+        733,
+        747
+      ],
+      "tSource": [
+        72.5,
+        74.7
+      ],
+      "scrollVh": 57
+    },
+    {
+      "id": "approche-bureau",
+      "type": "move",
+      "vhParSeconde": 60,
+      "ease": "decelerate",
+      "frames": [
+        747,
+        761
+      ],
+      "tSource": [
+        74.7,
+        75.5
+      ],
+      "scrollVh": 48
+    },
+    {
+      "id": "coin-bureau",
+      "type": "hold",
+      "scrollVh": 90,
+      "panel": {
+        "piece": "chambre-principale",
+        "surTitre": "La chambre principale",
+        "titre": [
+          "Coin",
+          "bureau"
+        ],
+        "faits": [
+          "Un bureau tient devant la fenêtre étroite sans bloquer la circulation du lit.",
+          "Télétravail à la lumière du jour, dans une pièce qui ferme."
+        ],
+        "cote": "droite",
+        "afficherPrix": true
+      },
+      "frame": 761,
+      "tSource": 75.5,
+      "nettete": {
+        "demande": 755,
+        "retenue": 761,
+        "score": 339.5,
+        "scoreDemande": 250.9,
+        "candidates": 16,
+        "fenetre": 0.8,
+        "fenetreBridee": true,
+        "seuil": 71.7,
+        "sousLeSeuil": false
+      }
+    },
+    {
+      "id": "sortie",
+      "type": "move",
+      "vhParSeconde": 12,
+      "frames": [
+        761,
+        802
+      ],
+      "tSource": [
+        75.5,
+        80.2
+      ],
+      "scrollVh": 56
+    }
+  ],
+  "totalScrollVh": 3111,
+  "preloadFrames": 3,
+  "warnings": [
+    "Arrêt « pied-escalier » : la meilleure image de sa fenêtre marque 38.8, sous le seuil 71.7. Regarde-la : soit elle est filée et il faut un autre angle dans la même pièce, soit la pièce est simplement unie — la mesure compte le détail, elle ne sait pas faire la différence."
+  ]
+}

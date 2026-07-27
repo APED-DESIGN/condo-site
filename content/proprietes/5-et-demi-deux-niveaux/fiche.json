@@ -1,0 +1,189 @@
+{
+  "slug": "5-et-demi-deux-niveaux",
+
+  "_regle": "AUCUN CHIFFRE PLAUSIBLE INVENTÉ. Une valeur inconnue s'écrit { \"v\": null, \"status\": \"TODO\" } — jamais une estimation. Le composant rend un tiret cadratin (—) pour tout champ TODO et marque data-todo. Le build de production échoue si un champ TODO est atteint (voir lib/visite/fiche.ts).",
+  "_statuts": {
+    "TODO": "valeur inconnue — rendue « — », bloque la mise en ligne",
+    "OK": "valeur vérifiée, publiable"
+  },
+  "_sources": {
+    "vendeur": "à collecter auprès du vendeur",
+    "mesure": "à relever au ruban pendant le re-tournage",
+    "boussole": "à relever à la boussole sur place",
+    "image": "vérifiable directement sur la vidéo — publiable"
+  },
+
+  "_marque": "Aucun nom de marque ici : l'en-tête et le pied de page sont partagés par les trois pages du site et volontairement neutres. Ce site est montré à plusieurs prospects, le même lien doit servir à tout le monde.",
+
+  "accueil": {
+    "_": "Textes de la page d'accueil. Aucun prix ici : l'accueil vend l'envie d'entrer, le prix arrive après la cuisine.",
+    "surTitre": "À vendre",
+    "titre": ["5½ sur deux", "niveaux"],
+    "ligne": "Plafond cathédrale, aire de vie ouverte du salon à la salle à manger.",
+    "_ligne": "Ne pas écrire « escalier ouvert sur l'aire de vie » : vérifié sur l'image, la cage est fermée par un mur dès la deuxième marche.",
+    "ctaPrimaire": "Commencer la visite",
+    "ctaSecondaire": "Voir la fiche",
+
+    "image": "_accueil",
+    "_image": "Image de fond de l'accueil. « _accueil » = la PREMIÈRE IMAGE DE LA SÉQUENCE : le passage accueil → canvas est alors invisible par construction, le canvas dessine exactement ce que le <img> affichait. Le prix à payer ici : la vidéo commence porte d'entrée, avec une station de musculation dans le cadre — ce n'est pas la plus belle image du logement. Mettre l'identifiant d'un arrêt à la place (par exemple « cuisine ») donne une accueil beaucoup plus forte, mais l'image change au moment où la visite démarre. Un seul mot à changer, dans les deux sens."
+  },
+
+  "propriete": {
+    "transaction":    { "v": "À vendre", "status": "OK", "src": "brief" },
+    "_transaction":   "Le brief dit « À VENDRE ». Si cette propriété est en location, changer ici et mettre l'unité du prix à « $/mois ». Une seule ligne à toucher.",
+    "adresse":        { "v": null, "status": "TODO", "src": "vendeur" },
+    "ville":          { "v": null, "status": "TODO", "src": "vendeur" },
+    "prix":           { "v": null, "status": "TODO", "src": "vendeur", "unite": "$" },
+    "type":           { "v": "5½ sur deux niveaux", "status": "OK", "src": "image" },
+    "niveaux":        { "v": 2, "status": "OK", "src": "image" },
+    "chambres":       { "v": 2, "status": "OK", "src": "image" },
+    "sallesDeBain":   { "v": 1, "status": "OK", "src": "image" },
+    "sallesDEau":     { "v": 1, "status": "OK", "src": "image" },
+    "annee":          { "v": null, "status": "TODO", "src": "vendeur" },
+    "fraisCopro":     { "v": null, "status": "TODO", "src": "vendeur" },
+    "taxes":          { "v": null, "status": "TODO", "src": "vendeur" },
+    "superficieTot":  { "v": null, "status": "TODO", "src": "mesure", "unite": "pi²" },
+    "plafond":        { "v": null, "status": "TODO", "src": "mesure", "unite": "m" },
+    "orientation":    { "v": null, "status": "TODO", "src": "boussole" },
+    "stationnement":  { "v": null, "status": "TODO", "src": "vendeur" },
+    "inclusions":     { "v": [],   "status": "TODO", "src": "vendeur" }
+  },
+
+  "contact": {
+    "_": "Le téléphone est affiché dans l'en-tête dès la première seconde et en très gros à la fin. Tant qu'il est en TODO il se rend « — » : impossible de mettre en ligne un numéro inventé.",
+    "telephone":      { "v": null, "status": "TODO", "src": "vendeur" },
+    "heures":         { "v": null, "status": "TODO", "src": "vendeur" },
+    "courriel":       { "v": null, "status": "TODO", "src": "vendeur" },
+    "delaiReponse":   { "v": null, "status": "TODO", "src": "vendeur" }
+  },
+
+  "courtier": {
+    "_": "En immobilier on achète aussi la personne. Nom, titre, numéro de permis et photo — rien d'inventé, surtout pas un numéro de permis.",
+    "nom":            { "v": null, "status": "TODO", "src": "vendeur" },
+    "titre":          { "v": null, "status": "TODO", "src": "vendeur" },
+    "permis":         { "v": null, "status": "TODO", "src": "vendeur" },
+    "agence":         { "v": null, "status": "TODO", "src": "vendeur" },
+    "photo":          { "v": null, "status": "TODO", "src": "vendeur" }
+  },
+
+  "quartier": {
+    "_": "Distances de marche RÉELLES, relevées à pied ou mesurées sur carte — pas des ordres de grandeur. Tant qu'elles sont en TODO la section affiche des tirets et se dit incomplète.",
+    "lieux": [
+      { "id": "epicerie",  "nom": "Épicerie",             "minutes": { "v": null, "status": "TODO", "src": "mesure" } },
+      { "id": "primaire",  "nom": "École primaire",       "minutes": { "v": null, "status": "TODO", "src": "mesure" } },
+      { "id": "parc",      "nom": "Parc",                 "minutes": { "v": null, "status": "TODO", "src": "mesure" } },
+      { "id": "pharmacie", "nom": "Pharmacie",            "minutes": { "v": null, "status": "TODO", "src": "mesure" } },
+      { "id": "bus",       "nom": "Arrêt d'autobus",      "minutes": { "v": null, "status": "TODO", "src": "mesure" } },
+      { "id": "centre",    "nom": "Centre-ville",         "minutes": { "v": null, "status": "TODO", "src": "mesure" } }
+    ]
+  },
+
+  "pieces": [
+    {
+      "id": "entree", "nom": "Entrée", "niveau": 1,
+      "superficiePi2":  { "v": null, "status": "TODO", "src": "mesure" },
+      "dimensionsM":    { "v": null, "status": "TODO", "src": "mesure" },
+      "finis": [
+        { "v": "Porte d'entrée à vitrage latéral givré", "status": "OK", "src": "image" },
+        { "v": "Vue directe sur l'aire de vie depuis le seuil", "status": "OK", "src": "image" }
+      ]
+    },
+    {
+      "id": "salon", "nom": "Salon", "niveau": 1,
+      "superficiePi2":  { "v": null, "status": "TODO", "src": "mesure" },
+      "dimensionsM":    { "v": null, "status": "TODO", "src": "mesure" },
+      "orientation":    { "v": null, "status": "TODO", "src": "boussole" },
+      "finis": [
+        { "v": "Plafond cathédrale", "status": "OK", "src": "image" },
+        { "v": "Plancher vinyle planche", "status": "OK", "src": "image" },
+        { "v": "Plinthes électriques", "status": "OK", "src": "image" }
+      ]
+    },
+    {
+      "id": "cuisine", "nom": "Cuisine", "niveau": 1,
+      "superficiePi2":  { "v": null, "status": "TODO", "src": "mesure" },
+      "dimensionsM":    { "v": null, "status": "TODO", "src": "mesure" },
+      "ilotM":          { "v": null, "status": "TODO", "src": "mesure" },
+      "finis": [
+        { "v": "Armoires shaker blanches", "status": "OK", "src": "image" },
+        { "v": "Îlot central avec évier", "status": "OK", "src": "image" },
+        { "v": "Comptoir stratifié bois clair", "status": "OK", "src": "image" },
+        { "v": "Cuisinière, hotte, micro-ondes encastré, réfrigérateur pleine hauteur", "status": "OK", "src": "image" },
+        { "v": "Plancher de céramique grand format", "status": "OK", "src": "image" }
+      ]
+    },
+    {
+      "id": "salle-a-manger", "nom": "Salle à manger", "niveau": 1,
+      "superficiePi2":  { "v": null, "status": "TODO", "src": "mesure" },
+      "dimensionsM":    { "v": null, "status": "TODO", "src": "mesure" },
+      "finis": [
+        { "v": "Porte-patio coulissante pleine hauteur", "status": "OK", "src": "image" },
+        { "v": "Fenêtre latérale", "status": "OK", "src": "image" }
+      ]
+    },
+    {
+      "id": "terrasse", "nom": "Terrasse", "niveau": 1,
+      "superficiePi2":  { "v": null, "status": "TODO", "src": "mesure" },
+      "dimensionsM":    { "v": null, "status": "TODO", "src": "mesure" },
+      "finis": [
+        { "v": "Terrasse de plain-pied sur cour gazonnée", "status": "OK", "src": "image" }
+      ]
+    },
+    {
+      "id": "salle-eau", "nom": "Salle d'eau", "niveau": 1,
+      "superficiePi2":  { "v": null, "status": "TODO", "src": "mesure" },
+      "dimensionsM":    { "v": null, "status": "TODO", "src": "mesure" },
+      "finis": [
+        { "v": "Vanité avec rangement", "status": "OK", "src": "image" },
+        { "v": "Miroir à bandeau lumineux", "status": "OK", "src": "image" },
+        { "v": "Sans douche ni bain", "status": "OK", "src": "image" }
+      ]
+    },
+    {
+      "id": "chambre-2", "nom": "Chambre 2", "niveau": 2,
+      "superficiePi2":  { "v": null, "status": "TODO", "src": "mesure" },
+      "dimensionsM":    { "v": null, "status": "TODO", "src": "mesure" },
+      "orientation":    { "v": null, "status": "TODO", "src": "boussole" },
+      "gardeRobeM":     { "v": null, "status": "TODO", "src": "mesure" },
+      "finis": [
+        { "v": "Garde-robe fermé", "status": "OK", "src": "image" },
+        { "v": "Une fenêtre", "status": "OK", "src": "image" },
+        { "v": "Plancher flottant", "status": "OK", "src": "image" }
+      ]
+    },
+    {
+      "id": "salle-de-bain", "nom": "Salle de bain", "niveau": 2,
+      "superficiePi2":  { "v": null, "status": "TODO", "src": "mesure" },
+      "dimensionsM":    { "v": null, "status": "TODO", "src": "mesure" },
+      "finis": [
+        { "v": "Bain podium", "status": "OK", "src": "image" },
+        { "v": "Vanité longue avec vasque et grand miroir", "status": "OK", "src": "image" },
+        { "v": "Colonne à lingerie pleine hauteur", "status": "OK", "src": "image" },
+        { "v": "Laveuse-sécheuse incluse, installées dans la salle de bain", "status": "OK", "src": "image" },
+        { "v": "Fenêtre", "status": "OK", "src": "image" }
+      ],
+      "_douche": "AUCUNE DOUCHE VISIBLE dans la vidéo — vérifié en pleine résolution sur 7 timecodes. À confirmer auprès du vendeur avant publication. Ne rien écrire tant que ce n'est pas tranché."
+    },
+    {
+      "id": "chambre-principale", "nom": "Chambre principale", "niveau": 2,
+      "superficiePi2":  { "v": null, "status": "TODO", "src": "mesure" },
+      "dimensionsM":    { "v": null, "status": "TODO", "src": "mesure" },
+      "orientation":    { "v": null, "status": "TODO", "src": "boussole" },
+      "gardeRobeM":     { "v": null, "status": "TODO", "src": "mesure" },
+      "finis": [
+        { "v": "Garde-robe à portes coulissantes miroir pleine hauteur", "status": "OK", "src": "image" },
+        { "v": "Chambre d'angle, deux fenêtres sur deux murs", "status": "OK", "src": "image" },
+        { "v": "Rideaux occultants", "status": "OK", "src": "image" }
+      ]
+    },
+    {
+      "id": "palier", "nom": "Palier / mezzanine", "niveau": 2,
+      "superficiePi2":  { "v": null, "status": "TODO", "src": "mesure" },
+      "dimensionsM":    { "v": null, "status": "TODO", "src": "mesure" },
+      "finis": [
+        { "v": "Mezzanine ouverte sur la cage d'escalier", "status": "OK", "src": "image" },
+        { "v": "Thermopompe murale", "status": "OK", "src": "image" }
+      ]
+    }
+  ]
+}

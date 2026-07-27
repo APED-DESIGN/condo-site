@@ -4,16 +4,28 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
-import { Menu, X } from "lucide-react";
-import Button from "./ui/Button";
+import { Menu, Phone, X } from "lucide-react";
 import { scrollToId, scrollToTop } from "@/lib/scroll";
+import { CONTACT } from "@/lib/contact";
+
+/**
+ * Marque neutre. Ce site est montré à plusieurs prospects : aucun nom
+ * d'agence, de client ou de projet ne doit y apparaître. Les deux carrés
+ * évoquent les deux approches, rien de plus.
+ */
+function Marque() {
+  return (
+    <span aria-hidden className="flex items-center gap-1.5">
+      <span className="block h-3.5 w-3.5 rounded-[3px] border border-ink/70" />
+      <span className="block h-3.5 w-3.5 rounded-full bg-brass" />
+    </span>
+  );
+}
 
 const LINKS = [
-  { label: "Unités", id: "unites" },
-  { label: "Inclusions", id: "inclusions" },
-  { label: "Louer", id: "louer" },
-  { label: "L'ensemble", id: "immeuble" },
-  { label: "Contact", id: "contact" },
+  { label: "Accueil", href: "/" },
+  { label: "La maison", href: "/maison" },
+  { label: "L'appartement", href: "/appartement" },
 ];
 
 export default function Navbar() {
@@ -45,13 +57,7 @@ export default function Navbar() {
     };
   }, [open]);
 
-  const go = (id: string) => (e: React.MouseEvent) => {
-    setOpen(false);
-    if (isHome) {
-      e.preventDefault();
-      scrollToId(id);
-    }
-  };
+  const fermer = () => setOpen(false);
 
   return (
     <>
@@ -69,23 +75,21 @@ export default function Navbar() {
                 scrollToTop();
               }
             }}
-            className="font-display text-xl tracking-tight"
+            className="flex items-center"
           >
-            <span className="sr-only">
-              Résidences Boréal — retour à l&apos;accueil
-            </span>
-            <span aria-hidden>
-              Boréal<span className="text-brass">.</span>
-            </span>
+            <span className="sr-only">Retour à l&apos;accueil</span>
+            <Marque />
           </Link>
 
           <nav aria-label="Navigation principale" className="hidden items-center gap-7 lg:flex">
             {LINKS.map((l) => (
               <Link
-                key={l.id}
-                href={`/#${l.id}`}
-                onClick={go(l.id)}
-                className="link-underline text-sm text-ink/80 transition-colors hover:text-ink"
+                key={l.href}
+                href={l.href}
+                aria-current={pathname === l.href ? "page" : undefined}
+                className={`link-underline text-sm transition-colors hover:text-ink ${
+                  pathname === l.href ? "text-ink" : "text-ink/60"
+                }`}
               >
                 {l.label}
               </Link>
@@ -93,13 +97,16 @@ export default function Navbar() {
           </nav>
 
           <div className="flex items-center gap-2">
-            <Button
-              href="/#contact"
-              onClick={go("contact")}
-              className="hidden !px-5 !py-2.5 sm:inline-flex"
+            {/* Cliquable en tout temps, sur les trois pages et à toutes les
+                largeurs : sous 640 px il ne reste que l'icône, mais il reste. */}
+            <a
+              href={CONTACT.telephoneHref}
+              aria-label={`Appeler le ${CONTACT.telephone}`}
+              className="inline-flex items-center gap-2 rounded-full px-3 py-2.5 text-sm text-ink transition-colors hover:text-brass sm:px-4"
             >
-              Réserver une visite
-            </Button>
+              <Phone className="h-4 w-4 shrink-0 text-brass" aria-hidden />
+              <span className="hidden tabular-nums sm:inline">{CONTACT.telephone}</span>
+            </a>
             <button
               type="button"
               onClick={() => setOpen(true)}
@@ -125,12 +132,13 @@ export default function Navbar() {
             aria-label="Menu"
           >
             <div className="flex items-center justify-between">
-              <span className="font-display text-xl">
-                Boréal<span className="text-brass">.</span>
+              <span aria-hidden className="flex items-center gap-1.5">
+                <span className="block h-3.5 w-3.5 rounded-[3px] border border-bone/70" />
+                <span className="block h-3.5 w-3.5 rounded-full bg-brass" />
               </span>
               <button
                 type="button"
-                onClick={() => setOpen(false)}
+                onClick={fermer}
                 aria-label="Fermer le menu"
                 className="rounded-full border border-white/20 p-2.5 transition-colors hover:border-brass hover:text-brass"
               >
@@ -144,14 +152,14 @@ export default function Navbar() {
             >
               {LINKS.map((l, i) => (
                 <motion.div
-                  key={l.id}
+                  key={l.href}
                   initial={{ opacity: 0, y: 24 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.08 + i * 0.06, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
                 >
                   <Link
-                    href={`/#${l.id}`}
-                    onClick={go(l.id)}
+                    href={l.href}
+                    onClick={fermer}
                     className="font-display block py-2 text-4xl transition-colors hover:text-brass"
                   >
                     {l.label}
@@ -161,9 +169,14 @@ export default function Navbar() {
             </nav>
 
             <div className="mt-auto">
-              <Button href="/#contact" onClick={go("contact")} arrow className="w-full">
-                Réserver une visite
-              </Button>
+              <a
+                href={CONTACT.telephoneHref}
+                onClick={fermer}
+                className="font-display flex items-center gap-3 text-3xl transition-colors hover:text-brass"
+              >
+                <Phone className="h-6 w-6 text-brass" aria-hidden />
+                <span className="tabular-nums">{CONTACT.telephone}</span>
+              </a>
             </div>
           </motion.div>
         )}

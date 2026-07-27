@@ -20,7 +20,7 @@ const page = await (
 page.on("pageerror", (e) => console.log("PAGEERROR:", e.message));
 page.on("console", (m) => m.type() === "error" && console.log("CONSOLE:", m.text()));
 
-await page.goto("http://localhost:3001/unites/maison-panoramique?visite=1", {
+await page.goto("http://localhost:3001/maison?visite=1", {
   waitUntil: "networkidle",
 });
 await page.waitForFunction(() => window.__tour360?.viewer, null, { timeout: 30000 });

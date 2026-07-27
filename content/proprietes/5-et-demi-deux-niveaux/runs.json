@@ -1,0 +1,137 @@
+{
+  "slug": "5-et-demi-deux-niveaux",
+  "source": "public/video/VID_20260725_130541_00_036.mp4",
+  "sourceDuration": 80.2802,
+  "sourceFps": 59.94,
+  "sourceSize": [3840, 2160],
+  "fps": 10,
+
+  "_": "AUCUNE COUPE. La visite parcourt 0 → 80,28 s en continu : chaque seconde de la vidéo est atteignable au scroll. Le montage se fait par la distance de scroll (chapters.json), jamais au ciseau. Les problèmes de vie privée sont traités image par image (voir `traitements`), pas en supprimant le passage.",
+
+  "runs": [
+    {
+      "id": "V",
+      "in": 0.0,
+      "out": 80.2802,
+      "label": "Visite intégrale — entrée · salon · cuisine · salle à manger · terrasse · salle d'eau · escalier · chambre 2 · salle de bain · chambre principale"
+    }
+  ],
+
+  "repair": {
+    "_": "Réactivée par le correctif : on livre avec cette vidéo-ci, pas avec un re-tournage. L'ordre est imposé et compte — les zones de vie privée sont mesurées sur l'image SOURCE, elles doivent donc être floutées avant toute déformation géométrique.",
+    "ordre": ["traitements", "defish", "réduction", "stabilisation", "deflicker", "grade"],
+    "travailWidth": 2560,
+
+    "defish": {
+      "_": "Calibré à l'œil sur les lignes droites d'architecture à 9,0 s (face d'îlot, lignes d'armoires, plinthes) : k1=-0.12 sous-corrige, k1=-0.24 sur-corrige et recourbe dans l'autre sens. Ce n'est pas une mesure sur mire — c'est un réglage visuel, et c'est dit.",
+      "k1": -0.18,
+      "k2": 0.02,
+      "interpol": "bilinear"
+    },
+
+    "stab": {
+      "_": "Deux passes vidstab. shakiness élevé : caméra à la main, un rebond par marche dans l'escalier. optzoom=1 laisse vidstab choisir le zoom minimal qui masque les bords vides.",
+      "shakiness": 8,
+      "accuracy": 15,
+      "stepsize": 6,
+      "mincontrast": 0.3,
+      "smoothing": 24,
+      "maxshift": -1,
+      "maxangle": -1,
+      "optzoom": 1,
+      "interpol": "bilinear"
+    },
+
+    "deflicker": {
+      "_": "Lisse le pompage d'auto-exposition image par image. Sans lui, le scrub scintille.",
+      "mode": "pm",
+      "size": 10
+    },
+
+    "grade": {
+      "_": "greyedge = balance des blancs automatique par image. Seul filtre testé qui retire la dominante bleue de la cage d'escalier (mesuré à 67,0 s ; `normalize=smoothing=30` n'a rien changé). eq relève légèrement les ombres bouchées de la montée sans cramer les fenêtres.",
+      "greyedge": "difford=1:minknorm=5:sigma=2",
+      "eq": "gamma=1.06:saturation=1.02"
+    }
+  },
+
+  "_traitements": "Vie privée, traité image par image — jamais en coupant. x,y,w,h en FRACTION de l'image DE TRAVAIL (2560×1440, après défishage et stabilisation), pas de la source : le flou est appliqué après la réparation et après la réduction à 10 im/s. Mesurés sur l'image la plus défavorable de chaque fenêtre, avec marge. Justification complète : analyse/traitements.md.",
+
+  "traitements": [
+    {
+      "id": "miroir-chambre",
+      "t0": 77.75,
+      "t1": 79.15,
+      "zone": [0.0, 0.0, 0.26, 1.0],
+      "type": "flou",
+      "force": 55,
+      "gravite": "bloquant",
+      "raison": "Personne parfaitement identifiable dans le garde-robe à portes miroir (visage net vérifié à 78,0 / 78,3 / 78,7 s sur les images réparées). Le miroir occupe le quart gauche du cadre : un recadrage de 20 % ne suffit pas et amputerait le meilleur plan du fichier."
+    },
+    {
+      "id": "tv-reflet-1",
+      "t0": 77.1,
+      "t1": 77.42,
+      "zone": [0.0, 0.0, 0.28, 0.34],
+      "type": "flou",
+      "force": 40,
+      "gravite": "mineur",
+      "raison": "Silhouette à contre-jour dans le téléviseur éteint. Non identifiable — flouté par précaution."
+    },
+    {
+      "id": "tv-reflet-2",
+      "t0": 77.42,
+      "t1": 77.68,
+      "zone": [0.18, 0.0, 0.44, 0.34],
+      "type": "flou",
+      "force": 40,
+      "gravite": "mineur",
+      "raison": "Même reflet, le téléviseur a traversé le cadre pendant le panoramique (mesuré à 77,5 s : x 0,20 → 0,58)."
+    },
+    {
+      "id": "tv-reflet-3",
+      "t0": 77.68,
+      "t1": 77.98,
+      "zone": [0.44, 0.0, 0.54, 0.34],
+      "type": "flou",
+      "force": 40,
+      "gravite": "mineur",
+      "raison": "Même reflet, fin de course du panoramique."
+    },
+    {
+      "id": "cadre-photo-chambre",
+      "t0": 73.05,
+      "t1": 73.55,
+      "zone": [0.625, 0.455, 0.065, 0.095],
+      "type": "flou",
+      "force": 44,
+      "gravite": "mineur",
+      "raison": "Cadre photo sur l'étagère de la chambre principale, montrant une personne. Illisible en défilement, mais l'image d'arrêt fait 2200 px et s'ouvre en grand dans la galerie. Fenêtre limitée à l'arrêt : c'est l'image qu'on regarde, pas celles qui défilent."
+    },
+    {
+      "id": "cadre-photo-bureau",
+      "t0": 75.85,
+      "t1": 76.35,
+      "zone": [0.225, 0.545, 0.105, 0.19],
+      "type": "flou",
+      "force": 44,
+      "gravite": "mineur",
+      "raison": "Cadre photo sur l'étagère du coin bureau, montrant deux personnes. Même raisonnement que ci-dessus."
+    }
+  ],
+
+  "_nonTraite": {
+    "ombreCameraman": "40,6 → 43,2 s. NON TRAITÉE, décision à confirmer : ombre portée molle sans aucun trait identifiant, sur un grand mur blanc uni. Un relevage local de luminance y produirait une tache à bord franc plus visible que l'ombre. À la place, aucun arrêt n'y tombe (le chapitre `palier` a été supprimé) et le passage est traversé à 14 vh par seconde de vidéo.",
+    "cadresPhoto": "~70 → 77 s. Cadres photo sur les tables de chevet, contenu surexposé et flou de mouvement, non résoluble. Se déplacent en continu : un masque fixe ne suit pas. À revérifier sur les images d'arrêt produites, qui sont les seules qu'on regarde longtemps.",
+    "papiersIlot": "10,0 → 14,5 s. Feuille manuscrite illisible à toute résolution testée. Non traitée."
+  },
+
+  "_analyse": {
+    "chatVisible": [57.7, 66.0, 68.3, 78.0, 79.0],
+    "_chat": "Un chat n'identifie personne. Conservé — les plans sont bons.",
+    "sourcesDeBruit": {
+      "encombrement": ["2.5→4.5 station de musculation au salon", "10.0→14.5 papiers sur l'îlot", "26.5→29.0 aspirateur-balai", "43.5→46.8 et 51.0→52.4 étagère à linge chambre 2", "62.0→65.5 effets personnels salle de bain"],
+      "_": "On ne coupe plus ces passages : on les traverse vite (scroll court, cf. chapters.json), et aucun `hold` ne tombe dessus."
+    }
+  }
+}

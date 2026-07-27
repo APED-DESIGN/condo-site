@@ -111,7 +111,7 @@ async function main() {
   const page = await ctx.newPage();
   watch(page, "desktop", network);
 
-  await page.goto(`${BASE}/unites/maison-panoramique`, { waitUntil: "networkidle" });
+  await page.goto(`${BASE}/maison`, { waitUntil: "networkidle" });
   await page.getByRole("button", { name: /Visite virtuelle 360°/i }).first().click();
   await openTour(page);
   if ((await roomName(page)) !== "Façade avant") fail("départ ≠ Façade avant");
@@ -206,7 +206,7 @@ async function main() {
     const c = await browser.newContext({ viewport: { width: w, height: h } });
     const p = await c.newPage();
     watch(p, label);
-    await p.goto(`${BASE}/unites/maison-panoramique?visite=1`, { waitUntil: "networkidle" });
+    await p.goto(`${BASE}/maison?visite=1`, { waitUntil: "networkidle" });
     await p.waitForFunction(() => window.__tour360?.viewer, null, { timeout: 30000 });
     await p.waitForTimeout(2200);
     if ((await roomName(p)) !== "Façade avant") fail(`${label} : la visite ne démarre pas`);
@@ -223,7 +223,7 @@ async function main() {
   });
   const mp = await mc.newPage();
   watch(mp, "mobile");
-  await mp.goto(`${BASE}/unites/maison-panoramique?visite=1`, { waitUntil: "networkidle" });
+  await mp.goto(`${BASE}/maison?visite=1`, { waitUntil: "networkidle" });
   await mp.waitForFunction(() => window.__tour360?.viewer, null, { timeout: 30000 });
   await mp.waitForTimeout(2500);
   await mp.locator("button.psv-virtual-tour-arrow:visible").first().tap();
@@ -243,7 +243,7 @@ async function main() {
   });
   const rp = await rc.newPage();
   watch(rp, "reduced");
-  await rp.goto(`${BASE}/unites/maison-panoramique?visite=1`, { waitUntil: "networkidle" });
+  await rp.goto(`${BASE}/maison?visite=1`, { waitUntil: "networkidle" });
   await rp.waitForFunction(() => window.__tour360?.viewer, null, { timeout: 30000 });
   await rp.waitForTimeout(2000);
   const hasAutorotate = await rp.evaluate(
