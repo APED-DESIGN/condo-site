@@ -78,10 +78,50 @@ export type EspaceExterieur = {
 
 /* ── Hauteurs, en unités de plan ───────────────────────────────────────────
    Proportions visuelles uniquement. Choisies pour que le volume ait l'allure
-   d'une maison à deux niveaux. Jamais affichées, jamais converties en mètres. */
+   d'une maison à deux niveaux. Jamais affichées telles quelles. */
 export const H_NIVEAU = 9;      // hauteur d'un niveau
 export const EP_PLANCHER = 1;   // épaisseur de dalle entre niveaux
-export const EP_MUR = 1.2;      // épaisseur de cloison
+
+/* ── Échelle : DEUX hypothèses distinctes, et il faut le dire ──────────────
+ *
+ * Poser des murs de 12 cm et un îlot de 2,40 m dans ce plan suppose de savoir
+ * combien d'unités vaut un mètre. Or ce plan n'a AUCUNE échelle : ses `x/y`
+ * viennent des `map` du mini-plan (des pourcentages de panneau) et son
+ * H_NIVEAU a été choisi pour que le volume ait l'allure d'une maison.
+ *
+ * Ces deux nombres n'ont pas été choisis ensemble, et ils ne sont donc pas
+ * cohérents entre eux : à l'échelle qui rend la hauteur juste, l'emprise
+ * ferait 18 m de large ; à celle qui rend l'emprise juste, le plafond ferait
+ * 1,9 m. Plutôt que d'en maquiller un, on assume DEUX facteurs :
+ *
+ *   — U_PAR_M_HAUT   pour tout ce qui est vertical  (hauteurs d'objets)
+ *   — U_PAR_M_PLAN   pour tout ce qui est horizontal (emprises, épaisseurs)
+ *
+ * Les deux reposent sur une estimation, et chacune est remplacée par UNE
+ * mesure au ruban — ce sont les mesures 1 et 2 d'analyse/mesures-a-prendre.md.
+ * Tant qu'elles ne sont pas prises, tout volume posé ici est `estime`.
+ */
+
+/** Hauteur sous plafond du rez, en mètres. ⚠️ ESTIMÉE — mesure n° 1. */
+export const H_SOUS_PLAFOND_M = 2.44;
+/** Largeur hors-tout du bâti (x ∈ [20,86]), en mètres. ⚠️ ESTIMÉE — mesure n° 2. */
+export const LARGEUR_BATIE_M = 12.2;
+
+/** Unités de plan par mètre, à la verticale. */
+export const U_PAR_M_HAUT = H_NIVEAU / H_SOUS_PLAFOND_M;
+/** Unités de plan par mètre, à l'horizontale. */
+export const U_PAR_M_PLAN = 66 / LARGEUR_BATIE_M;
+
+/** Mètres → unités de plan, horizontalement. */
+export const uPlan = (metres: number): number => metres * U_PAR_M_PLAN;
+/** Mètres → unités de plan, verticalement. */
+export const uHaut = (metres: number): number => metres * U_PAR_M_HAUT;
+
+/* Épaisseurs réelles de construction, converties. Un mur extérieur de 2×6 avec
+   ses parements fait ~30 cm ; on ne le rend pas plein, on le rend LISIBLE :
+   12 cm en surface, transparent, souligné d'un liseré. */
+export const EP_MUR = uPlan(0.12);      // mur extérieur
+export const EP_CLOISON = uPlan(0.08);  // cloison intérieure
 
 /** Altitude du plancher d'un niveau. */
 export const altitude = (n: Niveau): number =>
@@ -217,6 +257,9 @@ export const ESPACES: readonly Espace[] = [
     niveau: "etage",
     contour: [[42, 52], [64, 52], [64, 72], [42, 72]],
     noeuds: ["palier-etage"],
+    /* Ouvert sur la cage d'escalier : pas de mur côté trémie, un garde-corps
+       (déclaré dans mobilier.json) — c'est ce que montre le panorama 11. */
+    groupeOuvert: "cage",
   },
   {
     id: "coin-lecture",
@@ -232,6 +275,7 @@ export const ESPACES: readonly Espace[] = [
     niveau: "etage",
     contour: [[20, 52], [42, 52], [42, 72], [20, 72]],
     noeuds: [],
+    groupeOuvert: "cage",
     vide: true,
   },
 ];

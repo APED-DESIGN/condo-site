@@ -5,6 +5,7 @@ import dynamic from "next/dynamic";
 import { AnimatePresence, motion } from "framer-motion";
 import { Box, Footprints, LayoutGrid, Map, X } from "lucide-react";
 import TourMiniMap from "@/components/tour/TourMiniMap";
+import { mention } from "@/lib/maison3d/mobilier-donnees";
 import type { Niveau } from "@/data/tours/maison-01-plan";
 import type { Node360, Tour360Data } from "@/data/tours/maison-01";
 import type { Tour360Api } from "@/components/tour/Tour360";
@@ -405,10 +406,16 @@ export default function VisualiseurMaison({
             </div>
           </nav>
 
-          {/* ── Mention d'honnêteté, toujours visible en volume ───────── */}
+          {/* ── Mention d'honnêteté, toujours visible en volume ─────────
+              Elle n'est pas écrite en dur : elle compte les volumes mesurés
+              contre les volumes estimés. Quand les relevés arriveront, elle
+              changera d'elle-même — elle ne peut mentir dans aucun sens. */}
           {enVolume && (
-            <p className="pointer-events-none absolute bottom-5 left-1/2 z-20 hidden -translate-x-1/2 text-center text-[9px] uppercase tracking-[0.2em] text-chaux/35 md:block">
-              Schéma d&apos;orientation — proportions indicatives, non mesurées
+            <p
+              className="pointer-events-none absolute bottom-5 left-1/2 z-20 hidden -translate-x-1/2 text-center text-[9px] uppercase tracking-[0.2em] text-chaux/35 md:block"
+              data-testid="mention-echelle"
+            >
+              {mention()}
             </p>
           )}
 

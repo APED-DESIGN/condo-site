@@ -6,7 +6,12 @@ import { construireScene, versMonde, poserOpacite, TEINTES } from "@/lib/maison3
 import { creerPilote, type ModeVue, type Pilote } from "@/lib/maison3d/camera";
 import {
   ESPACES,
+  EP_CLOISON,
+  EP_MUR,
   EXTERIEURS,
+  H_SOUS_PLAFOND_M,
+  LARGEUR_BATIE_M,
+  U_PAR_M_PLAN,
   altitude,
   centre,
   type Niveau,
@@ -274,6 +279,98 @@ export default function ScenePlan({
             }
           return out;
         },
+        /* État de fondu de chaque niveau : opacité atteinte, et ce que les
+           matériaux en ont réellement fait. Un plancher resté opaque alors que
+           son niveau est estompé masque le niveau du dessous — c'est le genre
+           de bug qui ne se voit qu'ici. */
+        niveaux: () =>
+          (monde.current?.scene.niveaux ?? []).map((ng) => ({
+            niveau: ng.niveau,
+            opacite: monde.current?.opaciteCourante[ng.niveau],
+            visible: ng.groupe.visible,
+            materiaux: ng.materiaux.map((mt) => ({
+              type: mt.type,
+              transparent: mt.transparent,
+              opacity: (mt as THREE.MeshStandardMaterial).opacity,
+              uOpacite: (mt as THREE.ShaderMaterial).uniforms?.opacite?.value,
+            })),
+          })),
+        /* Ce que les murs font vraiment. Les nombres de la spécification
+           (épaisseur, opacité, effacement, pas d'écriture de profondeur) ne
+           se voient pas sur une capture : ils se vérifient ici. */
+        murs: () =>
+          (monde.current?.scene.niveaux ?? []).map((ng) => {
+            const mur = ng.groupe.children.find((o) => o.userData?.mur) as
+              | THREE.Mesh
+              | undefined;
+            const mat = mur?.material as THREE.ShaderMaterial | undefined;
+            /* Un pavé se traverse par deux peaux : c'est l'opacité VUE qui doit
+               tenir dans la fourchette, pas celle d'une seule face. */
+            const vue = (a: number) => 1 - (1 - a) * (1 - a);
+            const a = (n: string) => (mat?.uniforms?.[n]?.value as number) ?? NaN;
+            return {
+              niveau: ng.niveau,
+              opaciteVue: vue(a("aBase")),
+              opaciteVueDevant: vue(a("aDevant")),
+              ecritProfondeur: mat?.depthWrite ?? null,
+              doubleFace: mat?.side === THREE.DoubleSide,
+              liseres: ng.groupe.children.filter(
+                (o) => (o as THREE.LineSegments).isLineSegments
+              ).length,
+              /* Rien d'autre qu'un sol, un volume, un mur, un liseré ou une
+                 pastille : s'il apparaît un plafond, il se voit ici. */
+              intrus: ng.groupe.children.filter(
+                (o) =>
+                  !o.userData?.mur &&
+                  !o.userData?.espaceId &&
+                  !o.userData?.repere &&
+                  !(o as THREE.LineSegments).isLineSegments
+              ).length,
+            };
+          }),
+        /* Épaisseurs et échelle, en mètres. */
+        reglages: () => ({
+          murExterieurM: EP_MUR / U_PAR_M_PLAN,
+          cloisonM: EP_CLOISON / U_PAR_M_PLAN,
+          hauteurSousPlafondM: H_SOUS_PLAFOND_M,
+          largeurBatieM: LARGEUR_BATIE_M,
+        }),
+        /* Le terrain ne doit porter AUCUN panorama : une photo d'extérieur
+           plaquée sur une dalle est un panneau qui flotte. */
+        terrain: () =>
+          (monde.current?.scene.exterieur.children ?? [])
+            /* Le groupe extérieur porte aussi les pastilles des points de vue :
+               elles, elles ont le droit d'être au-dessus du sol. */
+            .filter((o) => o.userData?.exterieur)
+            .map((o) => ({
+              espace: String(o.userData?.espaceId ?? "?"),
+              projete: !!((o as THREE.Mesh).material as THREE.ShaderMaterial)?.uniforms
+                ?.panoA,
+              altitude: o.position.y,
+            })),
+        /* Masquage brut d'un niveau, pour isoler ce qui vient d'où. */
+        masquer: (niveau: Niveau, cache: boolean) => {
+          const ng = monde.current?.scene.niveaux.find((x) => x.niveau === niveau);
+          if (ng) ng.groupe.visible = !cache;
+        },
+        /* Accès direct à la scène. À n'utiliser que depuis la console ou une
+           sonde de test : rien de sérialisable ne sort d'ici. */
+        scene3d: () => monde.current?.scene,
+        /* Ce qui a été RÉELLEMENT construit comme volume, avec sa provenance.
+           C'est la vérification qu'aucune boîte n'apparaît sans être déclarée
+           dans mobilier.json, et qu'aucune ne se présente comme mesurée. */
+        mobilier: () => monde.current?.scene.volumes ?? [],
+        /* Les contours de provenance sont allumés par défaut en développement.
+           On peut les éteindre le temps d'une capture. */
+        sourcesMobilier: (visible: boolean) => {
+          const m = monde.current;
+          if (!m) return;
+          for (const ng of m.scene.niveaux)
+            for (const cle of ["estime", "mesure"] as const) {
+              const trace = ng.tracesSource[cle];
+              if (trace) trace.visible = visible;
+            }
+        },
       };
     }
 
@@ -379,7 +476,7 @@ export default function ScenePlan({
     m.raycaster.setFromCamera(m.pointeur, m.pilote.cameraActive());
     const cibles: THREE.Object3D[] = [];
     for (const ng of m.scene.niveaux)
-      if (m.opaciteCourante[ng.niveau] > 0.5) cibles.push(...ng.sols);
+      if (m.opaciteCourante[ng.niveau] > 0.5) cibles.push(...ng.sols, ...ng.volumes);
     cibles.push(...m.scene.exterieur.children);
     Array.from(m.scene.reperes.values()).forEach((r) => {
       if (r.visible) cibles.push(r);

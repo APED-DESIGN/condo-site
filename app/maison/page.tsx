@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { getUnit } from "@/lib/units";
 import { maison01, tours360, validateTour } from "@/data/tours/maison-01";
 import { validerPlan } from "@/data/tours/maison-01-plan";
+import { validerMobilier } from "@/lib/maison3d/mobilier-donnees";
 import MaisonClient from "./MaisonClient";
 import Contact from "@/components/sections/Contact";
 import AutreApproche from "@/components/AutreApproche";
@@ -14,6 +15,10 @@ Object.values(tours360).forEach(validateTour);
 /* Le plan schématique et le graphe doivent parler des mêmes nœuds : un nœud
    ajouté sans espace, ou placé deux fois, casse `next build` de la même façon. */
 validerPlan(maison01.nodes.map((n) => n.id));
+
+/* Et les volumes déclarés doivent tomber dans des pièces qui existent ET qui
+   ont été photographiées : on ne meuble pas une pièce qu'on n'a pas vue. */
+validerMobilier();
 
 /** Une seule propriété est exposée : la page a une adresse fixe, pas un slug. */
 const SLUG = "maison-panoramique";

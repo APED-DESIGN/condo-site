@@ -130,6 +130,70 @@ async function main() {
         (nues.length ? ` (${nues.length} non photographiées : ${nues.join(", ")})` : "")
     );
 
+  /* ── Les murs : fins, traversants, soulignés, sans plafond ───────────
+     Ces quatre réglages ne se lisent pas sur une capture d'écran. Une
+     cartographie dont les murs redeviennent des blocs opaques est encore
+     « jolie » sur une image ; elle ne laisse simplement plus voir dedans. */
+  const reglages = await page.evaluate(() => window.__maison3d?.reglages());
+  if (!reglages) fail("murs : réglages inaccessibles");
+  else if (reglages.murExterieurM > 0.121 || reglages.cloisonM > 0.081)
+    fail(
+      `murs : ${Math.round(reglages.murExterieurM * 100)} cm en façade et ${Math.round(
+        reglages.cloisonM * 100
+      )} cm en cloison (max 12 et 8)`
+    );
+  else
+    ok(
+      `murs : ${Math.round(reglages.murExterieurM * 100)} cm en façade, ${Math.round(
+        reglages.cloisonM * 100
+      )} cm en cloison`
+    );
+
+  for (const m of await page.evaluate(() => window.__maison3d?.murs() ?? [])) {
+    const soucis = [];
+    if (!(m.opaciteVue >= 0.15 && m.opaciteVue <= 0.3))
+      soucis.push(`opacité vue ${m.opaciteVue.toFixed(2)} hors de [0,15 ; 0,30]`);
+    if (!(m.opaciteVueDevant <= 0.12))
+      soucis.push(`face à la caméra ${m.opaciteVueDevant.toFixed(2)} > 0,12`);
+    if (m.ecritProfondeur !== false) soucis.push("écrit dans la profondeur");
+    if (!m.doubleFace) soucis.push("pas en DoubleSide");
+    if (!m.liseres) soucis.push("aucun liseré d'arête");
+    if (m.intrus) soucis.push(`${m.intrus} objet(s) hors sol/volume/mur/liseré/pastille`);
+    if (soucis.length) fail(`murs ${m.niveau} : ${soucis.join(", ")}`);
+    else
+      ok(
+        `murs ${m.niveau} : opacité ${m.opaciteVue.toFixed(2)} → ${m.opaciteVueDevant.toFixed(
+          2
+        )} de face, liseré, aucun plafond`
+      );
+  }
+
+  /* ── Le terrain n'est plus une photo suspendue ───────────────────── */
+  const terrain = await page.evaluate(() => window.__maison3d?.terrain() ?? []);
+  const flottants = terrain.filter((t) => t.projete || t.altitude > 0);
+  if (!terrain.length) fail("terrain : aucune surface extérieure");
+  else if (flottants.length)
+    fail(`terrain : ${flottants.map((t) => t.espace).join(", ")} porte(nt) encore un panorama`);
+  else ok(`terrain : ${terrain.length} surfaces plates au sol, aucune photo suspendue`);
+
+  /* ── Les volumes : déclarés, situés, et honnêtes sur leur provenance ─ */
+  const volumes = await page.evaluate(() => window.__maison3d?.mobilier() ?? []);
+  const mesures = volumes.filter((v) => v.source === "mesure").length;
+  const escalier = volumes.filter((v) => v.type === "escalier").length;
+  const mention = (await page.locator('[data-testid="mention-echelle"]').textContent())?.trim();
+  if (volumes.length < 20) fail(`volumes : seulement ${volumes.length} construits`);
+  else if (!escalier) fail("volumes : l'escalier n'est pas un volume à marches");
+  else if (volumes.some((v) => v.source !== "mesure" && v.source !== "estime"))
+    fail("volumes : provenance inconnue sur au moins un volume");
+  else ok(`volumes : ${volumes.length} construits dont l'escalier, ${mesures} mesurés`);
+
+  /* La mention doit dire le compte réel, pas une phrase gravée. */
+  if (!mention?.includes(String(volumes.length)))
+    fail(`mention : « ${mention} » ne compte pas les ${volumes.length} volumes`);
+  else if (mesures === 0 && !/aucune mesure/i.test(mention))
+    fail(`mention : « ${mention} » n'annonce pas l'absence de mesure`);
+  else ok(`mention : « ${mention} »`);
+
   await page.locator('[data-testid="niveau-rdc"]').click();
   await page.waitForTimeout(1500);
   await page.screenshot({ path: `${CAPTURES}/desktop-1b-carto-rdc.png` });

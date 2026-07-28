@@ -324,3 +324,85 @@ confirme qu'aucun retour en arrière n'est prévu.
    pool house ([NOTES_DEV.md](../NOTES_DEV.md) §9.5) — et **les couloirs et seuils**, dont le
    recouvrement conditionne toute reconstruction future.
 6. Remplir `fiche.json` pour que `npm run build` passe sans échappatoire.
+
+---
+
+## 8. Correction 2 — murs traversants et vrais volumes
+
+La projection des panoramas rendait la maison reconnaissable, mais trois choses
+la trahissaient encore : des murs épais et opaques qui bouchaient la vue, des
+photos d'extérieur plaquées sur des dalles — des panneaux suspendus dans le
+vide —, et des meubles qui n'étaient que des taches étalées sur le plancher.
+
+### Ce qui a changé
+
+**Les murs.** 12 cm en façade, 8 cm en cloison, contre ~30 cm apparents. Un mur
+mitoyen est désormais UN mur : la version précédente en posait un par pièce,
+rentré vers l'intérieur, donc deux parois parallèles à opacité doublée. Les
+côtés sont maintenant collectés puis redécoupés sur leurs points de rupture, et
+chaque intervalle élémentaire donne exactement une paroi, qui sait si elle est
+mitoyenne ou de façade.
+
+Ils ne portent plus de photo, et c'est délibéré : une cloison à 20 % d'opacité
+portant un panorama ne donne ni la photo ni la cloison. Ce qui doit se lire
+d'un mur en cartographie, c'est où il passe ; la matière est sur le plancher et
+sur les volumes. Un liseré blanc à 30 % garde la structure lisible.
+
+**L'effacement des murs de devant** se calcule par fragment : chaque paroi
+porte en attribut sa normale sortante, comparée à la direction de l'œil. Le mur
+qui s'interpose descend de 0,23 à 0,08 d'opacité vue, en continu, sans état à
+tenir à jour. Vue de l'extérieur en orbite, la maison s'ouvre.
+
+Note d'implémentation qui a coûté une heure : un mur est un pavé, pas une
+feuille. En `DoubleSide` on traverse DEUX peaux, et l'opacité vue vaut
+1 − (1 − a)². Régler `a` à 0,22 donnait 0,39 à l'écran — le mur opaque qu'on
+corrigeait. Les uniformes valent donc 0,12 et 0,042.
+
+**Le terrain** ne porte plus aucun panorama : quatre dalles plates et sourdes au
+niveau du sol, et les pastilles cuivre pour rejoindre les points de vue
+extérieurs. Une image d'extérieur projetée sur une dalle n'est pas une surface.
+
+**Les volumes.** 33 primitives aux arêtes arrondies, déclarées dans
+`content/proprietes/maison-panoramique/mobilier.json`, texturées par le
+panorama de leur pièce. Les éléments fixes d'abord — îlot, comptoirs, foyer,
+bain, douche, vanités, garde-corps — puis le mobilier. L'escalier est une vraie
+volée de 15 marches dont la montée est répartie exactement sur la hauteur
+d'étage, pour que la dernière marche affleure le plancher de l'étage.
+
+Chaque volume porte sa provenance, `mesure` ou `estime`. En développement, les
+contours sont tracés en cuivre pour les estimés et en vert pour les mesurés —
+aujourd'hui tout est cuivre. Le bandeau du visualiseur COMPTE ces deux mots au
+lieu d'affirmer une phrase gravée : quand les relevés entreront dans le JSON,
+il se réécrira seul.
+
+### Deux bugs trouvés en route
+
+**Le fondu de niveau ne fondait plus.** En passant les planchers pleins dans la
+file opaque pour garantir l'ordre des couches, on faisait basculer
+`material.transparent` en cours de route. three.js n'accepte ce changement
+qu'accompagné de `needsUpdate` — sans lui le matériau garde l'état de mélange
+compilé avec lui. Résultat : l'étage estompé à 10 % continuait de peindre à
+plein et masquait la salle à manger et le salon du rez. L'ordre des couches est
+maintenant garanti par `renderOrder` seul, et rien ne bascule.
+
+**Le plan n'a pas la même échelle en hauteur qu'au sol** — deux hypothèses
+distinctes, désormais assumées et nommées dans `maison-01-plan.ts`. La
+projection calculait donc ses directions dans un repère anisotrope : un point du
+plancher à cinq mètres paraissait à 10° sous l'horizon au lieu de 14°, et allait
+chercher sa couleur dans la bande des murs et des fenêtres. C'était la cause de
+l'étoilement des textures autour de chaque point de vue. Remettre la composante
+verticale à l'échelle du sol rétablit l'angle réel — ce n'était pas un réglage à
+l'œil, c'était la conversion qui manquait.
+
+### Ce que ça ne donne toujours pas
+
+Le rendu de la référence. Elle affiche un maillage capté, avec la forme réelle
+de chaque objet ; ici on approxime des volumes et on plaque dessus une photo
+prise d'ailleurs. Le dessus de l'îlot prend la couleur de ce que la caméra
+voyait dans cette direction, pas celle du comptoir. Vu de loin ça lit ; de près,
+ça ne prétend rien.
+
+L'échelle elle-même reste estimée : deux nombres, une hauteur sous plafond et
+une largeur de façade, tiennent toute la maquette. Ils se relèvent au ruban en
+dix minutes — voir [mesures-a-prendre.md](mesures-a-prendre.md), qui liste tout
+le reste par ordre de valeur.

@@ -32,23 +32,42 @@ import { maison01, type Node360 } from "@/data/tours/maison-01";
 import {
   ESPACES,
   EXTERIEURS,
+  U_PAR_M_HAUT,
+  U_PAR_M_PLAN,
   altitude,
   centre,
   contient,
+  uHaut,
   type Pt,
 } from "@/data/tours/maison-01-plan";
 import { versMonde } from "./scene-repere";
 
 /**
- * Hauteur de la caméra au-dessus du plancher, en unités de plan.
+ * Hauteur de la caméra au-dessus du plancher.
  *
- * ⚠️ Ce n'est PAS une mesure. La hauteur du trépied n'a jamais été relevée
+ * ⚠️ Ce n'est PAS une mesure : la hauteur du trépied n'a jamais été relevée
  * (c'est justement la mesure qui aurait permis de mettre une reconstruction à
- * l'échelle — voir analyse/recherche-3d.md §5.1). 5,2 unités sur les 9 d'un
- * niveau, c'est la proportion d'un appareil à hauteur d'homme dans une pièce
- * ordinaire. Elle sert au rendu, elle n'est jamais affichée.
+ * l'échelle — voir analyse/recherche-3d.md §5.1). 1,45 m est la hauteur de
+ * travail courante d'un trépied de capture panoramique. Elle sert au rendu,
+ * elle n'est jamais affichée.
  */
-export const H_CAMERA = 5.2;
+export const H_CAMERA = uHaut(1.45);
+
+/**
+ * Correction d'anisotropie du plan.
+ *
+ * Le plan n'a pas la même échelle à l'horizontale et à la verticale — deux
+ * hypothèses distinctes, assumées dans maison-01-plan.ts. Une direction
+ * calculée naïvement dans ce repère est donc FAUSSE : un point du plancher à
+ * cinq mètres de la caméra y paraît à 10° sous l'horizon alors qu'il y est à
+ * 14°. On échantillonne alors la bande du panorama qui montre les murs et les
+ * fenêtres au lieu de celle qui montre le sol — d'où l'étoilement des textures
+ * autour de chaque point de vue.
+ *
+ * Remettre la composante verticale à l'échelle horizontale rétablit l'angle
+ * réel. Ce n'est pas un réglage à l'œil : c'est la conversion qui manquait.
+ */
+export const ANISOTROPIE = U_PAR_M_PLAN / U_PAR_M_HAUT;
 
 const rad = (d: number) => (d * Math.PI) / 180;
 
@@ -177,6 +196,7 @@ const FRAGMENT = /* glsl */ `
   uniform float deuxPanos;
   uniform float opacite;
   uniform float eclat;
+  uniform float anisoY;
   uniform vec3  teinteSurvol;
   uniform float survol;
 
@@ -198,8 +218,13 @@ const FRAGMENT = /* glsl */ `
   }
 
   void main() {
+    // Le plan n'a pas la même échelle en hauteur qu'au sol : on ramène la
+    // composante verticale à celle du sol avant de calculer l'angle, sans quoi
+    // le plancher lointain va chercher sa couleur dans les murs.
     vec3 dA = vMonde - posA;
     vec3 dB = vMonde - posB;
+    dA.y *= anisoY;
+    dB.y *= anisoY;
     float lA = max(length(dA), 0.001);
     float lB = max(length(dB), 0.001);
 
@@ -252,6 +277,7 @@ export function creerMateriauProjete(
          l'on regarde droit devant. Vus en plongée, ils rendent sombre : on
          relève légèrement. */
       eclat: { value: 1.18 },
+      anisoY: { value: ANISOTROPIE },
       teinteSurvol: { value: new THREE.Color(0xffe6c8) },
       survol: { value: 0 },
     },
@@ -262,6 +288,80 @@ export function creerMateriauProjete(
   });
   mat.userData = { opaciteBase: 1, estProjete: true };
   return mat as MateriauProjete;
+}
+
+/* ── Les murs ──────────────────────────────────────────────────────────────
+ *
+ * Les murs ne sont PAS texturés, et c'est délibéré. Une cloison à 20 %
+ * d'opacité portant une photo ne donne ni la photo ni la cloison : elle donne
+ * une bouillie. Ce qui doit se lire d'un mur en cartographie, c'est où il
+ * passe — la matière, elle, est sur le plancher et sur les volumes.
+ *
+ * Ils s'effacent en plus quand ils s'interposent. `sortie` est la normale du
+ * mur orientée vers l'extérieur du bâti ; quand elle regarde vers l'œil, le
+ * mur est entre l'œil et la pièce, et il descend à `aDevant`. Le calcul est
+ * par fragment et se refait à chaque image : la vue s'ouvre pendant qu'on
+ * tourne, sans à-coup et sans qu'aucun état ne soit à tenir à jour.
+ */
+
+const VERTEX_MUR = /* glsl */ `
+  attribute vec3 sortie;
+  varying vec3 vMonde;
+  varying vec3 vSortie;
+  void main() {
+    vec4 monde = modelMatrix * vec4(position, 1.0);
+    vMonde = monde.xyz;
+    vSortie = normalize(mat3(modelMatrix) * sortie);
+    gl_Position = projectionMatrix * viewMatrix * monde;
+  }
+`;
+
+const FRAGMENT_MUR = /* glsl */ `
+  precision highp float;
+
+  uniform vec3  teinte;
+  uniform float aBase;
+  uniform float aDevant;
+  uniform float opacite;
+
+  varying vec3 vMonde;
+  varying vec3 vSortie;
+
+  void main() {
+    vec3 versCam = normalize(cameraPosition - vMonde);
+    // 1 = le mur nous fait face, 0 = on le voit par la tranche.
+    float devant = dot(normalize(vSortie), versCam);
+    float a = mix(aBase, aDevant, smoothstep(0.08, 0.62, devant));
+    gl_FragColor = vec4(teinte, a * opacite);
+    #include <colorspace_fragment>
+  }
+`;
+
+export function creerMateriauMur(): THREE.ShaderMaterial {
+  const mat = new THREE.ShaderMaterial({
+    uniforms: {
+      /* Presque blanc : le mur est une surface de lecture, pas une masse. */
+      teinte: { value: new THREE.Color(0xf2efe9) },
+      /* Un mur est un pavé, pas une feuille : en DoubleSide on traverse DEUX
+         peaux, celle du dehors et celle du dedans. L'opacité VUE est donc
+         1 − (1 − a)², et ce sont ces valeurs-là qui doivent tomber dans la
+         fourchette voulue — 0,12 par peau donne 0,23 à l'écran, 0,042 donne
+         0,08. Mettre 0,22 par peau donnerait 0,39, soit le mur opaque qu'on
+         corrige ici. */
+      aBase: { value: 0.12 },
+      aDevant: { value: 0.042 },
+      opacite: { value: 1 },
+    },
+    vertexShader: VERTEX_MUR,
+    fragmentShader: FRAGMENT_MUR,
+    transparent: true,
+    /* Sans quoi un mur proche masquerait dans le tampon de profondeur tout ce
+       qu'il laisse pourtant voir. */
+    depthWrite: false,
+    side: THREE.DoubleSide,
+  });
+  mat.userData = { opaciteBase: 1, sansProfondeur: true };
+  return mat;
 }
 
 /** Diagnostic : accord entre le plan schématique et les yaw calibrés. */

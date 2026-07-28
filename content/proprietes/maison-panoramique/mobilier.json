@@ -1,0 +1,81 @@
+{
+  "_doc": {
+    "role": "Volumes du bâti et du mobilier de la maison-01, pour la cartographie 3D.",
+    "repere": "Par pièce. Origine au coin nord-ouest du contour de l'espace (x minimal, y minimal du plan). x vers l'est, z vers le sud, y vers le haut.",
+    "pos": "[x, y, z] en mètres. x et z repèrent le CENTRE de l'emprise au sol. y est la hauteur du DESSOUS de l'objet au-dessus du plancher (0 = posé au sol, 0.35 = meuble suspendu).",
+    "dim": "[longueur, profondeur, hauteur] en mètres, avant rotation. La longueur suit x local.",
+    "rot": "degrés, sens horaire vu du dessus.",
+    "source": "mesure = relevé au ruban sur place. estime = déduit du panorama et de dimensions standards documentées. AUCUN volume n'est encore mesuré — voir analyse/mesures-a-prendre.md.",
+    "marches": "réservé au type escalier : nombre de contremarches. La hauteur de dim est la montée totale.",
+    "standards": {
+      "hauteur-comptoir": 0.92,
+      "hauteur-porte": 2.03,
+      "contremarche": 0.18,
+      "giron": 0.26,
+      "hauteur-table-a-manger": 0.76,
+      "hauteur-assise": 0.45,
+      "lit-queen": [1.53, 2.03]
+    },
+    "absents": "sejour, hall, vestibule, corridor-etage n'ont aucun volume : leur panorama ne montre pas d'élément fixe assez net pour en poser un. garage, rangement-rdc, chambre-principale et chambre-3 n'ont jamais été photographiés."
+  },
+
+  "cuisine": [
+    { "type": "comptoir", "pos": [3.05, 0, 0.33], "rot": 0, "dim": [5.40, 0.65, 0.92], "source": "estime" },
+    { "type": "ilot", "pos": [3.05, 0, 1.55], "rot": 0, "dim": [2.60, 1.15, 0.92], "source": "estime" },
+    { "type": "frigo", "pos": [0.40, 0, 1.30], "rot": 90, "dim": [0.95, 0.75, 1.90], "source": "estime" },
+    { "type": "garde-manger", "pos": [0.40, 0, 2.30], "rot": 90, "dim": [0.90, 0.60, 2.03], "source": "estime" }
+  ],
+
+  "salle-manger": [
+    { "type": "table", "pos": [3.05, 0, 1.66], "rot": 0, "dim": [2.60, 1.10, 0.76], "source": "estime" },
+    { "type": "chaise", "pos": [2.15, 0, 0.81], "rot": 0, "dim": [0.46, 0.50, 0.95], "source": "estime" },
+    { "type": "chaise", "pos": [3.05, 0, 0.81], "rot": 0, "dim": [0.46, 0.50, 0.95], "source": "estime" },
+    { "type": "chaise", "pos": [3.95, 0, 0.81], "rot": 0, "dim": [0.46, 0.50, 0.95], "source": "estime" },
+    { "type": "chaise", "pos": [2.15, 0, 2.51], "rot": 0, "dim": [0.46, 0.50, 0.95], "source": "estime" },
+    { "type": "chaise", "pos": [3.05, 0, 2.51], "rot": 0, "dim": [0.46, 0.50, 0.95], "source": "estime" },
+    { "type": "chaise", "pos": [3.95, 0, 2.51], "rot": 0, "dim": [0.46, 0.50, 0.95], "source": "estime" },
+    { "type": "fauteuil", "pos": [0.75, 0, 2.55], "rot": 30, "dim": [0.70, 0.72, 0.95], "source": "estime" }
+  ],
+
+  "salon": [
+    { "type": "foyer", "pos": [3.77, 0, 1.66], "rot": 90, "dim": [1.80, 0.55, 2.20], "source": "estime" },
+    { "type": "divan", "pos": [0.75, 0, 2.00], "rot": 90, "dim": [2.20, 0.95, 0.85], "source": "estime" },
+    { "type": "divan", "pos": [2.10, 0, 0.50], "rot": 0, "dim": [1.80, 0.95, 0.85], "source": "estime" },
+    { "type": "table", "pos": [2.30, 0, 2.10], "rot": 0, "dim": [1.10, 1.10, 0.40], "source": "estime" },
+    { "type": "etagere", "pos": [2.50, 0, 3.05], "rot": 0, "dim": [1.00, 0.35, 2.10], "source": "estime" }
+  ],
+
+  "escalier": [
+    { "type": "escalier", "pos": [2.10, 0, 2.00], "rot": 0, "dim": [3.90, 1.15, 2.71], "marches": 15, "source": "estime" }
+  ],
+
+  "salle-eau": [
+    { "type": "vanite", "pos": [3.70, 0.35, 2.00], "rot": 90, "dim": [1.60, 0.55, 0.55], "source": "estime" },
+    { "type": "toilette", "pos": [3.75, 0, 0.60], "rot": 90, "dim": [0.40, 0.70, 0.78], "source": "estime" }
+  ],
+
+  "chambre": [
+    { "type": "lit", "pos": [1.60, 0, 1.15], "rot": 0, "dim": [1.53, 2.03, 0.60], "source": "estime" },
+    { "type": "table-de-chevet", "pos": [0.60, 0, 0.35], "rot": 0, "dim": [0.45, 0.40, 0.55], "source": "estime" },
+    { "type": "table-de-chevet", "pos": [2.60, 0, 0.35], "rot": 0, "dim": [0.45, 0.40, 0.55], "source": "estime" },
+    { "type": "bureau", "pos": [3.55, 0, 1.80], "rot": 90, "dim": [1.60, 0.60, 0.75], "source": "estime" },
+    { "type": "commode", "pos": [1.20, 0, 3.45], "rot": 0, "dim": [1.10, 0.50, 0.90], "source": "estime" }
+  ],
+
+  "sdb-principale": [
+    { "type": "bain", "pos": [0.60, 0, 1.10], "rot": 90, "dim": [1.70, 0.80, 0.62], "source": "estime" },
+    { "type": "douche", "pos": [0.75, 0, 2.75], "rot": 0, "dim": [1.20, 1.00, 2.03], "source": "estime" },
+    { "type": "vanite", "pos": [2.60, 0.35, 0.35], "rot": 0, "dim": [1.80, 0.55, 0.55], "source": "estime" },
+    { "type": "vanite", "pos": [2.60, 0.35, 2.98], "rot": 0, "dim": [1.80, 0.55, 0.55], "source": "estime" },
+    { "type": "toilette", "pos": [3.70, 0, 1.60], "rot": 90, "dim": [0.40, 0.70, 0.78], "source": "estime" },
+    { "type": "banc", "pos": [2.20, 0, 1.65], "rot": 0, "dim": [1.10, 0.40, 0.45], "source": "estime" }
+  ],
+
+  "palier": [
+    { "type": "garde-corps", "pos": [0.08, 0, 1.85], "rot": 90, "dim": [3.40, 0.10, 1.05], "source": "estime" }
+  ],
+
+  "coin-lecture": [
+    { "type": "banc", "pos": [1.10, 0, 0.50], "rot": 0, "dim": [1.20, 0.50, 0.45], "source": "estime" }
+  ]
+}
