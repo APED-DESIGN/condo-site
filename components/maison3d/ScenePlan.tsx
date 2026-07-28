@@ -60,13 +60,17 @@ function creerEtiquettes(conteneur: HTMLDivElement): Etiquette[] {
     el.textContent = e.nom;
     el.dataset.testid = `etiquette-${e.id}`;
     /* Le centrage passe par le transform lui-même : la boucle écrit
-       `style.transform`, qui écraserait des classes de translation. */
+       `style.transform`, qui écraserait des classes de translation.
+
+       Pastille sombre translucide, et non du texte nu : depuis que les sols
+       portent la photo réelle, aucune couleur de texte ne tient sur toutes les
+       pièces à la fois — un plancher de bois, une tuile claire et un tapis
+       sombre se suivent d'une pièce à l'autre. */
     el.className =
-      "pointer-events-none absolute left-0 top-0 whitespace-nowrap text-[9px] uppercase tracking-[0.16em] transition-opacity duration-300";
-    /* Texte sombre sur les sols clairs des pièces visitables, clair sur le gris
-       des pièces non photographiées — qui se lisent, mais ne s'annoncent pas
-       visitables. */
-    el.style.color = e.noeuds.length ? "rgba(28,26,23,0.72)" : "rgba(241,237,230,0.45)";
+      "pointer-events-none absolute left-0 top-0 whitespace-nowrap rounded-full px-2 py-[3px] text-[9px] uppercase tracking-[0.16em] backdrop-blur-[2px] transition-opacity duration-300";
+    const visitable = e.noeuds.length > 0;
+    el.style.background = visitable ? "rgba(12,15,18,0.72)" : "rgba(12,15,18,0.5)";
+    el.style.color = visitable ? "rgba(241,237,230,0.95)" : "rgba(152,161,168,0.75)";
     el.style.opacity = "0";
     conteneur.appendChild(el);
     const [cx, cy] = centre(e.contour);
