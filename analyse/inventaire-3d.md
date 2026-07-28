@@ -256,6 +256,14 @@ dérivée, pas inventée.
 | **C** · Modéliser un volume simplifié rendu en three.js | Des mesures, du temps de modélisation | Stylisé, propre, non photoréaliste | Moyen | Aucun | ⚠️ Possible, mais « des mesures » n'existent pas. Sans elles, C se réduit à D. |
 | **D** · **Plan schématique + volume extrudé + panoramas aux points** | Les panoramas et le graphe existants, une disposition assumée comme schématique | Honnête et lisible | Moyen | Aucun, **à condition de le nommer schéma** | ✅ **Retenue.** |
 
+> **Mise à jour du 27 juillet, après première livraison.** La voie D telle que livrée d'abord —
+> géométrie extrudée, faces colorées — ne permettait pas de reconnaître la maison. Elle a été
+> reprise : la géométrie reste le schéma, mais **sa peau est désormais la projection des panoramas
+> réels** sur chaque surface. Les deux autres voies ont été revérifiées avant, et fermées sur
+> preuve : [acces-matterport.md](./acces-matterport.md) pour la voie A (le modèle de référence
+> appartient à un tiers et date de 2018), `analyse/essais/` pour la voie B (les panoramas voisins
+> ne partagent pas assez de points pour qu'une reconstruction converge).
+
 ### La décision
 
 **Voie D**, par application de la règle imposée :

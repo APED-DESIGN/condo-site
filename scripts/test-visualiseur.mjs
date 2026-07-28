@@ -41,7 +41,10 @@ function watch(page, label) {
   page.on("requestfailed", (r) => {
     const url = r.url();
     if (url.includes("favicon") || url.includes("hot-update")) return;
-    if (r.failure()?.errorText === "net::ERR_ABORTED" && url.includes("_rsc=")) return;
+    /* ERR_ABORTED = requête annulée par le client, pas une erreur du serveur.
+       Elle survient normalement quand on quitte la page pendant qu'un
+       panorama de plusieurs centaines de kilo-octets est encore en vol. */
+    if (r.failure()?.errorText === "net::ERR_ABORTED") return;
     fail(`[requestfailed:${label}] ${url} — ${r.failure()?.errorText}`);
   });
 }
@@ -106,6 +109,32 @@ async function main() {
   if ((await modeDom(page)) !== "carto") fail("ouverture : le mode de départ n'est pas la carto");
   else ok("ouverture sur la cartographie, sans erreur console");
   await page.screenshot({ path: `${CAPTURES}/desktop-1-carto.png` });
+
+  /* ── Les panoramas sont bien projetés sur la géométrie ───────────────
+     Sans cette projection la cartographie est une maquette grise, et c'est
+     précisément ce qu'on ne veut plus livrer. On vérifie pièce par pièce, pas
+     par une mesure de pixels : un décompte de couleur ne distingue pas une
+     photo d'un aplat teinté. */
+  const projection = await page.evaluate(() => window.__maison3d?.projection() ?? []);
+  const attendues = projection.filter((p) => p.projete);
+  const sansTexture = attendues.filter((p) => !p.texture).map((p) => p.espace);
+  const nues = projection.filter((p) => !p.projete).map((p) => p.espace);
+
+  if (attendues.length < 12)
+    fail(`projection : seulement ${attendues.length} pièces texturées par leur panorama`);
+  else if (sansTexture.length)
+    fail(`projection : texture absente pour ${sansTexture.join(", ")}`);
+  else
+    ok(
+      `projection : ${attendues.length} pièces texturées par leur panorama` +
+        (nues.length ? ` (${nues.length} non photographiées : ${nues.join(", ")})` : "")
+    );
+
+  await page.locator('[data-testid="niveau-rdc"]').click();
+  await page.waitForTimeout(1500);
+  await page.screenshot({ path: `${CAPTURES}/desktop-1b-carto-rdc.png` });
+  await page.locator('[data-testid="niveau-tous"]').click();
+  await page.waitForTimeout(900);
 
   /* ── Les trois modes, au bouton ──────────────────────────────────── */
   for (const [id, attendu] of [["plan", "plan"], ["carto", "carto"]]) {
@@ -225,9 +254,13 @@ async function main() {
     fail("lien profond ?visite=1 : n'ouvre pas sur la visite à pied");
   else ok("lien profond ?visite=1 : ouvre la visite à pied");
 
-  /* Le mini-plan « vous êtes ici » de la visite existante est conservé. */
-  if (!(await page.locator('[data-testid^="map360-"]').first().isVisible().catch(() => false)))
-    fail("visite : le mini-plan « vous êtes ici » a disparu");
+  /* Le mini-plan « vous êtes ici » de la visite existante est conservé. Il
+     n'apparaît qu'une fois le premier panorama arrivé : on l'attend. */
+  const miniPlan = await page
+    .waitForSelector('[data-testid^="map360-"]', { state: "visible", timeout: 25000 })
+    .then(() => true)
+    .catch(() => false);
+  if (!miniPlan) fail("visite : le mini-plan « vous êtes ici » a disparu");
   else ok("visite : mini-plan conservé");
 
   /* ── Fuite mémoire : 20 changements de mode ──────────────────────── */

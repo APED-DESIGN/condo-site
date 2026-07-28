@@ -1,8 +1,38 @@
 # Rapport — visualiseur trois modes de `/maison`
 
 **Date :** 27 juillet 2026
-**Voie :** D — schéma 2D + volume extrudé + panoramas aux points.
+**Voie :** D — schéma extrudé, **texturé par projection des panoramas**.
 **État :** livré, testé, build de production vert.
+
+---
+
+## 0. Correction — la cartographie montre les vraies pièces
+
+**Première livraison : de la géométrie nue.** Boîtes grises, cloisons translucides, rectangles de
+plancher unis. On ne reconnaissait pas la maison. Reproche fondé.
+
+**Ce qui a été fait pour y répondre**, dans l'ordre imposé :
+
+1. **Accès Matterport vérifié** → [acces-matterport.md](./acces-matterport.md).
+   Le modèle de référence est **public mais appartient à un tiers** (`info@pinthree.com`), il date du
+   **27 janvier 2018** — huit ans avant nos prises de vue — et **ce n'est pas notre maison**.
+   Voie 1 fermée.
+2. **Reconstruction depuis nos données : essai réel, pas un avis.** Appariement SIFT + RANSAC entre
+   panoramas voisins, reprojetés en vues perspectives l'un vers l'autre.
+   **Les paires censées se voir donnent 11-13 inliers ; les paires témoins qui ne peuvent rien
+   partager en donnent 10-13.** Le signal ne se distingue pas du bruit, et COLMAP écarte une paire
+   sous ~15. Résultats et image dans `analyse/essais/`. Voie 2 fermée.
+3. **Voie 3 implémentée au complet : projection des panoramas sur la géométrie.**
+
+Aujourd'hui, chaque surface de la cartographie et du plan est texturée par le panorama de sa pièce.
+Les planchers montrent leur vrai bois, les murs leur vraie couleur, les fenêtres leur vraie vue, la
+piscine son eau. **13 pièces sur 17 sont texturées** ; les 4 restantes n'ont jamais été
+photographiées et restent grises, sans prétendre l'être.
+
+**Ce que ça ne fait pas :** les meubles sont **écrasés** sur le sol et les murs. Ce sont des images
+projetées, pas des volumes. Un divan se voit et se reconnaît, mais il n'a pas d'épaisseur. Combler
+cet écart demande un vrai balayage de profondeur — la méthode est dans
+[recommandation-capture.md](./recommandation-capture.md).
 
 ---
 
@@ -10,7 +40,7 @@
 
 ### Mode 1 — Cartographie 3D
 
-Volume à deux niveaux, sans toit, orbitable.
+Volume à deux niveaux, sans toit, orbitable, **texturé par les panoramas**.
 
 - Rotation à la souris, zoom à la molette, panoramique au clic droit, inertie douce
   (amortissement 0,075).
@@ -23,6 +53,20 @@ Volume à deux niveaux, sans toit, orbitable.
 - Clic sur une pièce ou un repère → mode 3 au point correspondant.
 - Les espaces **non photographiés** (garage, chambres non visitées, rangement) sont rendus en gris
   translucide et **ne sont pas cliquables** — ils existent sans se prétendre visitables.
+
+**La peau : projection des panoramas.** Pour chaque fragment de sol ou de mur, on calcule la
+direction depuis le point de vue de la pièce, on la convertit en coordonnées équirectangulaires et
+on échantillonne le panorama (`lib/maison3d/projection.ts`). Deux points de vue au plus sont
+mélangés par l'inverse du carré de la distance, ce qui fond les coutures dans l'aire ouverte —
+découpée en quatre zones qui partagent un même volume, sans cloison entre elles.
+
+L'orientation de chaque panorama est **dérivée, pas ajustée à l'œil** : un panorama n'a pas de nord,
+son 0° est le centre arbitraire de l'image. Pour chaque nœud, on connaît le `yaw` calibré vers
+chacun de ses voisins et la direction de ce voisin dans le plan ; l'orientation est la moyenne
+circulaire des écarts, prise sur tous ses liens. Un nœud à quatre liens est contraint quatre fois.
+
+Les surfaces projetées ne reçoivent **aucune lumière de synthèse** : les panoramas portent déjà
+l'éclairage réel de la maison. En ajouter doublerait les ombres et trahirait la photo.
 
 ### Mode 2 — Plan 2D
 
@@ -97,11 +141,18 @@ les modes volume, et l'en-tête de `data/tours/maison-01-plan.ts` développe la 
 Les espaces sont des rectangles qui pavent une emprise. Le schéma dit *où l'on est et ce qui donne
 sur quoi*, pas *à quoi ressemble* la maison.
 
-### 2.3 Pas de meubles dans le volume
+### 2.3 Les meubles sont écrasés, pas volumétriques
 
-La référence les montre parce qu'un capteur de profondeur les a mesurés. Depuis un panorama pris à
-hauteur d'homme, il n'existe **aucune information** sur le dessus des meubles : c'est de l'occlusion
-pure, et toute méthode qui « remplit » invente.
+C'est la limite dure de la projection. Un panorama dit *ce qu'on voit dans chaque direction*, jamais
+*à quelle distance*. Le divan est donc peint sur le plancher et sur le mur derrière lui : on le voit
+et on le reconnaît, il n'a pas d'épaisseur.
+
+La référence les montre en volume parce qu'un capteur de profondeur les a mesurés. Et le dessus des
+meubles reste de toute façon inconnu — depuis un appareil à hauteur d'homme, c'est de l'occlusion
+pure ; toute méthode qui « remplit » invente.
+
+**Combler cet écart demande une nouvelle capture au LiDAR.** Méthode complète dans
+[recommandation-capture.md](./recommandation-capture.md).
 
 ### 2.4 Deux contextes WebGL au lieu d'un — compromis assumé
 

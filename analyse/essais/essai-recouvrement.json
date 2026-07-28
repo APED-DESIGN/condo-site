@@ -1,0 +1,58 @@
+[
+ {
+  "a": "aire-ouverte",
+  "b": "cuisine",
+  "bruts": 60,
+  "inliers": 13,
+  "lie": true
+ },
+ {
+  "a": "cuisine",
+  "b": "salle-manger",
+  "bruts": 40,
+  "inliers": 13,
+  "lie": true
+ },
+ {
+  "a": "aire-ouverte",
+  "b": "salon",
+  "bruts": 62,
+  "inliers": 13,
+  "lie": true
+ },
+ {
+  "a": "hall",
+  "b": "aire-ouverte",
+  "bruts": 32,
+  "inliers": 12,
+  "lie": true
+ },
+ {
+  "a": "palier-etage",
+  "b": "corridor-etage",
+  "bruts": 31,
+  "inliers": 12,
+  "lie": true
+ },
+ {
+  "a": "corridor-etage",
+  "b": "chambre",
+  "bruts": 31,
+  "inliers": 11,
+  "lie": true
+ },
+ {
+  "a": "cuisine",
+  "b": "chambre",
+  "bruts": 51,
+  "inliers": 13,
+  "lie": false
+ },
+ {
+  "a": "salle-eau",
+  "b": "piscine",
+  "bruts": 18,
+  "inliers": 10,
+  "lie": false
+ }
+]

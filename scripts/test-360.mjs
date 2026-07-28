@@ -208,10 +208,12 @@ async function main() {
   await page.locator('[data-testid="fermer-visualiseur"]').click();
   await page.waitForTimeout(600);
   /* `/#unites` n'existe plus depuis le commit 74b2d67 (« Clarifier le site ») :
-     le test pointait un lien mort. On navigue vers l'autre approche, qui est
-     bien une navigation client depuis /maison. */
-  await page.locator('a[href="/appartement"]').first().click();
-  await page.waitForTimeout(1200);
+     le test pointait un lien mort. On passe par l'accueil — ce qui compte ici
+     est qu'une navigation CLIENT aller-retour ne perde pas le contexte WebGL,
+     pas quelle page on visite. `/appartement` ferait l'affaire mais charge une
+     séquence de 803 images : trop lent pour un aller-retour de test. */
+  await page.locator('a[href="/"]').first().click();
+  await page.waitForTimeout(1500);
   await page.goBack({ waitUntil: "networkidle" });
   await page.getByRole("button", { name: /Visite virtuelle 360°/i }).first().click();
   await openTour(page);

@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useImperativeHandle, useRef, useState } from "react";
 import * as THREE from "three";
-import { construireScene, versMonde, TEINTES } from "@/lib/maison3d/scene";
+import { construireScene, versMonde, poserOpacite, TEINTES } from "@/lib/maison3d/scene";
 import { creerPilote, type ModeVue, type Pilote } from "@/lib/maison3d/camera";
 import {
   ESPACES,
@@ -251,10 +251,33 @@ export default function ScenePlan({
         mode: () => monde.current?.pilote.mode(),
         enTransition: () => monde.current?.pilote.enTransition() ?? false,
         infoRendu: () => monde.current?.renderer.info.memory,
+        /* État de la projection des panoramas, pièce par pièce. C'est la
+           vérification exacte que la cartographie montre de la photo et non
+           de la géométrie nue — plus fiable qu'une mesure de pixels. */
+        projection: () => {
+          const m = monde.current;
+          if (!m) return [];
+          const out: { espace: string; projete: boolean; texture: boolean }[] = [];
+          for (const ng of m.scene.niveaux)
+            for (const sol of ng.sols) {
+              const mat = sol.material as THREE.ShaderMaterial;
+              const u = mat.uniforms;
+              out.push({
+                espace: String(sol.userData.espaceId),
+                projete: !!u?.panoA,
+                texture: !!u?.panoA?.value?.image,
+              });
+            }
+          return out;
+        },
       };
     }
 
-    callbacks.current.onPret();
+    /* On n'annonce « prêt » qu'une fois les panoramas projetés chargés :
+       autrement l'utilisateur voit un volume noir avant de voir la maison. */
+    scene.texturesPretes.then(() => {
+      if (monde.current) callbacks.current.onPret();
+    });
 
     return () => {
       cancelAnimationFrame(brut);
@@ -304,12 +327,7 @@ export default function ScenePlan({
       bouge = true;
       const suivant = cur + Math.sign(vise - cur) * Math.min(pas, Math.abs(vise - cur));
       m.opaciteCourante[ng.niveau] = suivant;
-      for (const mat of ng.materiaux) {
-        const std = mat as THREE.MeshStandardMaterial;
-        const base = (std.userData?.opaciteBase as number) ?? 1;
-        std.opacity = base * suivant;
-        std.depthWrite = suivant > 0.85;
-      }
+      for (const mat of ng.materiaux) poserOpacite(mat, suivant);
       ng.groupe.visible = suivant > 0.02;
       Array.from(m.scene.reperes.values()).forEach((repere) => {
         if (repere.parent !== ng.groupe) return;
@@ -380,8 +398,8 @@ export default function ScenePlan({
     const touche = pointer(m);
     const nouveau = touche?.mesh ?? null;
     if (nouveau !== m.survole) {
-      if (m.survole) restaurer(m.survole);
-      if (nouveau) eclairer(nouveau);
+      if (m.survole) marquerSurvol(m.survole, false);
+      if (nouveau) marquerSurvol(nouveau, true);
       m.survole = nouveau;
       m.renderer.domElement.style.cursor = nouveau ? "pointer" : "grab";
     }
@@ -396,18 +414,22 @@ export default function ScenePlan({
     } else callbacks.current.onSurvol(null);
   }
 
-  function eclairer(mesh: THREE.Mesh) {
-    const mat = mesh.material as THREE.MeshStandardMaterial;
-    if (mesh.userData.repere) mat.color.setHex(TEINTES.cuivreClair);
-    else mat.color.setHex(0xfffaf2);
-    mat.emissive?.setHex(0x2a1a0c);
-  }
-  function restaurer(mesh: THREE.Mesh) {
-    const mat = mesh.material as THREE.MeshStandardMaterial;
-    if (mesh.userData.repere) mat.color.setHex(TEINTES.cuivre);
-    else if (typeof mesh.userData.teinteBase === "number")
-      mat.color.setHex(mesh.userData.teinteBase);
-    mat.emissive?.setHex(0x000000);
+  /* Le survol passe par l'uniforme `survol` sur les surfaces projetées, et par
+     la couleur sur les matériaux standard (repères, espaces non visités). */
+  function marquerSurvol(mesh: THREE.Mesh, actif: boolean) {
+    const mat = mesh.material as THREE.Material;
+    const shader = mat as THREE.ShaderMaterial;
+    if (shader.uniforms?.survol) {
+      shader.uniforms.survol.value = actif ? 1 : 0;
+      return;
+    }
+    const std = mat as THREE.MeshStandardMaterial;
+    if (mesh.userData.repere) {
+      std.color.setHex(actif ? TEINTES.cuivreClair : TEINTES.cuivre);
+      std.emissive?.setHex(actif ? 0x5a2f10 : 0x2a1405);
+      return;
+    }
+    std.emissive?.setHex(actif ? 0x2a2620 : 0x000000);
   }
 
   /* ── Réactions aux props ─────────────────────────────────────────────── */

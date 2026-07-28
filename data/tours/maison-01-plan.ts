@@ -47,15 +47,22 @@ export type Espace = {
   id: string;
   nom: string;
   niveau: Niveau;
-  /** Polygone fermé, sens horaire, en unités de plan. */
+  /** Polygone fermé, sens horaire, en unités de plan. RECTANGLE attendu. */
   contour: readonly Pt[];
   /** Nœuds 360 situés dans cet espace. Vide = espace non photographié. */
   noeuds: readonly string[];
   /**
-   * Espace sans cloison intérieure : les nœuds y cohabitent à vue.
-   * Rendu sans murs de séparation en mode volume.
+   * Zones d'un même volume sans cloison. Deux espaces qui partagent un
+   * `groupeOuvert` ne sont pas séparés par un mur : c'est ce qui rend l'aire
+   * ouverte lisible d'un seul regard, comme dans la vraie maison.
    */
-  ouvert?: boolean;
+  groupeOuvert?: string;
+  /**
+   * Point de vue d'appoint pour la projection des panoramas, mélangé au sien
+   * par l'inverse du carré de la distance. Sert à fondre les coutures entre
+   * zones d'un même volume ouvert.
+   */
+  noeudAppoint?: string;
   /** Trémie / vide sur l'étage inférieur : plancher percé, pas de sol rendu. */
   vide?: boolean;
 };
@@ -83,13 +90,44 @@ export const altitude = (n: Niveau): number =>
 /* ── Rez-de-chaussée ───────────────────────────────────────────────────────
    Pavage exact de l'emprise x∈[20,86], y∈[14,88]. */
 export const ESPACES: readonly Espace[] = [
+  /* L'aire ouverte est UN volume, découpé en quatre zones pour la projection :
+     chaque zone reçoit son propre point de vue. Aucun mur ne les sépare —
+     c'est ce que dit la légende du nœud : « cuisine, salle à manger et salon
+     d'un seul regard ». */
   {
-    id: "aire-ouverte",
+    id: "cuisine",
+    nom: "Cuisine",
+    niveau: "rdc",
+    contour: [[20, 14], [53, 14], [53, 32], [20, 32]],
+    noeuds: ["cuisine"],
+    groupeOuvert: "aire",
+    noeudAppoint: "aire-ouverte",
+  },
+  {
+    id: "salle-manger",
+    nom: "Salle à manger",
+    niveau: "rdc",
+    contour: [[53, 14], [86, 14], [86, 32], [53, 32]],
+    noeuds: ["salle-manger"],
+    groupeOuvert: "aire",
+    noeudAppoint: "aire-ouverte",
+  },
+  {
+    id: "sejour",
     nom: "Aire ouverte",
     niveau: "rdc",
-    contour: [[20, 14], [86, 14], [86, 50], [20, 50]],
-    noeuds: ["aire-ouverte", "cuisine", "salle-manger", "salon"],
-    ouvert: true,
+    contour: [[20, 32], [64, 32], [64, 50], [20, 50]],
+    noeuds: ["aire-ouverte"],
+    groupeOuvert: "aire",
+  },
+  {
+    id: "salon",
+    nom: "Salon",
+    niveau: "rdc",
+    contour: [[64, 32], [86, 32], [86, 50], [64, 50]],
+    noeuds: ["salon"],
+    groupeOuvert: "aire",
+    noeudAppoint: "aire-ouverte",
   },
   {
     id: "escalier",
